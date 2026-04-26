@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hospital DB and Northwind DB Dataset</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f6efe4;
+      --surface: #fffdf9;
+      --ink: #19241f;
+      --muted: #516258;
+      --line: #dfd2bf;
+      --accent: #0f7b67;
+      --accent-2: #bf5f31;
+      --shadow: 0 12px 30px rgba(22, 36, 30, 0.08);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Space Grotesk", sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(191, 95, 49, 0.11), transparent 40%),
+        radial-gradient(circle at 88% 10%, rgba(15, 123, 103, 0.12), transparent 35%),
+        var(--bg);
+      line-height: 1.55;
+    }
+
+    .wrap {
+      width: min(1160px, 94%);
+      margin: 0 auto;
+      padding: 24px 0 36px;
+    }
+
+    .hero, .block, .item {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 20px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+    }
+
+    .sub {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .meta {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .block {
+      margin-top: 14px;
+      padding: 16px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.15rem;
+    }
+
+    .desc {
+      margin: 8px 0 12px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .item {
+      margin: 10px 0;
+      padding: 12px;
+    }
+
+    .topic {
+      margin: 12px 0;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .topic > summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      border-bottom: 1px solid var(--line);
+      background: rgba(15, 123, 103, 0.08);
+    }
+
+    .topic > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .q {
+      margin: 0 0 8px;
+      font-weight: 700;
+      color: var(--accent-2);
+      font-size: 0.92rem;
+    }
+
+    pre {
+      margin: 0;
+      overflow-x: auto;
+      background: #1a2722;
+      color: #eaf4ef;
+      border-radius: 10px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>Hospital DB and Northwind DB Dataset</h1>
+      <p class="sub">Deduplicated from practice2.txt. Repeated prompts and duplicate answer blocks were removed. Each item is Question to Query format.</p>
+      <div class="meta">
+        <span>Source: practice2.txt</span>
+        <span>Northwind: 15 unique queries</span>
+        <span>Hospital: 35 unique queries</span>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Northwind DB</h2>
+      <p class="desc">Interview-style Northwind query set.</p>
+
+      <details class="topic" open>
+        <summary>Easy (1-9)</summary>
+
+      <article class="item">
+        <p class="q">1) Show category_name and description sorted by category_name.</p>
+        <pre><code>SELECT category_name, description
+FROM categories
+ORDER BY category_name;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">2) Customers not from Germany, Mexico, Spain.</p>
+        <pre><code>SELECT contact_name, address, city
+FROM customers
+WHERE country NOT IN ('Germany', 'Mexico', 'Spain');</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">3) Orders placed on 2018-02-26.</p>
+        <pre><code>SELECT order_date, shipped_date, customer_id, freight
+FROM orders
+WHERE order_date = '2018-02-26';</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">4) Orders shipped later than required date.</p>
+        <pre><code>SELECT employee_id, order_id, customer_id, required_date, shipped_date
+FROM orders
+WHERE shipped_date &gt; required_date;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">5) Even numbered order_id values.</p>
+        <pre><code>SELECT order_id
+FROM orders
+WHERE order_id % 2 = 0;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">6) Customers with letter L in city, sorted by contact_name.</p>
+        <pre><code>SELECT city, company_name, contact_name
+FROM customers
+WHERE city LIKE '%L%'
+ORDER BY contact_name;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">7) Customers that have fax numbers.</p>
+        <pre><code>SELECT company_name, contact_name, fax
+FROM customers
+WHERE fax IS NOT NULL;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">8) Most recently hired employee.</p>
+        <pre><code>SELECT first_name, last_name, hire_date
+FROM employees
+ORDER BY hire_date DESC
+LIMIT 1;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">9) Average unit price, total stock, and total discontinued products.</p>
+        <pre><code>SELECT
+  ROUND(AVG(unit_price), 2) AS avg_price,
+  SUM(units_in_stock) AS total_stock,
+  SUM(discontinued) AS total_discontinued
+FROM products;</code></pre>
+      </article>
+
+      </details>
+
+      <details class="topic">
+        <summary>Medium (10-13)</summary>
+
+      <article class="item">
+        <p class="q">10) Product, supplier, and category names.</p>
+        <pre><code>SELECT
+  p.product_name,
+  s.company_name,
+  c.category_name
+FROM products p
+JOIN suppliers s ON p.supplier_id = s.supplier_id
+JOIN categories c ON p.category_id = c.category_id;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">11) Average unit price by category.</p>
+        <pre><code>SELECT
+  c.category_name,
+  ROUND(AVG(p.unit_price), 2) AS avg_price
+FROM products p
+JOIN categories c ON p.category_id = c.category_id
+GROUP BY c.category_name;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">12) Merge customers and suppliers with source column.</p>
+        <pre><code>SELECT city, company_name, contact_name, 'customers' AS source
+FROM customers
+UNION
+SELECT city, company_name, contact_name, 'suppliers' AS source
+FROM suppliers;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">13) Total orders by year and month.</p>
+        <pre><code>SELECT
+  strftime('%Y', order_date) AS year,
+  strftime('%m', order_date) AS month,
+  COUNT(*) AS total_orders
+FROM orders
+GROUP BY year, month;</code></pre>
+      </article>
+
+      </details>
+
+      <details class="topic">
+        <summary>Hard (14-15)</summary>
+
+      <article class="item">
+        <p class="q">14) Employee order count with shipping status (On Time, Late, Not Shipped).</p>
+        <pre><code>SELECT
+  e.first_name,
+  e.last_name,
+  COUNT(o.order_id) AS num_orders,
+  CASE
+    WHEN o.shipped_date IS NULL THEN 'Not Shipped'
+    WHEN o.shipped_date &lt;= o.required_date THEN 'On Time'
+    ELSE 'Late'
+  END AS shipped_status
+FROM employees e
+JOIN orders o ON e.employee_id = o.employee_id
+GROUP BY e.employee_id, e.first_name, e.last_name, shipped_status
+ORDER BY e.last_name, e.first_name, num_orders DESC;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">15) Discount loss per year (most recent first).</p>
+        <pre><code>SELECT
+  strftime('%Y', o.order_date) AS year,
+  ROUND(SUM(od.unit_price * od.quantity * od.discount), 2) AS total_loss
+FROM orders o
+JOIN order_details od ON o.order_id = od.order_id
+GROUP BY year
+ORDER BY year DESC;</code></pre>
+      </article>
+
+      </details>
+    </section>
+
+    <section class="block">
+      <h2>Hospital DB</h2>
+      <p class="desc">Deduplicated hospital query set from the first complete block in practice2.txt.</p>
+
+      <details class="topic" open>
+        <summary>Easy (1-16)</summary>
+
+      <article class="item">
+        <p class="q">1) Male patients.</p>
+        <pre><code>SELECT first_name, last_name, gender
+FROM patients
+WHERE gender = 'M';</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">2) Patients with no allergies (NULL).</p>
+        <pre><code>SELECT first_name, last_name
+FROM patients
+WHERE allergies IS NULL;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">3) First names starting with C.</p>
+        <pre><code>SELECT first_name
+FROM patients
+WHERE first_name LIKE 'C%';</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">4) Patients with weight 100 to 120.</p>
+        <pre><code>SELECT first_name, last_name
+FROM patients
+WHERE weight BETWEEN 100 AND 120;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">5) Update NULL allergies to NKA.</p>
+        <pre><code>UPDATE patients
+SET allergies = 'NKA'
+WHERE allergies IS NULL;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">6) Full name concatenation.</p>
+        <pre><code>SELECT first_name || ' ' || last_name AS full_name
+FROM patients;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">7) Patient name with full province name.</p>
+        <pre><code>SELECT p.first_name, p.last_name, pn.province_name
+FROM patients p
+JOIN province_names pn ON p.province_id = pn.province_id;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">8) Count patients born in 2010.</p>
+        <pre><code>SELECT COUNT(*) AS total
+FROM patients
+WHERE strftime('%Y', birth_date) = '2010';</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">9) Tallest patient.</p>
+        <pre><code>SELECT first_name, last_name, height
+FROM patients
+ORDER BY height DESC
+LIMIT 1;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">10) Patients by patient_id list.</p>
+        <pre><code>SELECT *
+FROM patients
+WHERE patient_id IN (1, 45, 534, 879, 1000);</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">11) Total number of admissions.</p>
+        <pre><code>SELECT COUNT(*) AS total_admissions
+FROM admissions;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">12) Admissions with same-day admit and discharge.</p>
+        <pre><code>SELECT *
+FROM admissions
+WHERE admission_date = discharge_date;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">13) Admissions count for patient 579.</p>
+        <pre><code>SELECT patient_id, COUNT(*) AS total
+FROM admissions
+WHERE patient_id = 579
+GROUP BY patient_id;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">14) Unique cities in province NS.</p>
+        <pre><code>SELECT DISTINCT city
+FROM patients
+WHERE province_id = 'NS';</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">15) Patients with height &gt; 160 and weight &gt; 70.</p>
+        <pre><code>SELECT first_name, last_name, birth_date
+FROM patients
+WHERE height &gt; 160 AND weight &gt; 70;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">16) Patients from Hamilton with allergies.</p>
+        <pre><code>SELECT first_name, last_name, allergies
+FROM patients
+WHERE allergies IS NOT NULL
+  AND city = 'Hamilton';</code></pre>
+      </article>
+
+      </details>
+
+      <details class="topic">
+        <summary>Medium (17-30)</summary>
+
+      <article class="item">
+        <p class="q">17) Unique birth years sorted ascending.</p>
+        <pre><code>SELECT DISTINCT strftime('%Y', birth_date) AS year
+FROM patients
+ORDER BY year;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">18) First names that appear only once.</p>
+        <pre><code>SELECT first_name
+FROM patients
+GROUP BY first_name
+HAVING COUNT(*) = 1;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">19) Names starting and ending with s, length at least 6.</p>
+        <pre><code>SELECT patient_id, first_name
+FROM patients
+WHERE first_name LIKE 's%s'
+  AND LENGTH(first_name) &gt;= 6;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">20) Patients diagnosed with Dementia.</p>
+        <pre><code>SELECT p.patient_id, p.first_name, p.last_name
+FROM patients p
+JOIN admissions a ON p.patient_id = a.patient_id
+WHERE a.diagnosis = 'Dementia';</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">21) First names ordered by length, then alphabetically.</p>
+        <pre><code>SELECT first_name
+FROM patients
+ORDER BY LENGTH(first_name), first_name;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">22) Male and female patient counts in one row.</p>
+        <pre><code>SELECT
+  SUM(CASE WHEN gender = 'M' THEN 1 ELSE 0 END) AS male,
+  SUM(CASE WHEN gender = 'F' THEN 1 ELSE 0 END) AS female
+FROM patients;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">23) Patients allergic to Penicillin or Morphine.</p>
+        <pre><code>SELECT first_name, last_name, allergies
+FROM patients
+WHERE allergies IN ('Penicillin', 'Morphine')
+ORDER BY allergies, first_name, last_name;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">24) Repeated diagnosis admissions by patient.</p>
+        <pre><code>SELECT patient_id, diagnosis
+FROM admissions
+GROUP BY patient_id, diagnosis
+HAVING COUNT(*) &gt; 1;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">25) Patient count per city.</p>
+        <pre><code>SELECT city, COUNT(*) AS total
+FROM patients
+GROUP BY city
+ORDER BY total DESC, city;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">26) Patients and doctors combined with role label.</p>
+        <pre><code>SELECT first_name, last_name, 'Patient' AS role
+FROM patients
+UNION
+SELECT first_name, last_name, 'Doctor' AS role
+FROM doctors;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">27) Popular allergies excluding NULL and NKA.</p>
+        <pre><code>SELECT allergies, COUNT(*) AS total
+FROM patients
+WHERE allergies IS NOT NULL
+  AND allergies != 'NKA'
+GROUP BY allergies
+ORDER BY total DESC;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">28) Patients born in the 1970s.</p>
+        <pre><code>SELECT first_name, last_name, birth_date
+FROM patients
+WHERE birth_date BETWEEN '1970-01-01' AND '1979-12-31'
+ORDER BY birth_date;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">29) Name format LASTNAME,firstname.</p>
+        <pre><code>SELECT UPPER(last_name) || ',' || LOWER(first_name) AS full_name
+FROM patients
+ORDER BY first_name DESC;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">30) Provinces with total patient height at least 7000.</p>
+        <pre><code>SELECT province_id, SUM(height) AS total_height
+FROM patients
+GROUP BY province_id
+HAVING total_height &gt;= 7000;</code></pre>
+      </article>
+
+      </details>
+
+      <details class="topic">
+        <summary>Hard (31-35)</summary>
+
+      <article class="item">
+        <p class="q">31) Weight difference for last name Maroni.</p>
+        <pre><code>SELECT MAX(weight) - MIN(weight) AS difference
+FROM patients
+WHERE last_name = 'Maroni';</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">32) Admission count by day of month.</p>
+        <pre><code>SELECT strftime('%d', admission_date) AS day, COUNT(*) AS total
+FROM admissions
+GROUP BY day
+ORDER BY total DESC;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">33) Latest admission for patient 542.</p>
+        <pre><code>SELECT *
+FROM admissions
+WHERE patient_id = 542
+ORDER BY admission_date DESC
+LIMIT 1;</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">34) Patients with no admissions.</p>
+        <pre><code>SELECT *
+FROM patients p
+WHERE NOT EXISTS (
+  SELECT 1
+  FROM admissions a
+  WHERE a.patient_id = p.patient_id
+);</code></pre>
+      </article>
+
+      <article class="item">
+        <p class="q">35) Patient name, doctor name, and diagnosis.</p>
+        <pre><code>SELECT
+  p.first_name || ' ' || p.last_name AS patient_name,
+  d.first_name || ' ' || d.last_name AS doctor_name,
+  a.diagnosis
+FROM admissions a
+JOIN patients p ON a.patient_id = p.patient_id
+JOIN doctors d ON a.attending_doctor_id = d.doctor_id;</code></pre>
+      </article>
+
+  </details>
+    </section>
+  </main>
+</body>
+</html>

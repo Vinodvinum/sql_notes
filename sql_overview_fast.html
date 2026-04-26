@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SQL Overview Fast</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f5efe3;
+      --surface: #fffcf7;
+      --ink: #1b241f;
+      --muted: #516055;
+      --line: #ddd2c1;
+      --accent: #0f7a66;
+      --accent-2: #c76635;
+      --shadow: 0 12px 30px rgba(18, 35, 27, 0.08);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Space Grotesk", sans-serif;
+      background:
+        radial-gradient(circle at 10% 12%, rgba(199, 102, 53, 0.12), transparent 40%),
+        radial-gradient(circle at 90% 8%, rgba(15, 122, 102, 0.12), transparent 36%),
+        var(--bg);
+      line-height: 1.55;
+    }
+
+    .wrap {
+      width: min(1100px, 94%);
+      margin: 0 auto;
+      padding: 24px 0 34px;
+    }
+
+    .hero, .card, .quick, .plan {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.45rem, 3vw, 2rem);
+    }
+
+    .sub {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .meta {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .card {
+      padding: 16px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+
+    .pill {
+      display: inline-block;
+      margin: 8px 0 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      border: 1px solid rgba(15, 122, 102, 0.35);
+      color: var(--accent);
+      background: rgba(15, 122, 102, 0.08);
+    }
+
+    ul {
+      margin: 10px 0 0;
+      padding-left: 18px;
+    }
+
+    li { margin: 6px 0; }
+
+    .quick, .plan {
+      margin-top: 14px;
+      padding: 16px;
+    }
+
+    .label {
+      margin: 0 0 8px;
+      color: var(--accent-2);
+      font-size: 0.82rem;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .map {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      background: #fff;
+      font-size: 0.92rem;
+    }
+
+    .chip b {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.82rem;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .plan ol {
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }
+
+    .plan li { margin: 8px 0; }
+
+    @media (max-width: 860px) {
+      .grid,
+      .map {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>SQL Overview Fast</h1>
+      <p class="sub">Curated from practice.txt with repeated coaching lines removed and content organized for quick revision.</p>
+      <div class="meta">
+        <span>Source: practice.txt</span>
+        <span>Format: deduplicated</span>
+        <span>Use: interview preparation</span>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Phase 1: Query Basics</h2>
+        <span class="pill">Foundation</span>
+        <ul>
+          <li>Topics: SELECT, INSERT, UPDATE, DELETE, WHERE</li>
+          <li>Goal: read, modify, and filter rows safely</li>
+          <li>Common mistake: UPDATE or DELETE without WHERE</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Phase 2: Query Filtering</h2>
+        <span class="pill">Most Important</span>
+        <ul>
+          <li>Topics: JOIN, GROUP BY, HAVING, CASE, DISTINCT, EXISTS</li>
+          <li>Goal: combine tables and summarize business data</li>
+          <li>Interview value: solves most real analyst questions</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Phase 3: Functions</h2>
+        <span class="pill">Advanced Analysis</span>
+        <ul>
+          <li>Aggregate: COUNT, SUM, AVG, MAX, MIN</li>
+          <li>Window: LAG, LEAD, FIRST_VALUE, LAST_VALUE</li>
+          <li>String, numeric, and date functions for dashboard logic</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Phase 4: Tables & Constraints</h2>
+        <span class="pill">Schema Control</span>
+        <ul>
+          <li>Topics: CREATE, ALTER, DROP, data types</li>
+          <li>Constraints: PK, FK, UNIQUE, CHECK, DEFAULT, INDEX</li>
+          <li>Goal: design reliable relational structures</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="quick">
+      <p class="label">Fast Memory Map</p>
+      <div class="map">
+        <div class="chip"><b>WHERE</b>Filter raw rows before grouping.</div>
+        <div class="chip"><b>JOIN</b>Connect related tables through keys.</div>
+        <div class="chip"><b>GROUP BY</b>Aggregate rows into summary groups.</div>
+        <div class="chip"><b>HAVING</b>Filter aggregated groups.</div>
+        <div class="chip"><b>CASE</b>Apply business rules in query output.</div>
+        <div class="chip"><b>UNION</b>Merge result sets with compatible columns.</div>
+      </div>
+    </section>
+
+    <section class="plan">
+      <p class="label">Suggested Fast Schedule</p>
+      <ol>
+        <li>Days 1-2: Query basics and safe filtering.</li>
+        <li>Days 3-7: Query filtering with heavy JOIN and GROUP BY practice.</li>
+        <li>Days 8-12: Functions and date-based analysis patterns.</li>
+        <li>Days 13-14: Table design, constraints, and index fundamentals.</li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>
