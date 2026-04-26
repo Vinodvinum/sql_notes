@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL for Beginners — Simple Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1117;--card:#181c27;--card2:#1e2235;--border:#252d45;
+  --teal:#00d4aa;--yellow:#ffd166;--red:#ef476f;--blue:#4cc9f0;
+  --green:#06d6a0;--orange:#f4a261;--purple:#c77dff;
+  --text:#d4deff;--dim:#7a8ab0;--bright:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;font-size:16px;line-height:1.8;padding:0}
+
+/* TOP NAV */
+.topnav{background:var(--card);border-bottom:1px solid var(--border);padding:14px 32px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100;flex-wrap:wrap}
+.topnav-title{font-size:18px;font-weight:900;color:var(--bright)}.topnav-title span{color:var(--teal)}
+.nav-links{display:flex;gap:8px;flex-wrap:wrap}
+.nav-link{padding:5px 13px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--border);color:var(--dim);transition:all .2s}
+.nav-link:hover{color:var(--bright);border-color:var(--teal);background:rgba(0,212,170,.08)}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0f1117,#131a30);padding:60px 40px 50px;text-align:center;border-bottom:1px solid var(--border)}
+.hero-emoji{font-size:56px;margin-bottom:16px}
+.hero h1{font-size:clamp(28px,5vw,48px);font-weight:900;color:var(--bright);margin-bottom:12px}
+.hero h1 span{color:var(--teal)}
+.hero p{font-size:17px;color:var(--dim);max-width:560px;margin:0 auto 24px}
+.promise-box{display:inline-flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.promise{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:13px;font-weight:700}
+.promise.t{color:var(--teal)}.promise.y{color:var(--yellow)}.promise.g{color:var(--green)}.promise.b{color:var(--blue)}
+
+/* SECTIONS */
+.container{max-width:860px;margin:0 auto;padding:0 24px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.section-num::before{content:'';display:inline-block;width:28px;height:3px;border-radius:2px}
+.section-num.teal{color:var(--teal)}.section-num.teal::before{background:var(--teal)}
+.section-num.yellow{color:var(--yellow)}.section-num.yellow::before{background:var(--yellow)}
+.section-num.blue{color:var(--blue)}.section-num.blue::before{background:var(--blue)}
+.section-num.green{color:var(--green)}.section-num.green::before{background:var(--green)}
+.section-num.orange{color:var(--orange)}.section-num.orange::before{background:var(--orange)}
+.section-num.purple{color:var(--purple)}.section-num.purple::before{background:var(--purple)}
+.section-num.red{color:var(--red)}.section-num.red::before{background:var(--red)}
+
+h2{font-size:26px;font-weight:900;color:var(--bright);margin-bottom:8px}
+h3{font-size:18px;font-weight:800;color:var(--bright);margin:28px 0 10px}
+p{font-size:15.5px;color:var(--text);margin-bottom:14px}
+.lead{font-size:17px;color:var(--dim);margin-bottom:24px;padding-left:14px;border-left:3px solid var(--border)}
+
+/* SIMPLE BOX */
+.simple-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin:16px 0}
+.simple-box.teal{border-left:4px solid var(--teal)}.simple-box.yellow{border-left:4px solid var(--yellow)}.simple-box.blue{border-left:4px solid var(--blue)}.simple-box.green{border-left:4px solid var(--green)}.simple-box.orange{border-left:4px solid var(--orange)}.simple-box.red{border-left:4px solid var(--red)}.simple-box.purple{border-left:4px solid var(--purple)}
+
+/* NOTE BOX */
+.note{border-radius:10px;padding:14px 18px;margin:16px 0;display:flex;gap:12px;align-items:flex-start;font-size:14.5px;line-height:1.65}
+.note-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.note.tip{background:rgba(6,214,160,.08);border:1px solid rgba(6,214,160,.2);color:#a8f0d8}
+.note.warn{background:rgba(239,71,111,.08);border:1px solid rgba(239,71,111,.2);color:#f9c0cc}
+.note.info{background:rgba(76,201,240,.08);border:1px solid rgba(76,201,240,.2);color:#a8e8f8}
+.note.key{background:rgba(255,209,102,.08);border:1px solid rgba(255,209,102,.2);color:#ffe8a0}
+
+/* CODE */
+.code-block{background:#080c14;border:1px solid var(--border);border-radius:8px;margin:14px 0;overflow:hidden}
+.code-header{background:#101520;padding:8px 16px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)}
+.code-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--teal);letter-spacing:1.5px;text-transform:uppercase}
+.code-desc{font-size:11px;color:var(--dim)}
+.code-block pre{padding:16px 18px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;color:#c5d5f0;overflow-x:auto;margin:0}
+code{font-family:'JetBrains Mono',monospace;background:var(--card2);color:var(--teal);padding:2px 7px;border-radius:4px;font-size:13px;border:1px solid var(--border)}
+.kw{color:#00d4aa;font-weight:600}.fn{color:#ffd166}.st{color:#f4a261}.cm{color:#3a5070;font-style:italic}.nm{color:#90e0a0}
+
+/* ANALOGY BOX */
+.analogy{background:linear-gradient(135deg,rgba(0,212,170,.06),rgba(76,201,240,.06));border:1px solid rgba(0,212,170,.2);border-radius:12px;padding:20px 24px;margin:16px 0}
+.analogy-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:8px}
+.analogy-text{font-size:15px;color:var(--text);line-height:1.75}
+.analogy-text strong{color:var(--bright)}
+
+/* TABLE VISUAL */
+.table-visual{background:#080c14;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:16px 0;font-family:'JetBrains Mono',monospace}
+.tv-title{background:var(--card2);padding:8px 16px;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid var(--border)}
+.tv-row{display:grid;border-bottom:1px solid rgba(37,45,69,.6)}.tv-row:last-child{border-bottom:none}
+.tv-cell{padding:8px 14px;font-size:12.5px}
+.tv-row.tv-hdr .tv-cell{font-weight:700;font-size:11px;letter-spacing:1px;color:var(--teal);background:rgba(0,212,170,.04);padding-top:9px;padding-bottom:9px}
+.tv-hl{color:var(--teal);background:rgba(0,212,170,.06)}.tv-hlg{color:var(--green);background:rgba(6,214,160,.06)}.tv-hlr{color:var(--red);background:rgba(239,71,111,.06)}.tv-hly{color:var(--yellow);background:rgba(255,209,102,.06)}
+.tv-foot{padding:7px 14px;font-size:11px;color:var(--dim);background:var(--card2);border-top:1px solid var(--border)}
+
+/* STEP LIST */
+.steps{list-style:none;padding:0;display:grid;gap:10px;margin:14px 0}
+.steps li{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 16px;counter-increment:step-c}
+.steps{counter-reset:step-c}
+.step-num{background:var(--teal);color:#0f1117;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;min-width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-body{font-size:14.5px;color:var(--text);line-height:1.65}
+.step-body strong{color:var(--bright)}
+
+/* COMMAND CARDS */
+.cmd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin:16px 0}
+.cmd-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px;transition:border-color .2s}
+.cmd-card:hover{border-color:var(--teal)}
+.cmd-name{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;margin-bottom:4px}
+.cmd-card.t .cmd-name{color:var(--teal)}.cmd-card.y .cmd-name{color:var(--yellow)}.cmd-card.b .cmd-name{color:var(--blue)}.cmd-card.g .cmd-name{color:var(--green)}.cmd-card.o .cmd-name{color:var(--orange)}.cmd-card.p .cmd-name{color:var(--purple)}.cmd-card.r .cmd-name{color:var(--red)}
+.cmd-desc{font-size:13px;color:var(--dim);margin-bottom:10px;line-height:1.5}
+.cmd-ex{font-family:'JetBrains Mono',monospace;font-size:12px;background:#080c14;border:1px solid var(--border);border-radius:5px;padding:7px 10px;color:#c5d5f0;line-height:1.6}
+
+/* COMPARISON */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.cmp-box{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.cmp-title{padding:10px 16px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid var(--border)}
+.cmp-body{padding:14px 16px;font-size:13.5px;color:var(--text);line-height:1.7}
+
+/* JOIN VISUAL */
+.join-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:14px 0}
+.join-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.join-diagram{height:64px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;position:relative}
+.circle-a{position:absolute;width:48px;height:48px;border-radius:50%;left:20px;top:8px}
+.circle-b{position:absolute;width:48px;height:48px;border-radius:50%;left:44px;top:8px}
+.join-name{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;margin-bottom:4px}
+.join-desc{font-size:12px;color:var(--dim);line-height:1.45}
+
+/* MEMORY CARD */
+.mem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin:14px 0}
+.mem-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px}
+.mem-trick{font-size:15px;font-weight:800;margin-bottom:6px}
+.mem-card.t .mem-trick{color:var(--teal)}.mem-card.y .mem-trick{color:var(--yellow)}.mem-card.g .mem-trick{color:var(--green)}.mem-card.o .mem-trick{color:var(--orange)}.mem-card.p .mem-trick{color:var(--purple)}
+.mem-explain{font-size:13px;color:var(--dim);line-height:1.55}
+
+/* ROADMAP */
+.roadmap{display:grid;gap:10px;margin:16px 0}
+.road-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px;display:flex;gap:14px;align-items:flex-start}
+.road-badge{border-radius:6px;padding:4px 10px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0}
+.road-title{font-size:14px;font-weight:800;color:var(--bright);margin-bottom:3px}
+.road-body{font-size:13px;color:var(--dim);line-height:1.55}
+
+/* FOOTER */
+footer{background:var(--card);border-top:1px solid var(--border);padding:32px;text-align:center;font-size:12px;color:var(--dim)}
+footer span{color:var(--teal)}
+
+@media(max-width:600px){.compare,.join-grid{grid-template-columns:1fr}.hero{padding:40px 20px}.container{padding:0 16px}}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <div class="topnav-title"><span>SQL</span> Simple Notes</div>
+  <div class="nav-links">
+    <a href="#what" class="nav-link">What is SQL?</a>
+    <a href="#select" class="nav-link">SELECT</a>
+    <a href="#filter" class="nav-link">WHERE</a>
+    <a href="#sort" class="nav-link">ORDER BY</a>
+    <a href="#group" class="nav-link">GROUP BY</a>
+    <a href="#joins" class="nav-link">JOINs</a>
+    <a href="#window" class="nav-link">Window Fn</a>
+    <a href="#tips" class="nav-link">Tips</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-emoji">📓</div>
+  <h1>SQL Made <span>Super Simple</span></h1>
+  <p>Written like notes — plain English, zero jargon, real examples. If you've never written a single line of SQL, you're in the right place.</p>
+  <div class="promise-box">
+    <span class="promise t">✓ Zero jargon</span>
+    <span class="promise y">✓ Real examples</span>
+    <span class="promise g">✓ Like talking to a friend</span>
+    <span class="promise b">✓ Job-ready commands</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ========================= SECTION 1 ========================= -->
+<section class="section" id="what">
+  <div class="section-num teal">01 — The Basics</div>
+  <h2>What is SQL? (In Plain English)</h2>
+  <p class="lead">Imagine SQL as a way to ask questions to a giant spreadsheet that has millions of rows. That's literally it.</p>
+
+  <div class="analogy">
+    <div class="analogy-label">🧠 Think of it this way</div>
+    <div class="analogy-text">
+      You work at a company. All customer data is stored in a <strong>database</strong> (think: a collection of Excel files). You want to know: <em>"How many customers bought something last month?"</em><br><br>
+      Instead of manually scrolling through 1 million rows, you write a <strong>SQL question</strong> and the database gives you the answer in seconds. That question is called a <strong>query</strong>.
+    </div>
+  </div>
+
+  <h3>Database = Collection of Tables</h3>
+  <p>A database contains <strong>tables</strong>. A table is exactly like a spreadsheet — rows and columns. Here's an example:</p>
+
+  <div class="table-visual">
+    <div class="tv-title" style="color:var(--teal)">📋 TABLE: customers &nbsp;(like a spreadsheet with customer info)</div>
+    <div class="tv-row tv-hdr" style="grid-template-columns:80px 120px 110px 90px 90px">
+      <div class="tv-cell">cust_id</div><div class="tv-cell">name</div><div class="tv-cell">email</div><div class="tv-cell">city</div><div class="tv-cell">segment</div>
+    </div>
+    <div class="tv-row" style="grid-template-columns:80px 120px 110px 90px 90px"><div class="tv-cell tv-hl">101</div><div class="tv-cell">Arjun Sharma</div><div class="tv-cell">arjun@g.com</div><div class="tv-cell">Delhi</div><div class="tv-cell">Premium</div></div>
+    <div class="tv-row" style="grid-template-columns:80px 120px 110px 90px 90px"><div class="tv-cell">102</div><div class="tv-cell">Priya Nair</div><div class="tv-cell">priya@g.com</div><div class="tv-cell">Mumbai</div><div class="tv-cell">Standard</div></div>
+    <div class="tv-row" style="grid-template-columns:80px 120px 110px 90px 90px"><div class="tv-cell">103</div><div class="tv-cell">Meera Patel</div><div class="tv-cell">meera@y.com</div><div class="tv-cell">Delhi</div><div class="tv-cell">Premium</div></div>
+    <div class="tv-foot">Each ROW = one customer. Each COLUMN = one piece of info about them.</div>
+  </div>
+
+  <div class="table-visual">
+    <div class="tv-title" style="color:var(--yellow)">📋 TABLE: orders &nbsp;(all orders ever placed)</div>
+    <div class="tv-row tv-hdr" style="grid-template-columns:80px 80px 100px 80px 90px">
+      <div class="tv-cell">order_id</div><div class="tv-cell">cust_id</div><div class="tv-cell">order_date</div><div class="tv-cell">amount</div><div class="tv-cell">status</div>
+    </div>
+    <div class="tv-row" style="grid-template-columns:80px 80px 100px 80px 90px"><div class="tv-cell">5001</div><div class="tv-cell tv-hlg">101</div><div class="tv-cell">2024-01-10</div><div class="tv-cell" style="text-align:right">4500</div><div class="tv-cell">Delivered</div></div>
+    <div class="tv-row" style="grid-template-columns:80px 80px 100px 80px 90px"><div class="tv-cell">5002</div><div class="tv-cell tv-hlg">102</div><div class="tv-cell">2024-01-15</div><div class="tv-cell" style="text-align:right">1200</div><div class="tv-cell">Shipped</div></div>
+    <div class="tv-row" style="grid-template-columns:80px 80px 100px 80px 90px"><div class="tv-cell">5003</div><div class="tv-cell tv-hlg">101</div><div class="tv-cell">2024-02-03</div><div class="tv-cell" style="text-align:right">800</div><div class="tv-cell tv-hlr">Cancelled</div></div>
+    <div class="tv-foot">cust_id 101 appears twice — Arjun placed 2 orders. Tables are CONNECTED by matching IDs.</div>
+  </div>
+
+  <div class="note key">
+    <span class="note-icon">🔑</span>
+    <span><strong>Key Idea:</strong> Tables are connected to each other using ID columns. The <code>cust_id</code> in the orders table links back to the customers table. This is why SQL is so powerful — you can combine information from multiple tables.</span>
+  </div>
+
+  <h3>Where to Practice (Free — No Install Needed)</h3>
+  <div class="simple-box teal">
+    <p style="margin:0;font-size:15px">Go to <strong style="color:var(--teal)">dbfiddle.uk</strong> → Choose "PostgreSQL" → Type your query → Click Run. That's it. Practice everything in this guide there for free.</p>
+  </div>
+</section>
+
+<!-- ========================= SECTION 2 ========================= -->
+<section class="section" id="select">
+  <div class="section-num yellow">02 — Command #1</div>
+  <h2>SELECT — "Show me this data"</h2>
+  <p class="lead">SELECT is the most used SQL command. It means: "Show me these columns from this table." You write it first, but think of it as: <em>what do I want to see?</em></p>
+
+  <div class="analogy">
+    <div class="analogy-label">🧠 Real life analogy</div>
+    <div class="analogy-text">Imagine you have a big filing cabinet with customer cards. SELECT is you saying <strong>"I only want to see the Name and City columns"</strong> — not every single detail.</div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-label">SQL</span><span class="code-desc">Your very first query — reading it like English</span></div>
+    <pre><span class="cm">-- The basic structure: SELECT what  FROM where</span>
+
+<span class="kw">SELECT</span> name, city          <span class="cm">-- "Show me name and city columns"</span>
+<span class="kw">FROM</span> customers;            <span class="cm">-- "from the customers table"</span>
+
+<span class="cm">-- Result:
+-- name          city
+-- Arjun Sharma  Delhi
+-- Priya Nair    Mumbai
+-- Meera Patel   Delhi</span></pre>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-label">SQL</span><span class="code-desc">More SELECT examples</span></div>
+    <pre><span class="cm">-- Show ALL columns (use * = "everything")</span>
+<span class="kw">SELECT</span> *
+<span class="kw">FROM</span> customers;
+
+<span class="cm">-- Rename a column in the output using AS</span>
+<span class="kw">SELECT</span>
+    name         <span class="kw">AS</span> customer_name,    <span class="cm">-- rename it</span>
+    city         <span class="kw">AS</span> location,
+    amount       <span class="kw">AS</span> order_value
+<span class="kw">FROM</span> orders;
+
+<span class="cm">-- Do math in SELECT (create new columns)</span>
+<span class="kw">SELECT</span>
+    order_id,
+    amount,
+    amount * <span class="nm">0.18</span>     <span class="kw">AS</span> tax_amount,     <span class="cm">-- 18% tax</span>
+    amount * <span class="nm">1.18</span>     <span class="kw">AS</span> total_with_tax  <span class="cm">-- total including tax</span>
+<span class="kw">FROM</span> orders;</pre>
+  </div>
+
+  <div class="note tip">
+    <span class="note-icon">💡</span>
+    <span><strong>Simple Rule:</strong> Every SQL query starts with SELECT. Think of it as telling the database what you want to SEE. The ; at the end is just like a full stop — it tells SQL your sentence is done.</span>
+  </div>
+
+  <h3>DISTINCT — Show Unique Values Only</h3>
+  <div class="code-block">
+    <div class="code-header"><span class="code-label">SQL</span><span class="code-desc">Remove duplicates from results</span></div>
+    <pre><span class="cm">-- Without DISTINCT: shows Delhi, Mumbai, Delhi (Delhi repeats!)</span>
+<span class="kw">SELECT</span> city <span class="kw">FROM</span> customers;
+
+<span class="cm">-- With DISTINCT: shows Delhi, Mumbai (no repeats)</span>
+<span class="kw">SELECT DISTINCT</span> city <span class="kw">FROM</span> customers;
+
+<span class="cm">-- Real use: "What unique products do we sell?"</span>
+<span class="kw">SELECT DISTINCT</span> product_name <span class="kw">FROM</span> products;</pre>
+  </div>
+</section>
+
+<!-- ========================= SECTION 3 ========================= -->
+<section class="section" id="filter">
+  <div class="section-num teal">03 — Command #2</div>
+  <h2>WHERE — "But only show rows that match..."</h2>
+  <p class="lead">WHERE filters your data. It's like adding a condition: "Show me customers, BUT ONLY the ones from Delhi." WHERE is the second most important command after SELECT.</p>
+
+  <div class="analogy">
+    <div class="analogy-label">🧠 Think of it this way</div>
+    <div class="analogy-text">You're searching through 50,000 customer records. WHERE is your <strong>search filter</strong> — like filtering a spreadsheet. Instead of scrolling through everything, you get only the rows that match your condition.</div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-label">SQL</span><span class="code-desc">WHERE with all comparison types</span></div>
+    <pre><span class="cm">-- Equal to</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> customers <span class="kw">WHERE</span> city = <span class="st">'Delhi'</span>;
+
+<span class="cm">-- NOT equal to</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> orders <span class="kw">WHERE</span> status != <span class="st">'Cancelled'</span>;
+
+<span class="cm">-- Greater than / Less than</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> orders <span class="kw">WHERE</span> amount > <span class="nm">1000</span>;
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> orders <span class="kw">WHERE</span> amount < <span class="nm">500</span>;
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> orders <span class="kw">WHERE</span> amount >= <span class="nm">1000</span>;  <span class="cm">-- 1000 or more</span>
+
+<span class="cm">-- Date filtering</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> orders <span class="kw">WHERE</span> order_date >= <span class="st">'2024-01-01'</span>;
+
+<span class="cm">-- IN: instead of writing OR OR OR</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> customers
+<span class="kw">WHERE</span> city <span class="kw">IN</span> (<span class="st">'Delhi'</span>, <span class="st">'Mumbai'</span>, <span class="st">'Bangalore'</span>);
+
+<span class="cm">-- BETWEEN: range of values (includes both ends)</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> orders
+<span class="kw">WHERE</span> amount <span class="kw">BETWEEN</span> <span class="nm">500</span> <span class="kw">AND</span> <span class="nm">2000</span>;
+
+<span class="cm">-- LIKE: search inside text (% means "anything")</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> customers <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="st">'A%'</span>;      <span class="cm">-- starts with A</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> customers <span class="kw">WHERE</span> email <span class="kw">LIKE</span> <span class="st">'%gmail%'</span>; <span class="cm">-- contains "gmail"</span></pre>
+  </div>
+
+  <h3>AND / OR — Multiple Conditions</h3>
+  <div class="code-block">
+    <div class="code-header"><span class="code-label">SQL</span><span class="code-desc">Combining conditions</span></div>
+    <pre><span class="cm">-- AND: BOTH conditions must be true</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> orders
+<span class="kw">WHERE</span> amount > <span class="nm">1000</span>
+  <span class="kw">AND</span> status = <span class="st">'Delivered'</span>;
+<span class="cm">-- Only shows: big orders that were actually delivered</span>
+
+<span class="cm">-- OR: EITHER condition is true</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> customers
+<span class="kw">WHERE</span> city = <span class="st">'Delhi'</span>
+   <span class="kw">OR</span> city = <span class="st">'Mumbai'</span>;
+<span class="cm">-- Shows customers from Delhi OR Mumbai</span>
+
+<span class="cm">-- IS NULL: find missing/empty values</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> customers <span class="kw">WHERE</span> phone <span class="kw">IS NULL</span>;
+<span class="cm">-- Shows customers who haven't given their phone number</span></pre>
+  </div>
+
+  <div class="note warn">
+    <span class="note-icon">⚠️</span>
+    <span><strong>Common Mistake!</strong> To check for empty/missing values, you MUST write <code>IS NULL</code> — NEVER <code>= NULL</code>. Writing <code>WHERE phone = NULL</code> will always return zero results. SQL has this quirk — just remember it!</span>
+  </div>
+</section>
+
+<!-- ========================= SECTION 4 ========================= -->
+<section class="section" id="sort">
+  <div class="section-num blue">04 — Commands #3 &amp; #4</div>
+  <h2>ORDER BY &amp; LIMIT — Sort &amp; Top N</h2>
+  <p class="lead">ORDER BY sorts your results. LIMIT tells SQL "stop after N rows." Together they give you Top-N lists — one of the most common analyst queries.</p>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-label">SQL</span><span class="code-desc">Sorting results + getting top N</span></div>
+    <pre><span class="cm">-- Sort by amount: highest first</span>
+<span class="kw">SELECT</span> order_id, customer_id, amount
+<span class="kw">FROM</span> orders
+<span class="kw">ORDER BY</span> amount <span class="kw">DESC</span>;   <span class="cm">-- DESC = largest first</span>
+
+<span class="cm">-- Sort: smallest first</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> orders
+<span class="kw">ORDER BY</span> amount <span class="kw">ASC</span>;    <span class="cm">-- ASC = smallest first (default)</span>
+
+<span class="cm">-- Top 10 biggest orders</span>
+<span class="kw">SELECT</span> *
+<span class="kw">FROM</span> orders
+<span class="kw">ORDER BY</span> amount <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> <span class="nm">10</span>;             <span class="cm">-- Stop after 10 rows</span>
+
+<span class="cm">-- Sort by two columns: city alphabetically, then amount biggest first</span>
+<span class="kw">SELECT</span> name, city, amount
+<span class="kw">FROM</span> orders
+<span class="kw">ORDER BY</span> city <span class="kw">ASC</span>, amount <span class="kw">DESC</span>;</pre>
+  </div>
+
+  <div class="note tip">
+    <span class="note-icon">💡</span>
+    <span><strong>Memory trick:</strong> ORDER BY is always at the END of your query. LIMIT comes last of all. Think: "Show me [data] from [table] where [condition] sorted [by what] and only [N rows]."</span>
+  </div>
+</section>
+
+<!-- ========================= SECTION 5 ========================= -->
+<section class="section" id="group">
+  <div class="section-num green">05 — Commands #5, 6, 7</div>
+  <h2>GROUP BY, COUNT, SUM — "Calculate per category"</h2>
+  <p class="lead">This is where SQL gets really powerful. GROUP BY lets you calculate totals, averages, and counts FOR EACH category — like "total sales per city" or "number of orders per customer."</p>
+
+  <div class="analogy">
+    <div class="analogy-label">🧠 Think of it this way</div>
+    <div class="analogy-text">
+      You have 50,000 orders from all over India. You want to know: <strong>"What is the total revenue from each city?"</strong><br><br>
+      GROUP BY <strong>groups all Delhi orders together</strong>, all Mumbai orders together, etc. Then it runs a calculation (like SUM) on each group separately.
+    </div>
+  </div>
+
+  <h3>The 5 Calculation Functions</h3>
+  <div class="cmd-grid">
+    <div class="cmd-card t"><div class="cmd-name">COUNT(*)</div><div class="cmd-desc">Count how many rows are in the group</div><div class="cmd-ex">COUNT(*) → 1250 orders</div></div>
+    <div class="cmd-card y"><div class="cmd-name">SUM(col)</div><div class="cmd-desc">Add up all values in a column</div><div class="cmd-ex">SUM(amount) → ₹5,24,000</div></div>
+    <div class="cmd-card g"><div class="cmd-name">AVG(col)</div><div class="cmd-desc">Calculate the average value</div><div class="cmd-ex">AVG(amount) → ₹418.4</div></div>
+    <div class="cmd-card b"><div class="cmd-name">MAX(col)</div><div class="cmd-desc">Find the highest value</div><div class="cmd-ex">MAX(amount) → ₹9,200</div></div>
+    <div class="cmd-card o"><div class="cmd-name">MIN(col)</div><div class="cmd-desc">Find the lowest value</div><div class="cmd-ex">MIN(amount) → ₹99</div></div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-label">SQL</span><span class="code-desc">GROUP BY examples — read them like sentences</span></div>
+    <pre><span class="cm">-- "Count how many orders came from each city"</span>
+<span class="kw">SELECT</span>
+    city,
+    <span class="fn">COUNT</span>(*) <span class="kw">AS</span> number_of_orders
+<span class="kw">FROM</span> orders
+<span class="kw">GROUP BY</span> city;
+
+<span class="cm">-- Result:
+-- city      number_of_orders
+-- Delhi     450
+-- Mumbai    320
+-- Bangalore 280</span>
+
+<span class="cm">-- "Total revenue from each city, sorted biggest first"</span>
+<span class="kw">SELECT</span>
+    city,
+    <span class="fn">COUNT</span>(*) <span class="kw">AS</span> orders,
+    <span class="fn">SUM</span>(amount) <span class="kw">AS</span> total_revenue,
+    <span class="fn">AVG</span>(amount) <span class="kw">AS</span> avg_order_size
+<span class="kw">FROM</span> orders
+<span class="kw">GROUP BY</span> city
+<span class="kw">ORDER BY</span> total_revenue <span class="kw">DESC</span>;</pre>
+  </div>
+
+  <h3>HAVING — Filter AFTER Grouping</h3>
+  <p>WHERE filters rows BEFORE grouping. HAVING filters AFTER grouping. Use HAVING when you want to filter groups based on a calculated value.</p>
+
+  <div class="compare">
+    <div class="cmp-box">
+      <div class="cmp-title" style="color:var(--teal);background:rgba(0,212,170,.04)">WHERE — filters ROWS first</div>
+      <div class="cmp-body">Use when filtering by a normal column value.<br><br><code>WHERE city = 'Delhi'</code> ✓<br><code>WHERE status = 'Delivered'</code> ✓<br><br>Cannot use SUM, COUNT etc. here.</div>
+    </div>
+    <div class="cmp-box">
+      <div class="cmp-title" style="color:var(--orange);background:rgba(244,162,97,.04)">HAVING — filters GROUPS after</div>
+      <div class="cmp-body">Use when filtering by a calculated value.<br><br><code>HAVING SUM(amount) > 50000</code> ✓<br><code>HAVING COUNT(*) >= 10</code> ✓<br><br>Use SUM, COUNT, AVG here.</div>
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-label">SQL</span><span class="code-desc">WHERE and HAVING used together</span></div>
+    <pre><span class="cm">-- "Cities with more than ₹50,000 in DELIVERED orders"</span>
+<span class="kw">SELECT</span>
+    city,
+    <span class="fn">COUNT</span>(*) <span class="kw">AS</span> orders,
+    <span class="fn">SUM</span>(amount) <span class="kw">AS</span> revenue
+<span class="kw">FROM</span> orders
+<span class="kw">WHERE</span> status = <span class="st">'Delivered'</span>     <span class="cm">-- filter rows first</span>
+<span class="kw">GROUP BY</span> city
+<span class="kw">HAVING</span> <span class="fn">SUM</span>(amount) > <span class="nm">50000</span>   <span class="cm">-- then filter groups</span>
+<span class="kw">ORDER BY</span> revenue <span class="kw">DESC</span>;</pre>
+  </div>
+
+  <div class="note key">
+    <span class="note-icon">🔑</span>
+    <span><strong>Golden Rule:</strong> Every column in SELECT must either be in GROUP BY, OR inside a function like SUM/COUNT. If you SELECT a column that's not in GROUP BY and not in a function, SQL will give you an error.</span>
+  </div>
+</section>
+
+<!-- ========================= SECTION 6 ========================= -->
+<section class="section" id="joins">
+  <div class="section-num orange">06 — Command #8</div>
+  <h2>JOIN — "Combine two tables"</h2>
+  <p class="lead">JOIN is how you connect two tables together. Real data always lives in multiple tables, and JOIN is how you bring them together in one query. This is one of the most important SQL skills.</p>
+
+  <div class="analogy">
+    <div class="analogy-label">🧠 Think of it this way</div>
+    <div class="analogy-text">
+      You have two spreadsheets: one with <strong>customer info</strong> (name, city) and one with <strong>orders</strong> (what they bought, how much). They're connected by <code>customer_id</code>.<br><br>
+      JOIN <strong>merges them into one table</strong> so you can say: "Show me Arjun's name AND his orders."
+    </div>
+  </div>
+
+  <h3>3 Types of JOIN</h3>
+  <div class="join-grid">
+    <div class="join-card">
+      <div class="join-diagram">
+        <div class="circle-a" style="background:rgba(76,201,240,.35);border:2px solid var(--blue)"></div>
+        <div class="circle-b" style="background:rgba(6,214,160,.35);border:2px solid var(--green)"></div>
+        <div style="position:absolute;left:35px;top:8px;width:22px;height:48px;background:rgba(255,209,102,.6)"></div>
+      </div>
+      <div class="join-name" style="color:var(--yellow)">INNER JOIN</div>
+      <div class="join-desc">Only rows that match in BOTH tables. Most common type.</div>
+    </div>
+    <div class="join-card">
+      <div class="join-diagram">
+        <div class="circle-a" style="background:rgba(255,209,102,.55);border:2px solid var(--yellow)"></div>
+        <div class="circle-b" style="background:rgba(6,214,160,.2);border:2px solid var(--green)"></div>
+      </div>
+      <div class="join-name" style="color:var(--teal)">LEFT JOIN</div>
+      <div class="join-desc">ALL left table rows. Right table adds info where it can. NULLs where there's no match.</div>
+    </div>
+    <div class="join-card">
+      <div class="join-diagram">
+        <div class="circle-a" style="background:rgba(255,209,102,.4);border:2px solid var(--yellow)"></div>
+        <div class="circle-b" style="background:rgba(255,209,102,.4);border:2px solid var(--yellow)"></div>
+      </div>
+      <div class="join-name" style="color:var(--orange)">FULL OUTER JOIN</div>
+      <div class="join-desc">ALL rows from both tables. NULLs wherever there's no match on either side.</div>
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-label">SQL</span><span class="code-desc">JOIN examples — step by step</span></div>
+    <pre><span class="cm">-- INNER JOIN: show customer name + their orders (only customers who ordered)</span>
+<span class="kw">SELECT</span>
+    c.name,          <span class="cm">-- from customers table</span>
+    c.city,          <span class="cm">-- from customers table</span>
+    o.order_id,      <span class="cm">-- from orders table</span>
+    o.amount         <span class="cm">-- from orders table</span>
+<span class="kw">FROM</span> customers c                           <span class="cm">-- "c" is a shortcut for customers</span>
+<span class="kw">INNER JOIN</span> orders o <span class="kw">ON</span> c.cust_id = o.cust_id; <span class="cm">-- connect where IDs match</span>
+
+<span class="cm">-- LEFT JOIN: show ALL customers, even those with no orders</span>
+<span class="kw">SELECT</span>
+    c.name,
+    o.order_id,   <span class="cm">-- will be NULL for customers with no orders</span>
+    o.amount      <span class="cm">-- will be NULL for customers with no orders</span>
+<span class="kw">FROM</span> customers c
+<span class="kw">LEFT JOIN</span> orders o <span class="kw">ON</span> c.cust_id = o.cust_id;
+
+<span class="cm">-- TRICK: Find customers who NEVER placed an order</span>
+<span class="kw">SELECT</span> c.name, c.email
+<span class="kw">FROM</span> customers c
+<span class="kw">LEFT JOIN</span> orders o <span class="kw">ON</span> c.cust_id = o.cust_id
+<span class="kw">WHERE</span> o.order_id <span class="kw">IS NULL</span>;   <span class="cm">-- if order_id is NULL, they never ordered!</span></pre>
+  </div>
+
+  <div class="note tip">
+    <span class="note-icon">💡</span>
+    <span><strong>Simple way to remember:</strong> When you JOIN tables, use short aliases (like <code>c</code> for customers, <code>o</code> for orders) so you can write <code>c.name</code> instead of <code>customers.name</code>. Always write the joining condition after ON — it's always the matching ID column between the two tables.</span>
+  </div>
+</section>
+
+<!-- ========================= SECTION 7 ========================= -->
+<section class="section" id="casewhen">
+  <div class="section-num purple">07 — Command #9</div>
+  <h2>CASE WHEN — "If this, then that"</h2>
+  <p class="lead">CASE WHEN is SQL's way of making decisions. It lets you create a new column based on conditions — like "If amount is more than 5000, call it Big Order. Otherwise, call it Small Order."</p>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-label">SQL</span><span class="code-desc">CASE WHEN — like if/else in SQL</span></div>
+    <pre><span class="cm">-- Classify orders by size</span>
+<span class="kw">SELECT</span>
+    order_id,
+    amount,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> amount >= <span class="nm">10000</span> <span class="kw">THEN</span> <span class="st">'Big Order'</span>
+        <span class="kw">WHEN</span> amount >= <span class="nm">2000</span>  <span class="kw">THEN</span> <span class="st">'Medium Order'</span>
+        <span class="kw">WHEN</span> amount >= <span class="nm">500</span>   <span class="kw">THEN</span> <span class="st">'Small Order'</span>
+        <span class="kw">ELSE</span> <span class="st">'Tiny Order'</span>       <span class="cm">-- if none of the above match</span>
+    <span class="kw">END</span> <span class="kw">AS</span> order_size           <span class="cm">-- name the new column</span>
+<span class="kw">FROM</span> orders;
+
+<span class="cm">-- Classify customers by loyalty level</span>
+<span class="kw">SELECT</span>
+    cust_id,
+    <span class="fn">SUM</span>(amount) <span class="kw">AS</span> total_spent,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> <span class="fn">SUM</span>(amount) >= <span class="nm">50000</span> <span class="kw">THEN</span> <span class="st">'Platinum'</span>
+        <span class="kw">WHEN</span> <span class="fn">SUM</span>(amount) >= <span class="nm">20000</span> <span class="kw">THEN</span> <span class="st">'Gold'</span>
+        <span class="kw">WHEN</span> <span class="fn">SUM</span>(amount) >= <span class="nm">5000</span>  <span class="kw">THEN</span> <span class="st">'Silver'</span>
+        <span class="kw">ELSE</span> <span class="st">'Bronze'</span>
+    <span class="kw">END</span> <span class="kw">AS</span> tier
+<span class="kw">FROM</span> orders
+<span class="kw">GROUP BY</span> cust_id;</pre>
+  </div>
+</section>
+
+<!-- ========================= SECTION 8 ========================= -->
+<section class="section" id="window">
+  <div class="section-num red">08 — Command #10</div>
+  <h2>Window Functions — "Calculate without losing rows"</h2>
+  <p class="lead">This is slightly advanced but very important for jobs. Window functions do calculations like SUM and RANK — BUT they keep every row in the result instead of collapsing them like GROUP BY.</p>
+
+  <div class="analogy">
+    <div class="analogy-label">🧠 GROUP BY vs Window — the key difference</div>
+    <div class="analogy-text">
+      <strong>GROUP BY</strong>: "Give me total sales per city" → You get 4 rows (one per city). Original data is gone.<br><br>
+      <strong>Window Function</strong>: "Add the city total NEXT TO each row" → You keep ALL 50,000 rows AND each row shows its city's total beside it.
+    </div>
+  </div>
+
+  <div class="compare">
+    <div class="cmp-box">
+      <div class="cmp-title" style="color:var(--blue);background:rgba(76,201,240,.04)">GROUP BY — collapses rows</div>
+      <div class="cmp-body" style="font-family:'JetBrains Mono',monospace;font-size:12px">
+        city &nbsp;&nbsp;&nbsp; | total<br>
+        ———————————<br>
+        Delhi &nbsp;&nbsp;| 38,500<br>
+        Mumbai | 12,000<br><br>
+        <span style="color:var(--dim)">Only 2 rows. Original data gone!</span>
+      </div>
+    </div>
+    <div class="cmp-box">
+      <div class="cmp-title" style="color:var(--green);background:rgba(6,214,160,.04)">Window — keeps all rows</div>
+      <div class="cmp-body" style="font-family:'JetBrains Mono',monospace;font-size:12px">
+        name &nbsp;| amt &nbsp;| city_total<br>
+        ————————————————<br>
+        Arjun | 4500 | 38,500<br>
+        Arjun | 800 &nbsp;| 38,500<br>
+        Rahul | 1800 | 38,500<br><br>
+        <span style="color:var(--dim)">All rows kept! Total added as column.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-label">SQL</span><span class="code-desc">The 3 most important window functions for a job</span></div>
+    <pre><span class="cm">-- 1. ROW_NUMBER: Give each row a rank number</span>
+<span class="kw">SELECT</span>
+    name,
+    city,
+    amount,
+    <span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> amount <span class="kw">DESC</span>) <span class="kw">AS</span> rank_num
+<span class="kw">FROM</span> orders;
+<span class="cm">-- rank_num: 1, 2, 3, 4... biggest orders first</span>
+
+<span class="cm">-- 2. RANK per group (Top customer in EACH CITY)</span>
+<span class="kw">SELECT</span>
+    name, city, total_spend,
+    <span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (
+        <span class="kw">PARTITION BY</span> city            <span class="cm">-- restart ranking for each city</span>
+        <span class="kw">ORDER BY</span> total_spend <span class="kw">DESC</span>    <span class="cm">-- highest spender = rank 1</span>
+    ) <span class="kw">AS</span> rank_in_city
+<span class="kw">FROM</span> customer_totals;
+
+<span class="cm">-- 3. Running Total (cumulative sum month by month)</span>
+<span class="kw">SELECT</span>
+    month,
+    monthly_revenue,
+    <span class="fn">SUM</span>(monthly_revenue) <span class="kw">OVER</span> (
+        <span class="kw">ORDER BY</span> month
+    ) <span class="kw">AS</span> running_total         <span class="cm">-- grows each month</span>
+<span class="kw">FROM</span> monthly_summary;
+
+<span class="cm">-- Classic Interview Pattern: Top 1 customer per city</span>
+<span class="kw">WITH</span> ranked <span class="kw">AS</span> (
+    <span class="kw">SELECT</span> name, city, total_spend,
+        <span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> city <span class="kw">ORDER BY</span> total_spend <span class="kw">DESC</span>) <span class="kw">AS</span> rn
+    <span class="kw">FROM</span> customer_totals
+)
+<span class="kw">SELECT</span> name, city, total_spend
+<span class="kw">FROM</span> ranked
+<span class="kw">WHERE</span> rn = <span class="nm">1</span>;    <span class="cm">-- only the #1 person in each city</span></pre>
+  </div>
+
+  <div class="note info">
+    <span class="note-icon">ℹ️</span>
+    <span><strong>Don't panic about window functions yet!</strong> Focus on SELECT, WHERE, GROUP BY, and JOINs first. Come back to window functions once you're comfortable. They take a bit of practice but they will "click" once you understand what problem they solve.</span>
+  </div>
+</section>
+
+<!-- ========================= SECTION 9 ========================= -->
+<section class="section" id="tips">
+  <div class="section-num yellow">09 — Memory &amp; Tips</div>
+  <h2>Memory Tricks &amp; Common Mistakes</h2>
+  <p class="lead">These simple tricks will help you remember SQL faster and avoid the mistakes that even experienced people make.</p>
+
+  <h3>The Query Writing Order — Remember This!</h3>
+  <div class="simple-box teal">
+    <p style="font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--bright);margin:0 0 10px"><strong>SELECT → FROM → JOIN → WHERE → GROUP BY → HAVING → ORDER BY → LIMIT</strong></p>
+    <p style="font-size:14px;color:var(--dim);margin:0">🧠 Mnemonic: <strong style="color:var(--teal)">"Some Fish Jump When Grouped, Having Order Limits"</strong></p>
+  </div>
+
+  <h3>6 Memory Tricks</h3>
+  <div class="mem-grid">
+    <div class="mem-card t"><div class="mem-trick">WHERE = rows, HAVING = groups</div><div class="mem-explain">WHERE filters rows BEFORE grouping. HAVING filters groups AFTER. If your condition uses SUM or COUNT → use HAVING. Otherwise → use WHERE.</div></div>
+    <div class="mem-card y"><div class="mem-trick">LEFT JOIN + IS NULL = "never did it"</div><div class="mem-explain">LEFT JOIN two tables, then WHERE right_id IS NULL means "rows in left table with NO match in right table." Used for: customers who never ordered, products never sold.</div></div>
+    <div class="mem-card g"><div class="mem-trick">GROUP BY = "per category"</div><div class="mem-explain">Whenever you want to calculate something PER something else (per city, per month, per product), you need GROUP BY.</div></div>
+    <div class="mem-card o"><div class="mem-trick">Alias tables with one letter</div><div class="mem-explain">Write <code>FROM customers c</code> and <code>JOIN orders o</code>. Then use <code>c.name</code> and <code>o.amount</code>. Short, clean, professional.</div></div>
+    <div class="mem-card p"><div class="mem-trick">CTE = break it into steps</div><div class="mem-explain">If a query feels too complex, use WITH to name each step. Each CTE = one logical step. Makes the query easy to read and debug.</div></div>
+    <div class="mem-card t"><div class="mem-trick">NULL is not zero or empty</div><div class="mem-explain">NULL means "unknown." You can't compare it with =. Always use IS NULL or IS NOT NULL. SUM and AVG automatically ignore NULLs.</div></div>
+  </div>
+
+  <h3>Top 5 Beginner Mistakes</h3>
+  <div class="steps">
+    <li><div class="step-num">1</div><div class="step-body"><strong>Writing = NULL instead of IS NULL</strong><br>Always write <code>WHERE phone IS NULL</code> never <code>WHERE phone = NULL</code>. The second one never works.</div></li>
+    <li><div class="step-num">2</div><div class="step-body"><strong>Forgetting to put text in quotes</strong><br>Text values need single quotes: <code>WHERE city = 'Delhi'</code>. Numbers don't: <code>WHERE amount > 1000</code>.</div></li>
+    <li><div class="step-num">3</div><div class="step-body"><strong>Using WHERE when you need HAVING</strong><br>If you're filtering after a GROUP BY using SUM/COUNT, you need HAVING, not WHERE.</div></li>
+    <li><div class="step-num">4</div><div class="step-body"><strong>Selecting a column that's not in GROUP BY</strong><br>Every column in SELECT must be in GROUP BY OR inside SUM/COUNT/AVG. Otherwise you'll get an error.</div></li>
+    <li><div class="step-num">5</div><div class="step-body"><strong>Using SELECT * in every query</strong><br>In real jobs, always specify which columns you need. <code>SELECT *</code> is slow on large tables and shows too much data.</div></li>
+  </div>
+
+  <h3>Your Learning Roadmap</h3>
+  <div class="roadmap">
+    <div class="road-item"><div class="road-badge" style="background:rgba(0,212,170,.15);color:var(--teal)">Week 1</div><div><div class="road-title">Master SELECT, WHERE, ORDER BY, LIMIT</div><div class="road-body">Practice these 4 commands every day on dbfiddle.uk. Write 5 queries a day. These alone will cover 60% of analyst work.</div></div></div>
+    <div class="road-item"><div class="road-badge" style="background:rgba(255,209,102,.15);color:var(--yellow)">Week 2</div><div><div class="road-title">Master GROUP BY, COUNT, SUM, HAVING</div><div class="road-body">Practice aggregation queries. "Total per city", "orders per customer", "average per month". These are in every data job.</div></div></div>
+    <div class="road-item"><div class="road-badge" style="background:rgba(76,201,240,.15);color:var(--blue)">Week 3</div><div><div class="road-title">Master JOIN and CASE WHEN</div><div class="road-body">Practice combining tables. Write INNER JOIN and LEFT JOIN queries. Add CASE WHEN to classify your results.</div></div></div>
+    <div class="road-item"><div class="road-badge" style="background:rgba(196,125,255,.15);color:var(--purple)">Week 4+</div><div><div class="road-title">Learn Subqueries, CTEs, Window Functions</div><div class="road-body">Once the basics are solid, learn these advanced topics. They're what separates a good analyst from a great one.</div></div></div>
+  </div>
+</section>
+
+</div><!-- /container -->
+
+<footer>
+  <p>SQL Simple Notes &nbsp;|&nbsp; Written for absolute beginners</p>
+  <p style="margin-top:8px">Practice at <span>dbfiddle.uk</span> — free, no login needed</p>
+</footer>
+
+</body>
+</html>

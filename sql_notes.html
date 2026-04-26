@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SQL Notes - Simple, Structured, Practical</title>
+  <style>
+    :root {
+      --bg: #f7f5ef;
+      --bg-alt: #edf6f1;
+      --surface: #ffffff;
+      --surface-2: #f4fbf7;
+      --text: #203027;
+      --muted: #56685e;
+      --line: #d6dfd8;
+      --accent: #0f7a66;
+      --accent-2: #d86943;
+      --accent-3: #c59d2c;
+      --code-bg: #16211b;
+      --code-text: #eef7f1;
+      --shadow: 0 10px 26px rgba(24, 42, 33, 0.07);
+      --radius: 8px;
+      --wrap: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, var(--bg) 0%, #fbfaf6 40%, var(--bg-alt) 100%);
+      line-height: 1.6;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    .wrap {
+      width: min(var(--wrap), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .masthead {
+      padding: 36px 0 28px;
+      border-top: 8px solid var(--accent);
+      background:
+        linear-gradient(135deg, rgba(15, 122, 102, 0.08), rgba(216, 105, 67, 0.08)),
+        var(--surface);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: 2.65rem;
+      max-width: 900px;
+    }
+
+    h2 {
+      font-size: 1.75rem;
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      font-size: 1.08rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    .lede {
+      margin-top: 14px;
+      max-width: 900px;
+      color: var(--muted);
+      font-size: 1.03rem;
+    }
+
+    .actions,
+    .quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .actions {
+      margin-top: 18px;
+    }
+
+    .btn,
+    .quick-links a {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.94rem;
+      padding: 10px 14px;
+    }
+
+    .btn.primary {
+      border-color: rgba(15, 122, 102, 0.3);
+      background: rgba(15, 122, 102, 0.08);
+    }
+
+    .quick-links {
+      margin-top: 16px;
+    }
+
+    .section {
+      padding: 32px 0;
+      border-bottom: 1px solid rgba(214, 223, 216, 0.85);
+    }
+
+    .section.alt {
+      background: rgba(237, 246, 241, 0.58);
+    }
+
+    .section-head {
+      max-width: 900px;
+      margin-bottom: 18px;
+    }
+
+    .section-head p {
+      color: var(--muted);
+    }
+
+    .tile-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .tile {
+      grid-column: span 12;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .tile.soft {
+      background: var(--surface-2);
+    }
+
+    .span-4 {
+      grid-column: span 4;
+    }
+
+    .span-6 {
+      grid-column: span 6;
+    }
+
+    .span-8 {
+      grid-column: span 8;
+    }
+
+    .span-12 {
+      grid-column: span 12;
+    }
+
+    .pill {
+      display: inline-block;
+      margin-bottom: 12px;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: rgba(15, 122, 102, 0.1);
+      color: var(--accent);
+    }
+
+    .callout {
+      border-left: 4px solid var(--accent-2);
+      padding: 12px 14px;
+      background: rgba(216, 105, 67, 0.08);
+      border-radius: 0 8px 8px 0;
+      margin: 12px 0;
+    }
+
+    .flat-list {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .flat-list li {
+      margin-bottom: 8px;
+    }
+
+    pre {
+      margin: 12px 0 0;
+      padding: 14px;
+      border-radius: var(--radius);
+      background: var(--code-bg);
+      color: var(--code-text);
+      border: 1px solid rgba(238, 247, 241, 0.12);
+      overflow-x: auto;
+      font-size: 0.91rem;
+      line-height: 1.5;
+    }
+
+    code,
+    pre {
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    .data-table th {
+      background: rgba(15, 122, 102, 0.08);
+      font-size: 0.93rem;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.35rem;
+      margin-bottom: 6px;
+      color: var(--accent);
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    figure {
+      margin: 0;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    figure img {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--line);
+    }
+
+    figcaption {
+      padding: 12px 14px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    details {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      padding: 0 14px;
+    }
+
+    details + details {
+      margin-top: 10px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      padding: 14px 0;
+    }
+
+    details p,
+    details ul,
+    details ol {
+      margin-bottom: 14px;
+    }
+
+    .footer-note {
+      padding: 28px 0 40px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 1024px) {
+      .span-4,
+      .span-6,
+      .span-8 {
+        grid-column: span 12;
+      }
+
+      .stat-strip {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.45rem;
+      }
+
+      .wrap {
+        width: min(var(--wrap), calc(100% - 24px));
+      }
+
+      .stat-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      figure img {
+        height: 210px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+
+      .masthead,
+      .tile,
+      .stat,
+      figure,
+      details {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="masthead">
+    <div class="wrap">
+      <p class="eyebrow">SQL Notes</p>
+      <h1>SQL notes in simple English: definition, syntax, examples, joins, functions, transactions, and practice</h1>
+      <p class="lede">
+        This page is designed as a clean SQL revision sheet. Each major concept is explained in the same pattern:
+        what it means, why we use it, the common syntax, and a practical example. The examples are written in simple
+        SQL style and stay close to MySQL-friendly syntax wherever possible.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="#foundation">Start with Foundation</a>
+        <a class="btn" href="#select">Jump to SELECT</a>
+        <a class="btn" href="#joins">Jump to JOINS</a>
+        <button class="btn" type="button" onclick="window.print()">Print or Save as PDF</button>
+      </div>
+      <nav class="quick-links" aria-label="Quick links">
+        <a href="#foundation">Foundation</a>
+        <a href="#families">Command Types</a>
+        <a href="#schema">Keys and Constraints</a>
+        <a href="#select">SELECT</a>
+        <a href="#aggregate">Aggregate</a>
+        <a href="#joins">Joins</a>
+        <a href="#subqueries">Subqueries</a>
+        <a href="#views">Views</a>
+        <a href="#transactions">Transactions</a>
+        <a href="#window">Window Functions</a>
+        <a href="#practice">Practice</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section alt" id="foundation">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Foundation</p>
+          <h2>What is data, database, DBMS, RDBMS, and SQL?</h2>
+          <p>Before writing queries, it helps to understand the basic words clearly because almost every interview starts here.</p>
+        </div>
+        <div class="tile-grid">
+          <article class="tile span-6">
+            <span class="pill">Core Definitions</span>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Term</th>
+                  <th>Simple definition</th>
+                  <th>Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Data</td>
+                  <td>Raw facts or information</td>
+                  <td>Name, age, salary, order amount</td>
+                </tr>
+                <tr>
+                  <td>Database</td>
+                  <td>An organized collection of data</td>
+                  <td>A system storing customers, orders, products</td>
+                </tr>
+                <tr>
+                  <td>DBMS</td>
+                  <td>Software used to create, manage, and query databases</td>
+                  <td>MySQL, PostgreSQL, Oracle, SQL Server</td>
+                </tr>
+                <tr>
+                  <td>RDBMS</td>
+                  <td>A DBMS that stores data in related tables</td>
+                  <td>Customer table connected to orders table</td>
+                </tr>
+                <tr>
+                  <td>SQL</td>
+                  <td>Structured Query Language used to talk to a relational database</td>
+                  <td><code>SELECT * FROM customers;</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">Table Language</span>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Term</th>
+                  <th>Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Table</td>
+                  <td>Collection of related rows and columns</td>
+                </tr>
+                <tr>
+                  <td>Row / Record</td>
+                  <td>One complete entry in a table</td>
+                </tr>
+                <tr>
+                  <td>Column / Field</td>
+                  <td>One attribute stored for every row</td>
+                </tr>
+                <tr>
+                  <td>Schema</td>
+                  <td>Structure or design of the database</td>
+                </tr>
+                <tr>
+                  <td>Query</td>
+                  <td>Instruction written in SQL</td>
+                </tr>
+                <tr>
+                  <td>NULL</td>
+                  <td>Missing or unknown value</td>
+                </tr>
+              </tbody>
+            </table>
+            <pre><code>customers
++-------------+--------+-----------+
+| customer_id | name   | city      |
++-------------+--------+-----------+
+| 1           | Vinod  | Mysore    |
+| 2           | Ravi   | Bengaluru |
++-------------+--------+-----------+</code></pre>
+          </article>
+        </div>
+        <div class="gallery" aria-label="SQL concept diagrams">
+          <figure>
+            <img src="sql_notes_assets/sql_database_structure.png" alt="Diagram showing database and tables structure" />
+            <figcaption><strong>Database structure.</strong> One database usually contains many related tables.</figcaption>
+          </figure>
+          <figure>
+            <img src="sql_notes_assets/sql_query_flow.png" alt="Diagram showing SQL logical query flow" />
+            <figcaption><strong>Query flow.</strong> SQL is written one way, but the logical execution starts from <code>FROM</code>.</figcaption>
+          </figure>
+          <figure>
+            <img src="sql_notes_assets/sql_join_types.png" alt="Diagram showing INNER JOIN, LEFT JOIN, and RIGHT JOIN" />
+            <figcaption><strong>Join types.</strong> Joins decide which matching and non-matching rows are kept.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="families">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Command Types</p>
+          <h2>Major families of SQL commands</h2>
+          <p>SQL is easier when you group commands by job. One command family changes structure, another changes data, another controls transactions.</p>
+        </div>
+        <div class="tile-grid">
+          <article class="tile span-12">
+            <span class="pill">SQL Categories</span>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Full form</th>
+                  <th>Main purpose</th>
+                  <th>Common commands</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>DDL</td>
+                  <td>Data Definition Language</td>
+                  <td>Define or change database structure</td>
+                  <td><code>CREATE</code>, <code>ALTER</code>, <code>DROP</code>, <code>TRUNCATE</code>, <code>RENAME</code></td>
+                </tr>
+                <tr>
+                  <td>DML</td>
+                  <td>Data Manipulation Language</td>
+                  <td>Insert, change, or delete data</td>
+                  <td><code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code></td>
+                </tr>
+                <tr>
+                  <td>DQL</td>
+                  <td>Data Query Language</td>
+                  <td>Read data</td>
+                  <td><code>SELECT</code></td>
+                </tr>
+                <tr>
+                  <td>DCL</td>
+                  <td>Data Control Language</td>
+                  <td>Permission and access control</td>
+                  <td><code>GRANT</code>, <code>REVOKE</code></td>
+                </tr>
+                <tr>
+                  <td>TCL</td>
+                  <td>Transaction Control Language</td>
+                  <td>Manage transaction boundaries</td>
+                  <td><code>COMMIT</code>, <code>ROLLBACK</code>, <code>SAVEPOINT</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">DDL Example</span>
+            <h3>Creating database and table</h3>
+            <pre><code>CREATE DATABASE shop_db;
+USE shop_db;
+
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    city VARCHAR(40)
+);</code></pre>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">DML Example</span>
+            <h3>Insert, update, and delete rows</h3>
+            <pre><code>INSERT INTO customers VALUES (1, 'Vinod', 'Mysore');
+UPDATE customers
+SET city = 'Bengaluru'
+WHERE customer_id = 1;
+
+DELETE FROM customers
+WHERE customer_id = 1;</code></pre>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="schema">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Schema Design</p>
+          <h2>Keys, constraints, and table design basics</h2>
+          <p>Good SQL starts with good table design. Constraints protect data quality before analysis even begins.</p>
+        </div>
+        <div class="tile-grid">
+          <article class="tile span-6">
+            <span class="pill">Keys</span>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Key type</th>
+                  <th>Meaning</th>
+                  <th>Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Primary Key</td>
+                  <td>Uniquely identifies each row</td>
+                  <td><code>customer_id</code></td>
+                </tr>
+                <tr>
+                  <td>Foreign Key</td>
+                  <td>Connects one table to another</td>
+                  <td><code>orders.customer_id</code> references <code>customers.customer_id</code></td>
+                </tr>
+                <tr>
+                  <td>Candidate Key</td>
+                  <td>Column that can uniquely identify rows</td>
+                  <td>Email, employee code</td>
+                </tr>
+                <tr>
+                  <td>Composite Key</td>
+                  <td>Unique key made from more than one column</td>
+                  <td><code>(student_id, course_id)</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">Constraints</span>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Constraint</th>
+                  <th>Purpose</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>PRIMARY KEY</code></td>
+                  <td>Unique and not null identifier</td>
+                </tr>
+                <tr>
+                  <td><code>FOREIGN KEY</code></td>
+                  <td>Maintains relationship between tables</td>
+                </tr>
+                <tr>
+                  <td><code>NOT NULL</code></td>
+                  <td>Prevents missing values in important columns</td>
+                </tr>
+                <tr>
+                  <td><code>UNIQUE</code></td>
+                  <td>Prevents duplicate values</td>
+                </tr>
+                <tr>
+                  <td><code>DEFAULT</code></td>
+                  <td>Gives automatic value if none is provided</td>
+                </tr>
+                <tr>
+                  <td><code>CHECK</code></td>
+                  <td>Applies custom rule to values</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+          <article class="tile span-12">
+            <span class="pill">Design Example</span>
+            <h3>Simple customers and orders schema</h3>
+            <pre><code>CREATE TABLE customers (
+    customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    city VARCHAR(40),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT NOT NULL,
+    amount DECIMAL(10, 2) CHECK (amount &gt;= 0),
+    order_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);</code></pre>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="select">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Reading Data</p>
+          <h2>SELECT, filtering, sorting, and basic query building</h2>
+          <p><code>SELECT</code> is the most used SQL command because analysts spend a lot of time reading, filtering, and summarizing data.</p>
+        </div>
+        <div class="stat-strip">
+          <div class="stat">
+            <strong>SELECT</strong>
+            <span>Choose columns to read</span>
+          </div>
+          <div class="stat">
+            <strong>WHERE</strong>
+            <span>Filter rows by condition</span>
+          </div>
+          <div class="stat">
+            <strong>ORDER BY</strong>
+            <span>Sort result</span>
+          </div>
+          <div class="stat">
+            <strong>LIMIT</strong>
+            <span>Keep only top rows</span>
+          </div>
+          <div class="stat">
+            <strong>DISTINCT</strong>
+            <span>Remove duplicates</span>
+          </div>
+          <div class="stat">
+            <strong>AS</strong>
+            <span>Give alias to column</span>
+          </div>
+        </div>
+        <div class="tile-grid" style="margin-top: 18px;">
+          <article class="tile span-6">
+            <span class="pill">SELECT Basics</span>
+            <pre><code>SELECT * FROM customers;
+
+SELECT name, city
+FROM customers;
+
+SELECT name AS customer_name, city AS customer_city
+FROM customers;
+
+SELECT DISTINCT city
+FROM customers;</code></pre>
+            <p><strong>Definition:</strong> <code>SELECT</code> retrieves data from one or more tables.</p>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">WHERE</span>
+            <pre><code>SELECT *
+FROM orders
+WHERE amount &gt; 5000;
+
+SELECT *
+FROM customers
+WHERE city = 'Mysore';</code></pre>
+            <p><strong>Definition:</strong> <code>WHERE</code> filters rows before the result is returned.</p>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">Logical Operators</span>
+            <pre><code>SELECT *
+FROM orders
+WHERE amount &gt; 1000
+  AND status = 'Delivered';
+
+SELECT *
+FROM customers
+WHERE city = 'Mysore'
+   OR city = 'Bengaluru';
+
+SELECT *
+FROM users
+WHERE NOT city = 'Delhi';</code></pre>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Operator</th>
+                  <th>Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>AND</code></td>
+                  <td>Both conditions must be true</td>
+                </tr>
+                <tr>
+                  <td><code>OR</code></td>
+                  <td>At least one condition must be true</td>
+                </tr>
+                <tr>
+                  <td><code>NOT</code></td>
+                  <td>Reverse the condition</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">Common Filters</span>
+            <pre><code>SELECT *
+FROM books
+WHERE price BETWEEN 300 AND 700;
+
+SELECT *
+FROM books
+WHERE book_id IN ('C0001', 'F0001', 'T0002');
+
+SELECT *
+FROM authors
+WHERE author_name LIKE 'A%';
+
+SELECT *
+FROM employees
+WHERE phone_no IS NULL;</code></pre>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Operator</th>
+                  <th>Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>BETWEEN</code></td>
+                  <td>Range check</td>
+                </tr>
+                <tr>
+                  <td><code>IN</code></td>
+                  <td>Match from a list</td>
+                </tr>
+                <tr>
+                  <td><code>LIKE</code></td>
+                  <td>Pattern matching</td>
+                </tr>
+                <tr>
+                  <td><code>IS NULL</code></td>
+                  <td>Check missing values</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">Sorting and Limiting</span>
+            <pre><code>SELECT *
+FROM employees
+ORDER BY first_name DESC;
+
+SELECT *
+FROM orders
+ORDER BY amount DESC
+LIMIT 5;</code></pre>
+            <ul class="flat-list" style="margin-top: 12px;">
+              <li><code>ASC</code> means ascending order.</li>
+              <li><code>DESC</code> means descending order.</li>
+              <li><code>LIMIT</code> is useful for top-N analysis.</li>
+            </ul>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">Execution Order</span>
+            <pre><code>SELECT city, COUNT(*) AS total_customers
+FROM customers
+WHERE city IS NOT NULL
+GROUP BY city
+HAVING COUNT(*) &gt; 5
+ORDER BY total_customers DESC;</code></pre>
+            <p class="callout">
+              <strong>Remember:</strong> SQL is written as <code>SELECT ... FROM ... WHERE ...</code>, but logically it starts from
+              <code>FROM</code>, then <code>WHERE</code>, then <code>GROUP BY</code>, then <code>HAVING</code>, then <code>SELECT</code>, then <code>ORDER BY</code>.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="aggregate">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Analysis Core</p>
+          <h2>Aggregate functions, GROUP BY, HAVING, and common functions</h2>
+          <p>This is the part of SQL most analysts use for summary reporting and business questions.</p>
+        </div>
+        <div class="tile-grid">
+          <article class="tile span-6">
+            <span class="pill">Aggregate Functions</span>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Function</th>
+                  <th>Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>COUNT()</code></td>
+                  <td>Counts rows or non-null values</td>
+                </tr>
+                <tr>
+                  <td><code>SUM()</code></td>
+                  <td>Adds numeric values</td>
+                </tr>
+                <tr>
+                  <td><code>AVG()</code></td>
+                  <td>Calculates average</td>
+                </tr>
+                <tr>
+                  <td><code>MAX()</code></td>
+                  <td>Largest value</td>
+                </tr>
+                <tr>
+                  <td><code>MIN()</code></td>
+                  <td>Smallest value</td>
+                </tr>
+              </tbody>
+            </table>
+            <pre><code>SELECT COUNT(*) FROM orders;
+SELECT SUM(amount) FROM orders;
+SELECT AVG(amount) FROM orders;
+SELECT MAX(amount), MIN(amount) FROM orders;</code></pre>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">GROUP BY</span>
+            <p><strong>Definition:</strong> <code>GROUP BY</code> collects rows with the same value together so aggregate functions can be applied per group.</p>
+            <pre><code>SELECT city, COUNT(*) AS total_customers
+FROM customers
+GROUP BY city;
+
+SELECT branch_id, SUM(balance) AS total_deposit
+FROM depositor
+GROUP BY branch_id;</code></pre>
+            <p class="callout">
+              Think like this: first form groups, then calculate one summary for each group.
+            </p>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">HAVING</span>
+            <p><strong>Definition:</strong> <code>HAVING</code> filters groups after aggregation. <code>WHERE</code> filters rows before grouping.</p>
+            <pre><code>SELECT branch_id, SUM(balance) AS total_loan
+FROM loan
+GROUP BY branch_id
+HAVING SUM(balance) &gt; 50000;</code></pre>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Clause</th>
+                  <th>Filters</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>WHERE</code></td>
+                  <td>Rows</td>
+                </tr>
+                <tr>
+                  <td><code>HAVING</code></td>
+                  <td>Groups</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">String, Numeric, Date Functions</span>
+            <pre><code>SELECT UPPER(name), LOWER(city) FROM customers;
+SELECT LENGTH(name) FROM customers;
+SELECT ROUND(amount, 2) FROM orders;
+SELECT NOW(), CURDATE(), YEAR(order_date) FROM orders;
+SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employees;</code></pre>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Examples</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>String</td>
+                  <td><code>UPPER</code>, <code>LOWER</code>, <code>LENGTH</code>, <code>CONCAT</code>, <code>SUBSTRING</code>, <code>REPLACE</code></td>
+                </tr>
+                <tr>
+                  <td>Numeric</td>
+                  <td><code>ROUND</code>, <code>ABS</code>, <code>MOD</code>, <code>CEIL</code>, <code>FLOOR</code></td>
+                </tr>
+                <tr>
+                  <td>Date</td>
+                  <td><code>CURDATE</code>, <code>NOW</code>, <code>YEAR</code>, <code>MONTH</code>, <code>DATEDIFF</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="joins">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Relationships</p>
+          <h2>Joins: the heart of relational SQL</h2>
+          <p>Joins are used when the data you need lives across multiple tables. This is one of the most important SQL topics.</p>
+        </div>
+        <div class="tile-grid">
+          <article class="tile span-12">
+            <span class="pill">Join Types</span>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Join type</th>
+                  <th>What it returns</th>
+                  <th>Common use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>INNER JOIN</td>
+                  <td>Only matching rows from both tables</td>
+                  <td>Customers who actually placed orders</td>
+                </tr>
+                <tr>
+                  <td>LEFT JOIN</td>
+                  <td>All rows from left table plus matches from right table</td>
+                  <td>All customers, even if they placed no order</td>
+                </tr>
+                <tr>
+                  <td>RIGHT JOIN</td>
+                  <td>All rows from right table plus matches from left table</td>
+                  <td>All order records, even if customer details are missing</td>
+                </tr>
+                <tr>
+                  <td>CROSS JOIN</td>
+                  <td>Every row from A combined with every row from B</td>
+                  <td>All combinations</td>
+                </tr>
+                <tr>
+                  <td>SELF JOIN</td>
+                  <td>Table joined with itself</td>
+                  <td>Employee and manager relationships</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">INNER JOIN</span>
+            <pre><code>SELECT c.name, o.order_id, o.amount
+FROM customers c
+INNER JOIN orders o
+    ON c.customer_id = o.customer_id;</code></pre>
+            <p><strong>Use it when:</strong> you want only rows that match in both tables.</p>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">LEFT JOIN</span>
+            <pre><code>SELECT c.name, o.order_id, o.amount
+FROM customers c
+LEFT JOIN orders o
+    ON c.customer_id = o.customer_id;</code></pre>
+            <p><strong>Use it when:</strong> you want every customer, even the ones who have no order yet.</p>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">JOIN Example from Employee-style tables</span>
+            <pre><code>SELECT e.first_name, s.salary
+FROM employee e
+JOIN emp_salary s
+    ON e.emp_id = s.emp_id
+WHERE s.designation = 'Salesman';</code></pre>
+            <p>This is the classic pattern used in salary reports and business lookups.</p>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">JOIN Mistakes to Avoid</span>
+            <ul class="flat-list">
+              <li>Forgetting the join condition, which can create a huge cross product.</li>
+              <li>Using the wrong key columns in the <code>ON</code> clause.</li>
+              <li>Filtering after a <code>LEFT JOIN</code> in a way that accidentally turns it into an inner join.</li>
+              <li>Not using table aliases when columns have the same name.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="advanced">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Advanced Querying</p>
+          <h2>Set operations, subqueries, and CASE WHEN</h2>
+          <p>These topics help when one plain filter is not enough and you want richer SQL logic.</p>
+        </div>
+        <div class="tile-grid">
+          <article class="tile span-6">
+            <span class="pill">Set Operations</span>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Operation</th>
+                  <th>Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>UNION</code></td>
+                  <td>Combine rows and remove duplicates</td>
+                </tr>
+                <tr>
+                  <td><code>UNION ALL</code></td>
+                  <td>Combine rows and keep duplicates</td>
+                </tr>
+                <tr>
+                  <td><code>INTERSECT</code></td>
+                  <td>Common rows in both queries</td>
+                </tr>
+                <tr>
+                  <td><code>EXCEPT</code> / <code>MINUS</code></td>
+                  <td>Rows from first query not found in second</td>
+                </tr>
+              </tbody>
+            </table>
+            <pre><code>SELECT regno, name FROM physics
+UNION
+SELECT regno, name FROM computer_science;</code></pre>
+            <p class="callout">
+              <strong>Note:</strong> names for set difference can vary by database. Some systems use <code>EXCEPT</code>, some use <code>MINUS</code>.
+            </p>
+          </article>
+          <article class="tile span-6" id="subqueries">
+            <span class="pill">Subqueries</span>
+            <p><strong>Definition:</strong> a subquery is a query written inside another query.</p>
+            <pre><code>SELECT *
+FROM employees
+WHERE salary &gt; (
+    SELECT AVG(salary)
+    FROM employees
+);</code></pre>
+            <ul class="flat-list" style="margin-top: 12px;">
+              <li>Use subqueries when one query depends on the result of another.</li>
+              <li>Common with averages, top values, existence checks, and filters based on grouped results.</li>
+            </ul>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">CASE WHEN</span>
+            <p><strong>Definition:</strong> <code>CASE</code> adds business logic directly into SQL results.</p>
+            <pre><code>SELECT customer_id, amount,
+    CASE
+        WHEN amount &gt;= 10000 THEN 'High'
+        WHEN amount &gt;= 5000 THEN 'Medium'
+        ELSE 'Low'
+    END AS order_bucket
+FROM orders;</code></pre>
+            <p>Use it for labels, categories, status flags, and conditional summaries.</p>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">EXISTS</span>
+            <pre><code>SELECT c.name
+FROM customers c
+WHERE EXISTS (
+    SELECT 1
+    FROM orders o
+    WHERE o.customer_id = c.customer_id
+);</code></pre>
+            <p><strong>Meaning:</strong> keep the outer row only if a matching row exists in the inner query.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="views">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Reusable SQL</p>
+          <h2>Views, indexes, and naming habits</h2>
+          <p>Views help you save useful query logic. Indexes help performance. Naming habits help readability.</p>
+        </div>
+        <div class="tile-grid">
+          <article class="tile span-6">
+            <span class="pill">Views</span>
+            <p><strong>Definition:</strong> a view is a saved SQL query that behaves like a virtual table.</p>
+            <pre><code>CREATE VIEW sales_summary AS
+SELECT customer_id, SUM(amount) AS total_sales
+FROM orders
+GROUP BY customer_id;
+
+SELECT * FROM sales_summary;</code></pre>
+            <ul class="flat-list" style="margin-top: 12px;">
+              <li>Use views for repeated reports.</li>
+              <li>They improve readability for complex joins.</li>
+              <li>Some views are updatable, some are not. It depends on the query and the database.</li>
+            </ul>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">Indexes</span>
+            <p><strong>Definition:</strong> an index helps the database find rows faster, especially on frequently searched columns.</p>
+            <pre><code>CREATE INDEX idx_orders_customer_id
+ON orders(customer_id);</code></pre>
+            <ul class="flat-list" style="margin-top: 12px;">
+              <li>Good for columns used often in <code>WHERE</code>, <code>JOIN</code>, or <code>ORDER BY</code>.</li>
+              <li>Too many indexes slow down inserts and updates.</li>
+              <li>Indexing is a performance topic, not only a syntax topic.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="transactions">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Transactions</p>
+          <h2>TCL, COMMIT, ROLLBACK, SAVEPOINT, and ACID idea</h2>
+          <p>Transactions matter when many data changes should succeed together or fail together.</p>
+        </div>
+        <div class="tile-grid">
+          <article class="tile span-6">
+            <span class="pill">Transaction Meaning</span>
+            <p><strong>Definition:</strong> a transaction is a unit of work made of one or more SQL statements.</p>
+            <pre><code>START TRANSACTION;
+
+UPDATE accounts
+SET balance = balance - 500
+WHERE account_no = 'A1001';
+
+UPDATE accounts
+SET balance = balance + 500
+WHERE account_no = 'A2001';
+
+COMMIT;</code></pre>
+            <p>If something goes wrong before commit, you can undo it with <code>ROLLBACK</code>.</p>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">TCL Commands</span>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Command</th>
+                  <th>Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>COMMIT</code></td>
+                  <td>Make the changes permanent</td>
+                </tr>
+                <tr>
+                  <td><code>ROLLBACK</code></td>
+                  <td>Undo uncommitted changes</td>
+                </tr>
+                <tr>
+                  <td><code>SAVEPOINT</code></td>
+                  <td>Create a point you can roll back to</td>
+                </tr>
+              </tbody>
+            </table>
+            <pre><code>START TRANSACTION;
+UPDATE loan
+SET balance = 26000
+WHERE account_no = 'AE1003996';
+
+SAVEPOINT before_second_update;
+
+UPDATE loan
+SET balance = 999999
+WHERE account_no = 'AE1100996';
+
+ROLLBACK TO before_second_update;
+COMMIT;</code></pre>
+          </article>
+          <article class="tile span-12">
+            <span class="pill">ACID</span>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Property</th>
+                  <th>Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Atomicity</td>
+                  <td>All steps happen or none happen</td>
+                </tr>
+                <tr>
+                  <td>Consistency</td>
+                  <td>Database remains valid before and after transaction</td>
+                </tr>
+                <tr>
+                  <td>Isolation</td>
+                  <td>Concurrent transactions should not interfere badly</td>
+                </tr>
+                <tr>
+                  <td>Durability</td>
+                  <td>Committed data should remain saved</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="window">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Interview Level</p>
+          <h2>Window functions: ranking, running totals, and row-wise analytics</h2>
+          <p>Window functions are advanced but very powerful. They calculate values across a related set of rows without collapsing the result like <code>GROUP BY</code> does.</p>
+        </div>
+        <div class="tile-grid">
+          <article class="tile span-6">
+            <span class="pill">Definition</span>
+            <p>A window function performs calculations across a set of table rows related to the current row.</p>
+            <pre><code>SELECT customer_id, order_date, amount,
+       SUM(amount) OVER (
+           PARTITION BY customer_id
+           ORDER BY order_date
+       ) AS running_total
+FROM orders;</code></pre>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">Why useful</span>
+            <ul class="flat-list">
+              <li>Rank top customers without losing row detail.</li>
+              <li>Calculate running totals over time.</li>
+              <li>Compare a row with previous or next row.</li>
+              <li>Find first or last values inside a group.</li>
+            </ul>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">Ranking Functions</span>
+            <pre><code>SELECT customer_id, amount,
+       ROW_NUMBER() OVER (ORDER BY amount DESC) AS row_num,
+       RANK() OVER (ORDER BY amount DESC) AS rank_num,
+       DENSE_RANK() OVER (ORDER BY amount DESC) AS dense_rank_num
+FROM orders;</code></pre>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Function</th>
+                  <th>Difference</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>ROW_NUMBER()</code></td>
+                  <td>Always unique sequence</td>
+                </tr>
+                <tr>
+                  <td><code>RANK()</code></td>
+                  <td>Same rank for ties, may skip numbers</td>
+                </tr>
+                <tr>
+                  <td><code>DENSE_RANK()</code></td>
+                  <td>Same rank for ties, no skipped numbers</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+          <article class="tile span-6">
+            <span class="pill">LAG and LEAD</span>
+            <pre><code>SELECT customer_id, order_date, amount,
+       LAG(amount) OVER (
+           PARTITION BY customer_id
+           ORDER BY order_date
+       ) AS previous_amount,
+       LEAD(amount) OVER (
+           PARTITION BY customer_id
+           ORDER BY order_date
+       ) AS next_amount
+FROM orders;</code></pre>
+            <p>Use these when you want previous-row or next-row comparisons.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="mistakes">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Common Mistakes</p>
+          <h2>Small errors that cause big confusion</h2>
+          <p>These are common in beginner labs, assignments, and interviews.</p>
+        </div>
+        <div class="tile-grid">
+          <article class="tile soft span-4">
+            <h3>Filtering mistake</h3>
+            <p>Using <code>= NULL</code> instead of <code>IS NULL</code>.</p>
+          </article>
+          <article class="tile soft span-4">
+            <h3>Group by mistake</h3>
+            <p>Selecting a non-aggregated column without grouping it.</p>
+          </article>
+          <article class="tile soft span-4">
+            <h3>Join mistake</h3>
+            <p>Forgetting the join condition and getting too many rows.</p>
+          </article>
+          <article class="tile soft span-4">
+            <h3>Delete mistake</h3>
+            <p>Running <code>DELETE FROM table;</code> without a backup or filter.</p>
+          </article>
+          <article class="tile soft span-4">
+            <h3>LIKE mistake</h3>
+            <p>Forgetting that <code>%</code> means any number of characters and <code>_</code> means one character.</p>
+          </article>
+          <article class="tile soft span-4">
+            <h3>Order of clauses</h3>
+            <p>Writing <code>WHERE</code> after <code>GROUP BY</code> or <code>ORDER BY</code> before <code>WHERE</code>.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="practice">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Practice</p>
+          <h2>Revision questions, interview answers, and mini tasks</h2>
+          <p>Use this section to test whether the theory is actually sticking.</p>
+        </div>
+
+        <details open>
+          <summary>15 quick viva answers</summary>
+          <ul class="flat-list">
+            <li><strong>What is SQL?</strong> SQL is a language used to create, manage, and query relational databases.</li>
+            <li><strong>Difference between DBMS and RDBMS?</strong> RDBMS stores data in related tables; DBMS is the broader database software idea.</li>
+            <li><strong>What is a primary key?</strong> A column that uniquely identifies each row in a table.</li>
+            <li><strong>What is a foreign key?</strong> A column that references a primary key in another table.</li>
+            <li><strong>Difference between DELETE and TRUNCATE?</strong> DELETE removes selected rows; TRUNCATE removes all rows quickly and resets storage more aggressively.</li>
+            <li><strong>Difference between WHERE and HAVING?</strong> WHERE filters rows before grouping; HAVING filters groups after aggregation.</li>
+            <li><strong>Difference between UNION and UNION ALL?</strong> UNION removes duplicates; UNION ALL keeps duplicates.</li>
+            <li><strong>What is a join?</strong> It combines rows from multiple tables using a related column.</li>
+            <li><strong>What is a subquery?</strong> A query inside another query.</li>
+            <li><strong>What is a view?</strong> A saved SQL query that behaves like a virtual table.</li>
+            <li><strong>What is NULL?</strong> A missing or unknown value.</li>
+            <li><strong>What is normalization?</strong> Organizing data to reduce redundancy and improve consistency.</li>
+            <li><strong>What is an index?</strong> A structure that speeds up data retrieval on searched columns.</li>
+            <li><strong>What is COMMIT?</strong> It permanently saves a transaction.</li>
+            <li><strong>What is ROLLBACK?</strong> It undoes uncommitted transaction changes.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>10 mini practice tasks</summary>
+          <ol class="flat-list">
+            <li>Create a table called <code>students</code> with id, name, class, and city.</li>
+            <li>Insert five student rows into the table.</li>
+            <li>Show only student name and city.</li>
+            <li>Find students whose city is Mysore or Bengaluru.</li>
+            <li>Sort students by name in descending order.</li>
+            <li>Count students in each city.</li>
+            <li>Show cities having more than two students.</li>
+            <li>Create a second table called <code>marks</code> and join it with students.</li>
+            <li>Use <code>CASE</code> to label marks as High, Medium, Low.</li>
+            <li>Write a running total query using a window function.</li>
+          </ol>
+        </details>
+
+        <details>
+          <summary>One good 7-day SQL revision path</summary>
+          <ol class="flat-list">
+            <li><strong>Day 1:</strong> database, table, row, column, SQL families, create table, insert rows</li>
+            <li><strong>Day 2:</strong> SELECT, WHERE, AND, OR, NOT, LIKE, IN, BETWEEN</li>
+            <li><strong>Day 3:</strong> ORDER BY, LIMIT, aliases, DISTINCT, NULL checks</li>
+            <li><strong>Day 4:</strong> aggregate functions, GROUP BY, HAVING</li>
+            <li><strong>Day 5:</strong> joins, set operations, subqueries</li>
+            <li><strong>Day 6:</strong> views, transactions, constraints, indexes</li>
+            <li><strong>Day 7:</strong> window functions and full practice queries</li>
+          </ol>
+        </details>
+      </div>
+    </section>
+
+    <section class="section alt" id="closing">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Takeaway</p>
+          <h2>How to use these notes well</h2>
+          <p>
+            Read one topic, type the query yourself, change the values, and see what breaks. SQL becomes easy when the mental model and the command
+            syntax start matching in your head. The best progress usually comes from small tables, repeated querying, and careful comparison of outputs.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="wrap footer-note">
+    Standalone SQL revision notes covering definitions, command families, filters, grouping, joins, views, transactions, and window functions.
+  </div>
+</body>
+</html>

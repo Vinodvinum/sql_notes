@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SQL Notes Simple Style V2</title>
+  <style>
+    :root {
+      --bg: #f7f6f1;
+      --bg-alt: #eef6f0;
+      --surface: #ffffff;
+      --surface-2: #f4fbf8;
+      --text: #1f2d24;
+      --muted: #54665b;
+      --line: #d6ddd8;
+      --accent: #0f7d69;
+      --accent-2: #e27645;
+      --accent-3: #c59d2c;
+      --code-bg: #16211b;
+      --code-text: #eef7f1;
+      --shadow: 0 10px 24px rgba(24, 42, 33, 0.06);
+      --radius: 8px;
+      --wrap: 1160px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, var(--bg) 0%, #fbfaf6 40%, var(--bg-alt) 100%);
+      line-height: 1.65;
+    }
+
+    img { display: block; max-width: 100%; }
+
+    .wrap {
+      width: min(var(--wrap), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 38px 0 28px;
+      border-top: 8px solid var(--accent);
+      background:
+        linear-gradient(135deg, rgba(15, 125, 105, 0.08), rgba(226, 118, 69, 0.08)),
+        var(--surface);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, h4 {
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    h1 { font-size: 2.65rem; max-width: 920px; }
+    h2 { font-size: 1.7rem; margin-bottom: 10px; }
+    h3 { font-size: 1.18rem; margin-bottom: 10px; }
+    h4 { font-size: 1rem; margin-bottom: 8px; }
+
+    p { margin: 0 0 12px; }
+
+    .lede {
+      margin-top: 14px;
+      max-width: 920px;
+      color: var(--muted);
+      font-size: 1.03rem;
+    }
+
+    .actions, .quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .actions { margin-top: 18px; }
+
+    .btn, .quick-links a {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.94rem;
+      padding: 10px 14px;
+    }
+
+    .btn.primary {
+      border-color: rgba(15, 125, 105, 0.32);
+      background: rgba(15, 125, 105, 0.08);
+    }
+
+    .quick-links { margin-top: 16px; }
+
+    .section {
+      padding: 32px 0;
+      border-bottom: 1px solid rgba(214, 221, 216, 0.85);
+    }
+
+    .section.alt { background: rgba(238, 246, 240, 0.56); }
+
+    .section-head {
+      max-width: 900px;
+      margin-bottom: 18px;
+    }
+
+    .section-head p { color: var(--muted); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      grid-column: span 12;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .soft { background: var(--surface-2); }
+    .span-4 { grid-column: span 4; }
+    .span-6 { grid-column: span 6; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+
+    .chip {
+      display: inline-block;
+      margin-bottom: 12px;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: rgba(15, 125, 105, 0.1);
+      color: var(--accent);
+    }
+
+    .phase-box {
+      border-left: 4px solid var(--accent);
+      padding-left: 14px;
+      margin-bottom: 16px;
+    }
+
+    .chapter {
+      border-top: 3px solid rgba(15, 125, 105, 0.15);
+    }
+
+    .step {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: rgba(244, 251, 248, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .story {
+      border-left: 4px solid var(--accent-2);
+      padding: 12px 14px;
+      background: rgba(226, 118, 69, 0.08);
+      border-radius: 0 8px 8px 0;
+      margin-top: 12px;
+    }
+
+    .answer {
+      border-left: 4px solid var(--accent);
+      padding: 12px 14px;
+      background: rgba(15, 125, 105, 0.08);
+      border-radius: 0 8px 8px 0;
+      margin-top: 12px;
+    }
+
+    .practice {
+      border-left: 4px solid var(--accent-3);
+      padding: 12px 14px;
+      background: rgba(197, 157, 44, 0.1);
+      border-radius: 0 8px 8px 0;
+      margin-top: 12px;
+    }
+
+    .flat-list {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .flat-list li { margin-bottom: 8px; }
+
+    pre {
+      margin: 12px 0 0;
+      padding: 14px;
+      border-radius: var(--radius);
+      background: var(--code-bg);
+      color: var(--code-text);
+      border: 1px solid rgba(238, 247, 241, 0.12);
+      overflow-x: auto;
+      font-size: 0.91rem;
+      line-height: 1.5;
+    }
+
+    code, pre {
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .data-table th, .data-table td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    .data-table th {
+      background: rgba(15, 125, 105, 0.08);
+      font-size: 0.93rem;
+    }
+
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    figure {
+      margin: 0;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    figure img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--line);
+    }
+
+    figcaption {
+      padding: 12px 14px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .footer-note {
+      padding: 28px 0 40px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 1024px) {
+      .span-4, .span-6, .span-8 { grid-column: span 12; }
+      .gallery { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.45rem; }
+      .wrap { width: min(var(--wrap), calc(100% - 24px)); }
+      figure img { height: 210px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <p class="eyebrow">SQL Notes Version 2</p>
+      <h1>SQL Notes Version 2: remaining advanced topics, mock interview, data analyst thinking, and final revision</h1>
+      <p class="lede">
+        This file continues after the first simple notes page. This is the next layer from the document:
+        deeper data types, constraints, CAST, RIGHT JOIN, FULL OUTER JOIN idea, complete window understanding,
+        mock interview scripts, company-style answers, and data analyst SQL preparation.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="#deep-schema">Start Advanced Topics</a>
+        <a class="btn" href="#window-deep">Jump to Window Functions</a>
+        <a class="btn" href="#mock">Jump to Mock Interview</a>
+        <a class="btn" href="#da-questions">Jump to Top 10 DA Questions</a>
+      </div>
+      <nav class="quick-links" aria-label="Quick links">
+        <a href="#deep-schema">Schema</a>
+        <a href="#join-extra">Extra Joins</a>
+        <a href="#window-deep">Window Deep</a>
+        <a href="#mock">Mock Interview</a>
+        <a href="#round2">Round 2</a>
+        <a href="#company">Company Style</a>
+        <a href="#da-role">DA Role</a>
+        <a href="#da-questions">Top 10 DA</a>
+        <a href="#final-revision">Final Revision</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section alt" id="deep-schema">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Advanced Foundation</p>
+          <h2>Deeper schema understanding: data types, keys, constraints, and CAST</h2>
+          <p>These topics are often skipped by beginners, but they matter in interviews because they show whether you understand how tables are really designed.</p>
+        </div>
+        <div class="phase-box">
+          <strong>Simple idea:</strong> good SQL is not only writing queries. It is also understanding what kind of data is stored, how tables connect, and what rules protect data quality.
+        </div>
+        <div class="grid">
+          <article class="card chapter span-6">
+            <span class="chip">Part 1</span>
+            <h3>Data Types (deeper understanding)</h3>
+            <div class="step">
+              <h4>Simple meaning</h4>
+              <p>Data type means the kind of data stored in a column.</p>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Column</th>
+                  <th>Data type</th>
+                  <th>Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>customer_id</td><td>INT</td><td>whole numbers</td></tr>
+                <tr><td>name</td><td>VARCHAR(50)</td><td>text up to 50 characters</td></tr>
+                <tr><td>order_date</td><td>DATE</td><td>date only</td></tr>
+                <tr><td>salary</td><td>DECIMAL(10,2)</td><td>numeric value with 2 decimal places</td></tr>
+                <tr><td>status</td><td>ENUM(...)</td><td>fixed set of allowed values</td></tr>
+              </tbody>
+            </table>
+            <div class="story">
+              <h4>Why it matters</h4>
+              <p>If salary is a number column, writing text like <code>'fifty thousand'</code> is wrong. The database needs the correct type to store and compare values properly.</p>
+            </div>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>Data types define what kind of values a column can store, such as numbers, text, dates, or decimals. They are important for data accuracy, validation, and correct query behavior.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Part 2</span>
+            <h3>Primary Key, Foreign Key, and Constraints</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Concept</th>
+                  <th>Simple meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Primary Key</td><td>uniquely identifies each row</td></tr>
+                <tr><td>Foreign Key</td><td>connects one table to another</td></tr>
+                <tr><td>NOT NULL</td><td>value cannot be empty</td></tr>
+                <tr><td>UNIQUE</td><td>duplicate values are not allowed</td></tr>
+                <tr><td>DEFAULT</td><td>automatic value if none is given</td></tr>
+              </tbody>
+            </table>
+            <pre><code>CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    city VARCHAR(50)
+);
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    amount DECIMAL(10,2),
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);</code></pre>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>Primary key uniquely identifies each row, while foreign key creates a relationship between tables. Constraints like NOT NULL and UNIQUE help maintain data quality.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Part 3</span>
+            <h3>ENUM and complete create table thinking</h3>
+            <div class="step">
+              <h4>Simple meaning</h4>
+              <p>ENUM is used when a column should allow only a small fixed set of values.</p>
+            </div>
+            <pre><code>CREATE TABLE employees (
+    id INT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    city VARCHAR(50),
+    salary DECIMAL(10,2),
+    join_date DATE,
+    status ENUM('active', 'inactive')
+);</code></pre>
+            <div class="story">
+              <h4>Where it helps</h4>
+              <p>ENUM is useful for status columns like pending, shipped, delivered, active, inactive, approved, rejected.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Part 4</span>
+            <h3>CAST: type conversion</h3>
+            <div class="step">
+              <h4>Simple meaning</h4>
+              <p>CAST changes one data type into another type when needed.</p>
+            </div>
+            <pre><code>SELECT CAST(salary AS FLOAT)
+FROM employees;</code></pre>
+            <pre><code>SELECT CAST(order_date AS DATE)
+FROM orders;</code></pre>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>CAST is used for type conversion when data types do not match or when a specific data type is needed for calculation, formatting, or comparison.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Q1: Why would CAST be useful if a salary value is stored as text?</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="join-extra">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Extra Join Types</p>
+          <h2>RIGHT JOIN and FULL OUTER JOIN idea</h2>
+          <p>These are not always used daily in analyst roles, but understanding them helps in interviews and deeper SQL thinking.</p>
+        </div>
+        <div class="grid">
+          <article class="card chapter span-6">
+            <span class="chip">Join Extra 1</span>
+            <h3>RIGHT JOIN</h3>
+            <div class="step">
+              <h4>Simple meaning</h4>
+              <p>RIGHT JOIN keeps all rows from the right table and matching rows from the left table.</p>
+            </div>
+            <pre><code>SELECT c.name, o.amount
+FROM customers c
+RIGHT JOIN orders o
+ON c.customer_id = o.customer_id;</code></pre>
+            <div class="story">
+              <h4>Think like this</h4>
+              <p>If the right table is orders, every order stays in the output even if matching customer data is missing.</p>
+            </div>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>RIGHT JOIN returns all records from the right table and matching records from the left table. If no match exists, the left-side columns become NULL.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Join Extra 2</span>
+            <h3>FULL OUTER JOIN</h3>
+            <div class="step">
+              <h4>Simple meaning</h4>
+              <p>FULL OUTER JOIN keeps all rows from both tables. Matching rows combine, non-matching rows still stay with NULL on the missing side.</p>
+            </div>
+            <pre><code>SELECT c.name, o.amount
+FROM customers c
+FULL OUTER JOIN orders o
+ON c.customer_id = o.customer_id;</code></pre>
+            <div class="story">
+              <h4>Important note</h4>
+              <p>Some databases support FULL OUTER JOIN directly. MySQL usually needs a workaround using UNION of LEFT JOIN and RIGHT JOIN logic.</p>
+            </div>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>FULL OUTER JOIN returns all records from both tables, whether matching exists or not. It is useful when we want complete visibility from both sides.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="window-deep">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Window Deep</p>
+          <h2>Window functions complete understanding with output thinking</h2>
+          <p>This part continues the window function topic more deeply, exactly like the document does after saying the first explanation was not enough.</p>
+        </div>
+        <div class="phase-box">
+          <strong>Key idea:</strong> GROUP BY collapses rows. Window functions keep rows and add extra intelligence.
+        </div>
+        <div class="grid">
+          <article class="card chapter span-6">
+            <span class="chip">Window Add-on 1</span>
+            <h3>RANK vs DENSE_RANK vs ROW_NUMBER</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Salary</th>
+                  <th>RANK</th>
+                  <th>DENSE_RANK</th>
+                  <th>ROW_NUMBER</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>60000</td><td>1</td><td>1</td><td>1</td></tr>
+                <tr><td>50000</td><td>2</td><td>2</td><td>2</td></tr>
+                <tr><td>50000</td><td>2</td><td>2</td><td>3</td></tr>
+                <tr><td>40000</td><td>4</td><td>3</td><td>4</td></tr>
+              </tbody>
+            </table>
+            <div class="step">
+              <h4>Simple meaning</h4>
+              <p>RANK skips numbers after ties.</p>
+              <p>DENSE_RANK does not skip numbers.</p>
+              <p>ROW_NUMBER always gives unique serial numbers.</p>
+            </div>
+            <div class="answer">
+              <h4>Strong interview answer</h4>
+              <p>RANK gives the same rank to duplicate values and skips the next rank, DENSE_RANK does not skip ranks, and ROW_NUMBER gives unique sequential numbers regardless of duplicates.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Window Add-on 2</span>
+            <h3>PARTITION BY deep clarity</h3>
+            <div class="step">
+              <h4>Simple meaning</h4>
+              <p>PARTITION BY means divide the data into groups, then apply the window function separately inside each group.</p>
+            </div>
+            <pre><code>RANK() OVER (PARTITION BY city ORDER BY salary DESC)</code></pre>
+            <div class="story">
+              <h4>Think like this</h4>
+              <p>Instead of one big table, you temporarily make many small windows. Then ranking or running total happens inside each window.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Window Add-on 3</span>
+            <h3>Group-wise ranking with output</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>name</th>
+                  <th>city</th>
+                  <th>salary</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Vinod</td><td>Mysore</td><td>30000</td></tr>
+                <tr><td>Asha</td><td>Mysore</td><td>25000</td></tr>
+                <tr><td>Ravi</td><td>Bangalore</td><td>50000</td></tr>
+                <tr><td>Meena</td><td>Bangalore</td><td>40000</td></tr>
+                <tr><td>Kiran</td><td>Bangalore</td><td>60000</td></tr>
+              </tbody>
+            </table>
+            <pre><code>SELECT name, city, salary,
+RANK() OVER (PARTITION BY city ORDER BY salary DESC) AS rank
+FROM employees;</code></pre>
+            <h4 style="margin-top: 12px;">Output</h4>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>name</th>
+                  <th>city</th>
+                  <th>salary</th>
+                  <th>rank</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Vinod</td><td>Mysore</td><td>30000</td><td>1</td></tr>
+                <tr><td>Asha</td><td>Mysore</td><td>25000</td><td>2</td></tr>
+                <tr><td>Kiran</td><td>Bangalore</td><td>60000</td><td>1</td></tr>
+                <tr><td>Ravi</td><td>Bangalore</td><td>50000</td><td>2</td></tr>
+                <tr><td>Meena</td><td>Bangalore</td><td>40000</td><td>3</td></tr>
+              </tbody>
+            </table>
+            <div class="answer">
+              <h4>How to think</h4>
+              <p>First divide by city. Then inside each city, sort by salary descending. Then ranking resets for each city.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Window Add-on 4</span>
+            <h3>Running total with output</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>order_id</th>
+                  <th>amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>1</td><td>1000</td></tr>
+                <tr><td>2</td><td>2000</td></tr>
+                <tr><td>3</td><td>1500</td></tr>
+                <tr><td>4</td><td>3000</td></tr>
+              </tbody>
+            </table>
+            <pre><code>SELECT order_id, amount,
+SUM(amount) OVER (ORDER BY order_id) AS running_total
+FROM orders;</code></pre>
+            <h4 style="margin-top: 12px;">Output</h4>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>order_id</th>
+                  <th>amount</th>
+                  <th>running_total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>1</td><td>1000</td><td>1000</td></tr>
+                <tr><td>2</td><td>2000</td><td>3000</td></tr>
+                <tr><td>3</td><td>1500</td><td>4500</td></tr>
+                <tr><td>4</td><td>3000</td><td>7500</td></tr>
+              </tbody>
+            </table>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>Running total is a cumulative sum calculated row by row using a window function, where each row includes the sum of previous rows based on a defined order.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="mock">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Mock Interview</p>
+          <h2>Mock interview round 1 with ready-to-speak scripts</h2>
+          <p>This section follows the document’s interview style closely: not just SQL syntax, but how to speak the logic clearly.</p>
+        </div>
+        <div class="phase-box">
+          <strong>Important speaking pattern:</strong> First I understand ... Then I use ... Finally I filter or sort ...
+        </div>
+        <div class="grid">
+          <article class="card chapter span-6">
+            <span class="chip">Round 1</span>
+            <h3>WHERE vs HAVING</h3>
+            <div class="answer">
+              <h4>Ready script</h4>
+              <p>WHERE is used to filter rows before grouping happens, while HAVING is used to filter aggregated results after GROUP BY. For example, if I want employees from Bangalore, I use WHERE. But if I want cities where total salary is greater than 50000, I use HAVING because aggregation is involved.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Round 1</span>
+            <h3>Total revenue per customer</h3>
+            <div class="answer">
+              <h4>Thinking script</h4>
+              <p>First, I understand that revenue comes from the orders table, but customer names come from the customers table. So I need to join both tables using customer_id. Then I aggregate total revenue using SUM and group by customer.</p>
+            </div>
+            <pre><code>SELECT c.name, SUM(o.amount) AS total_revenue
+FROM customers c
+INNER JOIN orders o
+ON c.customer_id = o.customer_id
+GROUP BY c.name;</code></pre>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Round 1</span>
+            <h3>Customers with no orders</h3>
+            <div class="answer">
+              <h4>Thinking script</h4>
+              <p>To find customers with no orders, I use LEFT JOIN because I want all customers even if they do not have matching orders. Then I filter rows where order data is NULL, which indicates no orders.</p>
+            </div>
+            <pre><code>SELECT c.name
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id
+WHERE o.customer_id IS NULL;</code></pre>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Round 1</span>
+            <h3>Second highest salary</h3>
+            <div class="answer">
+              <h4>Thinking script</h4>
+              <p>To find the second highest salary, I use a window function like RANK to rank salaries in descending order, and then I filter where rank equals 2.</p>
+            </div>
+            <pre><code>SELECT name, salary
+FROM (
+    SELECT name, salary,
+           RANK() OVER (ORDER BY salary DESC) AS rnk
+    FROM employees
+) t
+WHERE rnk = 2;</code></pre>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Round 1</span>
+            <h3>Rank employees within each city</h3>
+            <div class="answer">
+              <h4>Thinking script</h4>
+              <p>Since ranking needs to be done within each city, I use PARTITION BY city to divide data into groups, and then ORDER BY salary descending to assign ranks within each group.</p>
+            </div>
+            <pre><code>SELECT name, city, salary,
+RANK() OVER (PARTITION BY city ORDER BY salary DESC) AS rank
+FROM employees;</code></pre>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Round 1</span>
+            <h3>Unknown SQL problem</h3>
+            <div class="answer">
+              <h4>Ready script</h4>
+              <p>First, I try to understand the business requirement clearly. Then I break it into smaller steps like identifying required tables, joins, and aggregations. Even if I do not know exact syntax, I focus on logic and build the query step by step.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="round2">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Round 2</p>
+          <h2>Harder questions and stronger answer scripts</h2>
+          <p>This is closer to actual advanced rounds where interviewers want both logic and speaking clarity.</p>
+        </div>
+        <div class="grid">
+          <article class="card chapter span-6">
+            <span class="chip">Advanced Q1</span>
+            <h3>Top 2 customers per city</h3>
+            <div class="answer">
+              <h4>Ready script</h4>
+              <p>First, I understand that ranking should be done within each city, not globally. So I use a window function with PARTITION BY city to separate data by city. Then I order by revenue in descending order and assign ranks. Finally, I filter for top 2 ranks.</p>
+            </div>
+            <pre><code>SELECT name, city, total_spent
+FROM (
+    SELECT c.name, c.city, SUM(o.amount) AS total_spent,
+           RANK() OVER (PARTITION BY c.city ORDER BY SUM(o.amount) DESC) AS rnk
+    FROM customers c
+    INNER JOIN orders o
+    ON c.customer_id = o.customer_id
+    GROUP BY c.name, c.city
+) t
+WHERE rnk &lt;= 2;</code></pre>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Advanced Q2</span>
+            <h3>Duplicate records by email</h3>
+            <div class="answer">
+              <h4>Ready script</h4>
+              <p>To find duplicate emails, I group the data by email and use COUNT. Then I keep only those groups where count is greater than 1 using HAVING.</p>
+            </div>
+            <pre><code>SELECT email, COUNT(*)
+FROM customers
+GROUP BY email
+HAVING COUNT(*) &gt; 1;</code></pre>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Advanced Q3</span>
+            <h3>When interviewer says: what if there are ties?</h3>
+            <div class="answer">
+              <h4>Ready script</h4>
+              <p>If ties matter, I would use RANK or DENSE_RANK instead of LIMIT so that tied records are handled properly. LIMIT is useful for a fixed number of rows, but ranking is better when equal values need fair treatment.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Advanced Q4</span>
+            <h3>Why not use GROUP BY for ranking?</h3>
+            <div class="answer">
+              <h4>Ready script</h4>
+              <p>GROUP BY reduces rows and gives aggregated output, whereas ranking needs row-level visibility. Window functions keep all rows and add rank information without collapsing the data.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="company">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Company Style</p>
+          <h2>Company-specific and behavioral answer style</h2>
+          <p>These are not pure syntax questions. They test business thinking, data accuracy, and how you explain your work.</p>
+        </div>
+        <div class="grid">
+          <article class="card chapter span-4">
+            <span class="chip">Amazon Style</span>
+            <h3>How do you ensure data accuracy?</h3>
+            <div class="answer">
+              <p>I ensure data accuracy by validating data sources, checking for duplicates or missing values, and cross-verifying results using multiple queries. I also use constraints like primary keys and proper joins to maintain consistency.</p>
+            </div>
+          </article>
+          <article class="card chapter span-4">
+            <span class="chip">Project Answer</span>
+            <h3>Tell me about a time you solved a problem using data</h3>
+            <div class="answer">
+              <p>In my sales analysis project, I identified top customers and revenue trends using SQL. By analyzing aggregated data and customer behavior, I highlighted key contributors to revenue, which supports business decision-making.</p>
+            </div>
+          </article>
+          <article class="card chapter span-4">
+            <span class="chip">General Work Style</span>
+            <h3>How do you prioritize tasks?</h3>
+            <div class="answer">
+              <p>I prioritize tasks based on business impact and deadlines. I break work into smaller steps and focus on high-priority items first while maintaining quality and timely delivery.</p>
+            </div>
+          </article>
+          <article class="card chapter span-6">
+            <span class="chip">Infosys / TCS Style</span>
+            <h3>Normalization</h3>
+            <div class="answer">
+              <p>Normalization is the process of organizing data into multiple tables to reduce redundancy and improve data integrity.</p>
+            </div>
+          </article>
+          <article class="card chapter span-6">
+            <span class="chip">Infosys / TCS Style</span>
+            <h3>DELETE vs TRUNCATE</h3>
+            <div class="answer">
+              <p>DELETE removes specific rows and can use WHERE, while TRUNCATE removes all rows quickly and cannot be filtered row by row.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="da-role">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Data Analyst SQL</p>
+          <h2>What changes for a data analyst role</h2>
+          <p>This part is important because data analyst SQL interviews are usually not the same as heavy backend SQL interviews.</p>
+        </div>
+        <div class="grid">
+          <article class="card soft span-4">
+            <h3>Not usually expected</h3>
+            <ul class="flat-list">
+              <li>Heavy database design</li>
+              <li>Complex backend optimization logic</li>
+              <li>Deep DBA-style administration</li>
+            </ul>
+          </article>
+          <article class="card soft span-4">
+            <h3>Usually expected</h3>
+            <ul class="flat-list">
+              <li>Business thinking</li>
+              <li>Data interpretation</li>
+              <li>Clean joins and aggregations</li>
+              <li>Finding trends, missing data, and top contributors</li>
+            </ul>
+          </article>
+          <article class="card soft span-4">
+            <h3>Strong differentiators</h3>
+            <ul class="flat-list">
+              <li>Window functions</li>
+              <li>Speaking logic clearly</li>
+              <li>Turning business questions into SQL steps</li>
+            </ul>
+          </article>
+          <article class="card span-12">
+            <span class="chip">DA Answer Scripts</span>
+            <h3>Final data analyst style speaking answers</h3>
+            <div class="answer">
+              <h4>How do you use SQL as a Data Analyst?</h4>
+              <p>I use SQL to extract and analyze data to answer business questions. I perform joins to combine datasets, use aggregation to calculate metrics like revenue and customer counts, and apply filters to focus on relevant data.</p>
+            </div>
+            <div class="answer">
+              <h4>Explain a SQL project</h4>
+              <p>I worked on an e-commerce sales analysis project where I analyzed customer behavior and revenue trends. I used joins to combine customers, orders, and product data, applied aggregation functions to calculate revenue metrics, and used window functions to identify top-performing customers and trends.</p>
+            </div>
+            <div class="answer">
+              <h4>Explain window functions in simple terms</h4>
+              <p>Window functions allow us to perform calculations like ranking or running totals without losing individual rows, which is useful for detailed analysis.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="da-questions">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Top 10 Questions</p>
+          <h2>Top 10 Data Analyst SQL questions with input, SQL, output, and explanation</h2>
+          <p>If you understand these 10 patterns, you can handle a large part of data analyst SQL interviews.</p>
+        </div>
+        <div class="grid">
+          <article class="card chapter span-6">
+            <span class="chip">Question 1</span>
+            <h3>Top N customers</h3>
+            <table class="data-table">
+              <thead><tr><th>customer_id</th><th>amount</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>5000</td></tr>
+                <tr><td>1</td><td>3000</td></tr>
+                <tr><td>2</td><td>7000</td></tr>
+                <tr><td>3</td><td>2000</td></tr>
+              </tbody>
+            </table>
+            <pre><code>SELECT customer_id, SUM(amount) AS total
+FROM orders
+GROUP BY customer_id
+ORDER BY total DESC
+LIMIT 2;</code></pre>
+            <p><strong>Output:</strong> customer 1 -> 8000, customer 2 -> 7000</p>
+            <div class="answer"><p>Add amounts per customer, sort descending, then take top 2.</p></div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Question 2</span>
+            <h3>Revenue per category</h3>
+            <table class="data-table">
+              <thead><tr><th>orders.product_id</th><th>orders.amount</th><th>products.category</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>5000</td><td>Electronics</td></tr>
+                <tr><td>2</td><td>3000</td><td>Clothing</td></tr>
+              </tbody>
+            </table>
+            <pre><code>SELECT p.category, SUM(o.amount) AS revenue
+FROM orders o
+JOIN products p ON o.product_id = p.product_id
+GROUP BY p.category;</code></pre>
+            <div class="answer"><p>Join product category, then group and sum revenue.</p></div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Question 3</span>
+            <h3>Customers with no orders</h3>
+            <pre><code>SELECT c.name
+FROM customers c
+LEFT JOIN orders o
+ON c.id = o.customer_id
+WHERE o.customer_id IS NULL;</code></pre>
+            <div class="answer"><p>LEFT JOIN plus NULL check is the classic missing-data pattern.</p></div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Question 4</span>
+            <h3>Average order value</h3>
+            <pre><code>SELECT AVG(amount) FROM orders;</code></pre>
+            <div class="answer"><p>Use AVG when the question asks average, mean, or typical value.</p></div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Question 5</span>
+            <h3>Monthly sales trend</h3>
+            <pre><code>SELECT MONTH(order_date) AS month, SUM(amount)
+FROM orders
+GROUP BY MONTH(order_date);</code></pre>
+            <div class="answer"><p>Extract month from date, group by month, then sum revenue.</p></div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Question 6</span>
+            <h3>Second highest salary</h3>
+            <pre><code>SELECT MAX(salary)
+FROM employees
+WHERE salary &lt; (SELECT MAX(salary) FROM employees);</code></pre>
+            <div class="answer"><p>Remove the highest salary first, then take the maximum from what remains.</p></div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Question 7</span>
+            <h3>Duplicate records</h3>
+            <pre><code>SELECT email, COUNT(*)
+FROM customers
+GROUP BY email
+HAVING COUNT(*) &gt; 1;</code></pre>
+            <div class="answer"><p>Duplicate detection is usually GROUP BY plus HAVING COUNT greater than 1.</p></div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Question 8</span>
+            <h3>Running total</h3>
+            <pre><code>SELECT order_id, amount,
+SUM(amount) OVER (ORDER BY order_id) AS running_total
+FROM orders;</code></pre>
+            <div class="answer"><p>Each row adds previous values, so the total keeps growing row by row.</p></div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Question 9</span>
+            <h3>Rank per group</h3>
+            <pre><code>SELECT name, city, salary,
+RANK() OVER (PARTITION BY city ORDER BY salary DESC) AS rank
+FROM employees;</code></pre>
+            <div class="answer"><p>Ranking resets for each city because PARTITION BY creates separate groups.</p></div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Question 10</span>
+            <h3>Repeat customers</h3>
+            <pre><code>SELECT customer_id
+FROM orders
+GROUP BY customer_id
+HAVING COUNT(*) &gt; 1;</code></pre>
+            <div class="answer"><p>If count is more than 1, that customer placed orders more than once.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="case-study">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Case Study</p>
+          <h2>Real Amazon-style case study answer</h2>
+          <p>This is the type of answer that sounds much stronger than only giving syntax.</p>
+        </div>
+        <div class="grid">
+          <article class="card span-12">
+            <span class="chip">Scenario</span>
+            <h3>Sales dropped last month. How will you analyze?</h3>
+            <div class="answer">
+              <h4>Perfect structured answer</h4>
+              <p>First, I will understand what exactly dropped, whether it is total revenue, number of orders, or average order value. Then I will break the problem into customer activity, number of orders, revenue per order, and category performance. After that, I will use SQL to check trends over time, category-wise revenue, and customer behavior. Finally, I will summarize the likely reasons and suggest actions based on the findings.</p>
+            </div>
+            <pre><code>-- Total sales trend
+SELECT MONTH(order_date), SUM(amount)
+FROM orders
+GROUP BY MONTH(order_date);
+
+-- Orders count
+SELECT COUNT(*) FROM orders;
+
+-- Category performance
+SELECT p.category, SUM(o.amount)
+FROM orders o
+JOIN products p ON o.product_id = p.product_id
+GROUP BY p.category;
+
+-- Customer activity
+SELECT customer_id, COUNT(*)
+FROM orders
+GROUP BY customer_id;</code></pre>
+            <div class="story">
+              <h4>Possible insights</h4>
+              <p>Sales may drop because active customers decreased, high-value orders reduced, important categories underperformed, or there were seasonal factors.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="final-revision">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Final Revision</p>
+          <h2>One-page final revision and final interview simulation</h2>
+          <p>This is the fast last-round revision from the document, but arranged neatly in HTML.</p>
+        </div>
+        <div class="grid">
+          <article class="card soft span-6">
+            <h3>Core flow</h3>
+            <div class="answer">
+              <p>SELECT -> FROM -> JOIN -> WHERE -> GROUP BY -> HAVING -> ORDER BY -> LIMIT</p>
+            </div>
+            <h3 style="margin-top: 14px;">Golden line</h3>
+            <div class="answer">
+              <p>First I understand the requirement, then identify tables, apply joins, use aggregation if needed, and finally filter and sort the results.</p>
+            </div>
+          </article>
+          <article class="card soft span-6">
+            <h3>Most important patterns</h3>
+            <ul class="flat-list">
+              <li>Top N -> ORDER BY + LIMIT</li>
+              <li>Per group -> GROUP BY</li>
+              <li>Missing data -> LEFT JOIN + NULL</li>
+              <li>Ranking -> RANK()</li>
+              <li>Running total -> SUM() OVER()</li>
+            </ul>
+          </article>
+          <article class="card span-12">
+            <span class="chip">Final Interview Simulation</span>
+            <h3>Questions to practice aloud</h3>
+            <ol class="flat-list">
+              <li>Tell me about yourself and your SQL skills.</li>
+              <li>Find top 3 customers by revenue. Explain logic and query.</li>
+              <li>Why would you use LEFT JOIN instead of INNER JOIN?</li>
+              <li>Explain window functions with example.</li>
+              <li>Sales dropped last month. How will you analyze?</li>
+            </ol>
+            <div class="practice">
+              <h4>Practice rule</h4>
+              <p>Do not answer in one line. Speak in structure: first I understand, then I join or group, finally I filter, sort, or conclude.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="wrap footer-note">
+    Version 2 continuation of the simple SQL notes, covering the remaining advanced and interview-focused parts from the learning document.
+  </div>
+</body>
+</html>

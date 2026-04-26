@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SQL Notes Simple Style</title>
+  <style>
+    :root {
+      --bg: #f7f6f1;
+      --bg-alt: #eef6f0;
+      --surface: #ffffff;
+      --surface-2: #f4fbf8;
+      --text: #1f2d24;
+      --muted: #54665b;
+      --line: #d6ddd8;
+      --accent: #0f7d69;
+      --accent-2: #e27645;
+      --code-bg: #16211b;
+      --code-text: #eef7f1;
+      --shadow: 0 10px 24px rgba(24, 42, 33, 0.06);
+      --radius: 8px;
+      --wrap: 1160px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, var(--bg) 0%, #fbfaf6 40%, var(--bg-alt) 100%);
+      line-height: 1.65;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .wrap {
+      width: min(var(--wrap), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 38px 0 28px;
+      border-top: 8px solid var(--accent);
+      background:
+        linear-gradient(135deg, rgba(15, 125, 105, 0.08), rgba(226, 118, 69, 0.08)),
+        var(--surface);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: 2.65rem;
+      max-width: 900px;
+    }
+
+    h2 {
+      font-size: 1.7rem;
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      font-size: 1.18rem;
+      margin-bottom: 10px;
+    }
+
+    h4 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    .lede {
+      margin-top: 14px;
+      max-width: 900px;
+      color: var(--muted);
+      font-size: 1.03rem;
+    }
+
+    .actions,
+    .quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .actions {
+      margin-top: 18px;
+    }
+
+    .btn,
+    .quick-links a {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.94rem;
+      padding: 10px 14px;
+    }
+
+    .btn.primary {
+      border-color: rgba(15, 125, 105, 0.32);
+      background: rgba(15, 125, 105, 0.08);
+    }
+
+    .quick-links {
+      margin-top: 16px;
+    }
+
+    .section {
+      padding: 32px 0;
+      border-bottom: 1px solid rgba(214, 221, 216, 0.85);
+    }
+
+    .section.alt {
+      background: rgba(238, 246, 240, 0.56);
+    }
+
+    .section-head {
+      max-width: 880px;
+      margin-bottom: 18px;
+    }
+
+    .section-head p {
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      grid-column: span 12;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .soft {
+      background: var(--surface-2);
+    }
+
+    .span-4 {
+      grid-column: span 4;
+    }
+
+    .span-6 {
+      grid-column: span 6;
+    }
+
+    .span-8 {
+      grid-column: span 8;
+    }
+
+    .span-12 {
+      grid-column: span 12;
+    }
+
+    .chip {
+      display: inline-block;
+      margin-bottom: 12px;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: rgba(15, 125, 105, 0.1);
+      color: var(--accent);
+    }
+
+    .phase-box {
+      border-left: 4px solid var(--accent);
+      padding-left: 14px;
+      margin-bottom: 16px;
+    }
+
+    .chapter {
+      border-top: 3px solid rgba(15, 125, 105, 0.15);
+    }
+
+    .step {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: rgba(244, 251, 248, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .story {
+      border-left: 4px solid var(--accent-2);
+      padding: 12px 14px;
+      background: rgba(226, 118, 69, 0.08);
+      border-radius: 0 8px 8px 0;
+      margin-top: 12px;
+    }
+
+    .answer {
+      border-left: 4px solid var(--accent);
+      padding: 12px 14px;
+      background: rgba(15, 125, 105, 0.08);
+      border-radius: 0 8px 8px 0;
+      margin-top: 12px;
+    }
+
+    .practice {
+      border-left: 4px solid #c59d2c;
+      padding: 12px 14px;
+      background: rgba(197, 157, 44, 0.1);
+      border-radius: 0 8px 8px 0;
+      margin-top: 12px;
+    }
+
+    .flat-list {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .flat-list li {
+      margin-bottom: 8px;
+    }
+
+    pre {
+      margin: 12px 0 0;
+      padding: 14px;
+      border-radius: var(--radius);
+      background: var(--code-bg);
+      color: var(--code-text);
+      border: 1px solid rgba(238, 247, 241, 0.12);
+      overflow-x: auto;
+      font-size: 0.91rem;
+      line-height: 1.5;
+    }
+
+    code,
+    pre {
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    .data-table th {
+      background: rgba(15, 125, 105, 0.08);
+      font-size: 0.93rem;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    figure {
+      margin: 0;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    figure img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--line);
+    }
+
+    figcaption {
+      padding: 12px 14px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .footer-note {
+      padding: 28px 0 40px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 1024px) {
+      .span-4,
+      .span-6,
+      .span-8 {
+        grid-column: span 12;
+      }
+
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.45rem;
+      }
+
+      .wrap {
+        width: min(var(--wrap), calc(100% - 24px));
+      }
+
+      figure img {
+        height: 210px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <p class="eyebrow">SQL Notes Simple Style</p>
+      <h1>Learn SQL in very simple English, like a story, like a Business Analyst at Amazon</h1>
+      <p class="lede">
+        This page follows a simple teaching style. No heavy theory first. We start with easy meaning,
+        then a small Amazon-style situation, then SQL, then interview answer, then mini practice.
+        The goal is understanding, not memorizing blindly.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="#roadmap">Start Roadmap</a>
+        <a class="btn" href="#phase1">Go to Foundation</a>
+        <a class="btn" href="#phase6">Go to Real Problems</a>
+        <a class="btn" href="#extras">Go to Important Extras</a>
+      </div>
+      <nav class="quick-links" aria-label="Quick links">
+        <a href="#roadmap">Roadmap</a>
+        <a href="#phase1">Phase 1</a>
+        <a href="#phase2">Phase 2</a>
+        <a href="#phase3">Phase 3</a>
+        <a href="#phase4">Phase 4</a>
+        <a href="#phase5">Phase 5</a>
+        <a href="#phase6">Phase 6</a>
+        <a href="#extras">Extras</a>
+        <a href="#revision-bank">Revision Bank</a>
+        <a href="#interview-bank">Interview Answers</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section alt" id="roadmap">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Master Plan</p>
+          <h2>SQL master plan in simple chapter order</h2>
+          <p>We learn like a story plus job simulation, not like a dry course.</p>
+        </div>
+        <div class="grid">
+          <article class="card soft span-4">
+            <h3>Phase 1: Foundation</h3>
+            <ul class="flat-list">
+              <li>Chapter 1: Data, database, why it exists</li>
+              <li>Chapter 2: Tables, rows, columns</li>
+              <li>Chapter 3: What SQL is</li>
+              <li>Chapter 4: SELECT</li>
+              <li>Chapter 5: WHERE</li>
+              <li>Chapter 6: AND, OR, NOT</li>
+              <li>Chapter 7: ORDER BY, LIMIT</li>
+            </ul>
+          </article>
+          <article class="card soft span-4">
+            <h3>Phase 2 and 3</h3>
+            <ul class="flat-list">
+              <li>Chapter 8: INSERT</li>
+              <li>Chapter 9: UPDATE</li>
+              <li>Chapter 10: DELETE vs TRUNCATE</li>
+              <li>Chapter 11: COUNT, SUM, AVG, MAX, MIN</li>
+              <li>Chapter 12: GROUP BY</li>
+              <li>Chapter 13: HAVING</li>
+            </ul>
+          </article>
+          <article class="card soft span-4">
+            <h3>Phase 4, 5, 6</h3>
+            <ul class="flat-list">
+              <li>Chapter 14: Why joins are needed</li>
+              <li>Chapter 15: INNER JOIN</li>
+              <li>Chapter 16: LEFT JOIN</li>
+              <li>Chapter 17: Subqueries</li>
+              <li>Chapter 18: CASE WHEN</li>
+              <li>Chapter 19: Window functions</li>
+              <li>Chapter 20: Real business problems</li>
+            </ul>
+          </article>
+          <article class="card span-12">
+            <div class="answer">
+              <strong>Important rule for this page:</strong> no complex English, no boring theory, only simple and practical understanding.
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="visuals">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Visual Start</p>
+          <h2>Before chapters, see the big picture once</h2>
+          <p>These simple visuals help you understand what SQL is doing before you go chapter by chapter.</p>
+        </div>
+        <div class="gallery">
+          <figure>
+            <img src="sql_notes_assets/sql_database_structure.png" alt="Database contains related tables" />
+            <figcaption><strong>Database and tables.</strong> One database usually contains multiple related tables.</figcaption>
+          </figure>
+          <figure>
+            <img src="sql_notes_assets/sql_query_flow.png" alt="SQL logical query flow" />
+            <figcaption><strong>Query flow.</strong> SQL is written in one order, but logically it works through data step by step.</figcaption>
+          </figure>
+          <figure>
+            <img src="sql_notes_assets/sql_join_types.png" alt="Join types simple diagram" />
+            <figcaption><strong>Join idea.</strong> Joins combine data from multiple tables using a common column.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="phase1">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Phase 1</p>
+          <h2>Foundation: from zero to basic thinking</h2>
+          <p>This phase builds the base. If this base is weak, later SQL feels confusing.</p>
+        </div>
+        <div class="phase-box">
+          <strong>Mindset:</strong> You are a Business Analyst at Amazon. Your job is to ask clear questions to data.
+        </div>
+        <div class="grid">
+          <article class="card chapter span-6" id="chapter1">
+            <span class="chip">Chapter 1</span>
+            <h3>What is Data, Database, and Why It Exists</h3>
+            <div class="step">
+              <h4>Step 1: Very simple meaning</h4>
+              <p>Data means any information.</p>
+              <ul class="flat-list">
+                <li>Name -> Vinod</li>
+                <li>Age -> 24</li>
+                <li>Salary -> 30000</li>
+                <li>City -> Mysore</li>
+              </ul>
+              <p>All these are data.</p>
+            </div>
+            <div class="story">
+              <h4>Step 2: Amazon story</h4>
+              <p>Amazon has customers, orders, products, payments. Each of these creates data every second.</p>
+              <p>If that data is scattered in random files, finding anything becomes slow and confusing.</p>
+            </div>
+            <div class="step">
+              <h4>Step 3: What is a database?</h4>
+              <p>A database is an organized system used to store data so we can access and manage it easily.</p>
+              <p>Simple analogy: database is like a library, tables are like books, data is like the content inside those books.</p>
+            </div>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>A database is an organized collection of data used to store, retrieve, and manage information efficiently.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Q1: What is data?</p>
+              <p>Q2: Why do companies like Amazon need a database?</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6" id="chapter2">
+            <span class="chip">Chapter 2</span>
+            <h3>Tables, Rows, Columns</h3>
+            <div class="step">
+              <h4>Step 1: What is a table?</h4>
+              <p>A table is where data is stored inside a database. Think of it like an Excel sheet.</p>
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>customer_id</th>
+                    <th>name</th>
+                    <th>city</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Vinod</td>
+                    <td>Mysore</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Ravi</td>
+                    <td>Bangalore</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="step">
+              <h4>Step 2: Columns and rows</h4>
+              <p>Columns are types of information. Rows are actual records.</p>
+              <ul class="flat-list">
+                <li><strong>Column:</strong> customer_id, name, city</li>
+                <li><strong>Row:</strong> one full customer record</li>
+              </ul>
+            </div>
+            <div class="step">
+              <h4>Simple memory trick</h4>
+              <p>Column = what type of data?</p>
+              <p>Row = actual data.</p>
+            </div>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>A table stores data in rows and columns, where each row is a record and each column is an attribute.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Q1: What is a column?</p>
+              <p>Q2: What is a row?</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6" id="chapter3">
+            <span class="chip">Chapter 3</span>
+            <h3>What is SQL and Why It Is Powerful</h3>
+            <div class="step">
+              <h4>Step 1: The real problem</h4>
+              <p>Data is inside the database. You cannot just open it like a normal notebook or Excel file.</p>
+              <p>So how do you talk to the database? You use SQL.</p>
+            </div>
+            <div class="story">
+              <h4>Amazon story</h4>
+              <p>Your manager says: "Show me all customers."</p>
+              <p>You ask the database with SQL.</p>
+            </div>
+            <pre><code>SELECT * FROM customers;</code></pre>
+            <div class="step">
+              <h4>Step 2: Simple meaning</h4>
+              <p>SQL stands for Structured Query Language.</p>
+              <p>Simple meaning: SQL is the language used to communicate with a database.</p>
+            </div>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>SQL is used to communicate with databases. It helps us retrieve, filter, analyze, and manage data efficiently.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Q1: Why do we need SQL?</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6" id="chapter4">
+            <span class="chip">Chapter 4</span>
+            <h3>SELECT: Your First SQL Command</h3>
+            <div class="story">
+              <h4>Business situation</h4>
+              <p>Your manager says: "Show me customer data."</p>
+            </div>
+            <pre><code>SELECT * FROM customers;</code></pre>
+            <div class="step">
+              <h4>Break it down</h4>
+              <p><code>SELECT</code> -> what you want</p>
+              <p><code>*</code> -> everything</p>
+              <p><code>FROM</code> -> from which table</p>
+              <p>Meaning: give me all data from customers table.</p>
+            </div>
+            <pre><code>SELECT name FROM customers;
+SELECT name, city FROM customers;</code></pre>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>SELECT is used to retrieve data from a database. We can fetch all columns or only specific columns.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Q1: Write SQL to show only the city column.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6" id="chapter5">
+            <span class="chip">Chapter 5</span>
+            <h3>WHERE: Filtering Data</h3>
+            <div class="story">
+              <h4>Business situation</h4>
+              <p>Your manager says: "Show only customers from Bangalore."</p>
+            </div>
+            <pre><code>SELECT * FROM customers
+WHERE city = 'Bangalore';</code></pre>
+            <div class="step">
+              <h4>Break it down</h4>
+              <p><code>WHERE</code> adds a condition.</p>
+              <p>Meaning: give only those rows where city is Bangalore.</p>
+            </div>
+            <pre><code>WHERE city = 'Mysore'
+WHERE salary &gt; 40000
+WHERE age &lt; 30
+WHERE city != 'Delhi'</code></pre>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>WHERE is used to filter records based on conditions so that only relevant data is returned.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Q1: Show employees with salary greater than 40000.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6" id="chapter6">
+            <span class="chip">Chapter 6</span>
+            <h3>AND, OR, NOT: Combining Conditions</h3>
+            <div class="story">
+              <h4>Business situation</h4>
+              <p>Your manager says: "Show customers from Bangalore and salary greater than 40000."</p>
+            </div>
+            <pre><code>SELECT * FROM customers
+WHERE city = 'Bangalore'
+  AND salary &gt; 40000;</code></pre>
+            <pre><code>SELECT * FROM customers
+WHERE city = 'Mysore'
+   OR city = 'Bangalore';</code></pre>
+            <pre><code>SELECT * FROM customers
+WHERE NOT city = 'Delhi';</code></pre>
+            <div class="step">
+              <h4>Simple meaning</h4>
+              <p><code>AND</code> means both conditions must be true.</p>
+              <p><code>OR</code> means at least one condition must be true.</p>
+              <p><code>NOT</code> means exclude or reverse condition.</p>
+            </div>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>AND returns rows where all conditions are true, while OR returns rows where at least one condition is true.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Q1: Show employees from Mysore and salary greater than 30000.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6" id="chapter7">
+            <span class="chip">Chapter 7</span>
+            <h3>ORDER BY and LIMIT</h3>
+            <div class="story">
+              <h4>Business situation</h4>
+              <p>Your manager says: "Show me highest paying customers."</p>
+            </div>
+            <pre><code>SELECT * FROM customers
+ORDER BY salary DESC;</code></pre>
+            <div class="step">
+              <h4>Simple meaning</h4>
+              <p><code>ORDER BY</code> means sorting.</p>
+              <p><code>DESC</code> means highest to lowest.</p>
+              <p><code>ASC</code> means lowest to highest.</p>
+            </div>
+            <pre><code>SELECT * FROM customers
+ORDER BY salary DESC
+LIMIT 3;</code></pre>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>ORDER BY is used to sort the result set, and LIMIT is used to restrict how many rows we want to see.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Q1: Show employees sorted by age from low to high.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="phase2">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Phase 2</p>
+          <h2>Data control: adding, changing, and removing data</h2>
+          <p>Now you move from just reading data to actually changing it.</p>
+        </div>
+        <div class="grid">
+          <article class="card chapter span-4" id="chapter8">
+            <span class="chip">Chapter 8</span>
+            <h3>INSERT</h3>
+            <p>INSERT is used to add new rows into a table.</p>
+            <pre><code>INSERT INTO customers (customer_id, name, city)
+VALUES (1, 'Vinod', 'Mysore');</code></pre>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>INSERT is used to add new records into a table.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Add a new customer: id 5, name Meena, city Chennai.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-4" id="chapter9">
+            <span class="chip">Chapter 9</span>
+            <h3>UPDATE</h3>
+            <p>UPDATE is used to change existing rows.</p>
+            <pre><code>UPDATE customers
+SET city = 'Bangalore'
+WHERE customer_id = 1;</code></pre>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>UPDATE is used to modify existing records, and WHERE is important to update only the correct rows.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Change Ravi's city to Mysore.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-4" id="chapter10">
+            <span class="chip">Chapter 10</span>
+            <h3>DELETE vs TRUNCATE</h3>
+            <pre><code>DELETE FROM customers
+WHERE name = 'Ravi';</code></pre>
+            <pre><code>TRUNCATE TABLE customers;</code></pre>
+            <div class="step">
+              <h4>Simple difference</h4>
+              <p><strong>DELETE</strong> removes selected rows.</p>
+              <p><strong>TRUNCATE</strong> removes all rows from the table quickly.</p>
+            </div>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>DELETE removes specific rows, while TRUNCATE clears the entire table.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Delete employee Ravi.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="phase3">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Phase 3</p>
+          <h2>Analytics core: the part that makes you think like an analyst</h2>
+          <p>This is where SQL becomes useful for reporting, business questions, and interview problems.</p>
+        </div>
+        <div class="grid">
+          <article class="card chapter span-4" id="chapter11">
+            <span class="chip">Chapter 11</span>
+            <h3>Aggregation Functions</h3>
+            <div class="step">
+              <h4>Simple meaning</h4>
+              <p>Aggregation means combining many rows into one result.</p>
+            </div>
+            <pre><code>SELECT COUNT(*) FROM customers;
+SELECT SUM(salary) FROM employees;
+SELECT AVG(salary) FROM employees;
+SELECT MAX(salary) FROM employees;
+SELECT MIN(salary) FROM employees;</code></pre>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>Aggregate functions perform calculations on multiple rows and return one value, such as COUNT, SUM, AVG, MAX, and MIN.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Count the number of employees.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-4" id="chapter12">
+            <span class="chip">Chapter 12</span>
+            <h3>GROUP BY</h3>
+            <div class="story">
+              <h4>Business situation</h4>
+              <p>Your manager says: "Show me revenue per city."</p>
+            </div>
+            <pre><code>SELECT city, COUNT(*) AS total_customers
+FROM customers
+GROUP BY city;</code></pre>
+            <pre><code>SELECT city, SUM(amount) AS revenue
+FROM orders
+GROUP BY city;</code></pre>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>GROUP BY groups rows based on a column so that aggregate functions can be applied to each group.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Count employees per city.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-4" id="chapter13">
+            <span class="chip">Chapter 13</span>
+            <h3>HAVING</h3>
+            <div class="step">
+              <h4>Simple meaning</h4>
+              <p>HAVING filters grouped results.</p>
+              <p>WHERE filters rows before grouping.</p>
+            </div>
+            <pre><code>SELECT city, COUNT(*) AS total_employees
+FROM employees
+GROUP BY city
+HAVING COUNT(*) &gt; 2;</code></pre>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>WHERE filters rows before grouping, while HAVING filters aggregated results after GROUP BY.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Show cities where employee count is more than 2.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="phase4">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Phase 4</p>
+          <h2>Relationships: why joins matter</h2>
+          <p>Real data is usually not stored in one big table. It is spread across related tables.</p>
+        </div>
+        <div class="grid">
+          <article class="card chapter span-4" id="chapter14">
+            <span class="chip">Chapter 14</span>
+            <h3>Why JOINS Are Needed</h3>
+            <div class="story">
+              <h4>Business situation</h4>
+              <p>Your manager says: "Show customer names along with their orders."</p>
+              <p>Customer data is in one table. Order data is in another table.</p>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>customers</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>customer_id</td><td>name</td><td>city</td></tr>
+                <tr><td>1</td><td>Vinod</td><td>Mysore</td></tr>
+                <tr><td>2</td><td>Ravi</td><td>Bangalore</td></tr>
+              </tbody>
+            </table>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>orders</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>order_id</td><td>customer_id</td><td>amount</td></tr>
+                <tr><td>101</td><td>1</td><td>5000</td></tr>
+                <tr><td>102</td><td>2</td><td>7000</td></tr>
+              </tbody>
+            </table>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>JOIN is used to combine data from multiple tables based on a common column.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-4" id="chapter15">
+            <span class="chip">Chapter 15</span>
+            <h3>INNER JOIN</h3>
+            <pre><code>SELECT c.name, o.amount
+FROM customers c
+INNER JOIN orders o
+ON c.customer_id = o.customer_id;</code></pre>
+            <div class="step">
+              <h4>Simple meaning</h4>
+              <p>INNER JOIN returns only matching rows from both tables.</p>
+            </div>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>INNER JOIN returns only the records that have matching values in both tables.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Why does a customer with no orders not appear here?</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-4" id="chapter16">
+            <span class="chip">Chapter 16</span>
+            <h3>LEFT JOIN</h3>
+            <pre><code>SELECT c.name, o.amount
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id;</code></pre>
+            <div class="step">
+              <h4>Simple meaning</h4>
+              <p>LEFT JOIN keeps all rows from the left table. If no match is found, right-side columns become NULL.</p>
+            </div>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>LEFT JOIN returns all records from the left table and matching records from the right table. If there is no match, NULL is returned.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Why does Asha appear in LEFT JOIN but not in INNER JOIN?</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="phase5">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Phase 5</p>
+          <h2>Advanced topics with high interview value</h2>
+          <p>These topics are not the starting point, but once the basics are clear, they become much easier.</p>
+        </div>
+        <div class="grid">
+          <article class="card chapter span-4" id="chapter17">
+            <span class="chip">Chapter 17</span>
+            <h3>Subqueries</h3>
+            <div class="step">
+              <h4>Simple meaning</h4>
+              <p>A subquery is a query inside another query.</p>
+            </div>
+            <pre><code>SELECT *
+FROM employees
+WHERE salary &gt; (
+    SELECT AVG(salary)
+    FROM employees
+);</code></pre>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>A subquery is a nested query used to perform intermediate filtering or calculation.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Find employees with salary less than average salary.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-4" id="chapter18">
+            <span class="chip">Chapter 18</span>
+            <h3>CASE WHEN</h3>
+            <div class="step">
+              <h4>Simple meaning</h4>
+              <p>CASE WHEN works like if-else inside SQL.</p>
+            </div>
+            <pre><code>SELECT name, salary,
+CASE
+    WHEN salary &gt;= 40000 THEN 'High'
+    WHEN salary &gt;= 20000 THEN 'Medium'
+    ELSE 'Low'
+END AS salary_type
+FROM employees;</code></pre>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>CASE WHEN is used to apply conditional logic in SQL and return different values based on conditions.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Classify salary into High, Medium, Low.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-4" id="chapter19">
+            <span class="chip">Chapter 19</span>
+            <h3>Window Functions</h3>
+            <div class="story">
+              <h4>Business situation</h4>
+              <p>Your manager says: "Rank employees by salary" or "Show running total of sales."</p>
+            </div>
+            <div class="step">
+              <h4>Simple meaning</h4>
+              <p>Window functions perform calculations across rows without collapsing the result like GROUP BY does.</p>
+              <p>Basic syntax:</p>
+            </div>
+            <pre><code>FUNCTION() OVER (PARTITION BY column ORDER BY column)</code></pre>
+            <pre><code>SELECT name, salary,
+RANK() OVER (ORDER BY salary DESC) AS rnk
+FROM employees;</code></pre>
+            <pre><code>SELECT order_id, amount,
+SUM(amount) OVER (ORDER BY order_id) AS running_total
+FROM orders;</code></pre>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>Window functions perform calculations across related rows while still keeping each original row in the result.</p>
+            </div>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Rank employees by salary.</p>
+            </div>
+          </article>
+
+          <article class="card span-12">
+            <span class="chip">Add-on</span>
+            <h3>RANK vs DENSE_RANK vs ROW_NUMBER</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Function</th>
+                  <th>What happens in ties?</th>
+                  <th>Simple meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>RANK()</td>
+                  <td>Same rank for ties, next rank is skipped</td>
+                  <td>1, 2, 2, 4</td>
+                </tr>
+                <tr>
+                  <td>DENSE_RANK()</td>
+                  <td>Same rank for ties, no skipping</td>
+                  <td>1, 2, 2, 3</td>
+                </tr>
+                <tr>
+                  <td>ROW_NUMBER()</td>
+                  <td>No same rank, always unique sequence</td>
+                  <td>1, 2, 3, 4</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="answer">
+              <h4>Strong interview answer</h4>
+              <p>RANK gives the same rank to duplicate values and skips the next rank, DENSE_RANK does not skip ranks, and ROW_NUMBER always gives unique sequential numbers.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="phase6">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Phase 6</p>
+          <h2>Real business problems end to end</h2>
+          <p>This is where everything comes together. Now you think like an analyst, not just like someone who knows syntax.</p>
+        </div>
+        <div class="grid">
+          <article class="card chapter span-6" id="chapter20-problem1">
+            <span class="chip">Problem 1</span>
+            <h3>Top customers by revenue</h3>
+            <div class="story">
+              <h4>Business question</h4>
+              <p>Find top 3 customers based on total order amount.</p>
+            </div>
+            <div class="step">
+              <h4>Thinking</h4>
+              <p>Revenue per customer -> SUM</p>
+              <p>Group -> customer</p>
+              <p>Sort -> DESC</p>
+              <p>Top 3 -> LIMIT</p>
+            </div>
+            <pre><code>SELECT c.name, SUM(o.amount) AS total_revenue
+FROM customers c
+INNER JOIN orders o
+ON c.customer_id = o.customer_id
+GROUP BY c.name
+ORDER BY total_revenue DESC
+LIMIT 3;</code></pre>
+            <div class="answer">
+              <h4>Interview explanation</h4>
+              <p>First, join customers and orders using customer_id. Then aggregate total revenue per customer using SUM. Finally, sort descending and limit to top 3.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6" id="chapter20-problem2">
+            <span class="chip">Problem 2</span>
+            <h3>Customers with no orders</h3>
+            <div class="story">
+              <h4>Business question</h4>
+              <p>Find customers who never placed an order.</p>
+            </div>
+            <div class="step">
+              <h4>Thinking</h4>
+              <p>Need all customers -> LEFT JOIN</p>
+              <p>Missing orders -> NULL</p>
+            </div>
+            <pre><code>SELECT c.name
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id
+WHERE o.customer_id IS NULL;</code></pre>
+          </article>
+
+          <article class="card chapter span-6" id="chapter20-problem3">
+            <span class="chip">Problem 3</span>
+            <h3>Average order value</h3>
+            <div class="story">
+              <h4>Business question</h4>
+              <p>What is the average order amount?</p>
+            </div>
+            <pre><code>SELECT AVG(amount) FROM orders;</code></pre>
+            <div class="answer">
+              <h4>Explanation</h4>
+              <p>AVG calculates the average value of all orders.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6" id="chapter20-problem4">
+            <span class="chip">Problem 4</span>
+            <h3>Revenue per city</h3>
+            <div class="story">
+              <h4>Business question</h4>
+              <p>Which city generates the highest revenue?</p>
+            </div>
+            <div class="step">
+              <h4>Thinking</h4>
+              <p>Need customer table plus orders table.</p>
+              <p>Group by city.</p>
+              <p>SUM revenue.</p>
+            </div>
+            <pre><code>SELECT c.city, SUM(o.amount) AS revenue
+FROM customers c
+INNER JOIN orders o
+ON c.customer_id = o.customer_id
+GROUP BY c.city
+ORDER BY revenue DESC;</code></pre>
+          </article>
+
+          <article class="card chapter span-12" id="chapter20-problem5">
+            <span class="chip">Problem 5</span>
+            <h3>Second highest salary</h3>
+            <div class="step">
+              <h4>Thinking</h4>
+              <p>Rank salaries.</p>
+              <p>Pick rank = 2.</p>
+            </div>
+            <pre><code>SELECT name, salary
+FROM (
+    SELECT name, salary,
+           RANK() OVER (ORDER BY salary DESC) AS rnk
+    FROM employees
+) t
+WHERE rnk = 2;</code></pre>
+            <div class="answer">
+              <h4>Explanation</h4>
+              <p>Use a window function to rank employees by salary, then filter rank 2 to get the second highest salary.</p>
+            </div>
+          </article>
+
+          <article class="card span-12">
+            <span class="chip">Final Strategy</span>
+            <h3>How to think in SQL interview</h3>
+            <ol class="flat-list">
+              <li>What exactly is the question asking?</li>
+              <li>Which tables are needed?</li>
+              <li>Do I need a JOIN?</li>
+              <li>Do I need GROUP BY or HAVING?</li>
+              <li>Do I need sorting, ranking, or LIMIT?</li>
+            </ol>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="extras">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Important Extras</p>
+          <h2>Primary key, foreign key, constraints, and data types</h2>
+          <p>These are core interview topics. They are simple once you see the role clearly.</p>
+        </div>
+        <div class="grid">
+          <article class="card chapter span-6">
+            <span class="chip">Extra 1</span>
+            <h3>Primary Key</h3>
+            <div class="step">
+              <h4>Concept</h4>
+              <p>Primary key uniquely identifies each row.</p>
+              <p>No duplicates. No NULL.</p>
+            </div>
+            <pre><code>CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    city VARCHAR(50)
+);</code></pre>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>Primary key uniquely identifies each record and cannot contain NULL or duplicate values.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Extra 2</span>
+            <h3>Foreign Key</h3>
+            <div class="step">
+              <h4>Concept</h4>
+              <p>Foreign key links one table to another table.</p>
+            </div>
+            <pre><code>CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    amount INT,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);</code></pre>
+            <div class="answer">
+              <h4>Interview answer</h4>
+              <p>Foreign key maintains relationship between tables and supports referential integrity.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Extra 3</span>
+            <h3>Common Constraints</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Constraint</th>
+                  <th>Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>NOT NULL</td>
+                  <td>cannot be empty</td>
+                </tr>
+                <tr>
+                  <td>UNIQUE</td>
+                  <td>no duplicates</td>
+                </tr>
+                <tr>
+                  <td>PRIMARY KEY</td>
+                  <td>unique plus not null</td>
+                </tr>
+                <tr>
+                  <td>FOREIGN KEY</td>
+                  <td>references another table</td>
+                </tr>
+              </tbody>
+            </table>
+            <pre><code>name VARCHAR(50) NOT NULL</code></pre>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Extra 4</span>
+            <h3>Data Types</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Simple meaning</th>
+                  <th>Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>VARCHAR</td>
+                  <td>text with max length</td>
+                  <td><code>name VARCHAR(50)</code></td>
+                </tr>
+                <tr>
+                  <td>INT</td>
+                  <td>whole number</td>
+                  <td><code>salary INT</code></td>
+                </tr>
+                <tr>
+                  <td>DECIMAL</td>
+                  <td>number with decimal places</td>
+                  <td><code>salary DECIMAL(10,2)</code></td>
+                </tr>
+                <tr>
+                  <td>DATE</td>
+                  <td>date only</td>
+                  <td><code>order_date DATE</code></td>
+                </tr>
+                <tr>
+                  <td>ENUM</td>
+                  <td>fixed set of values</td>
+                  <td><code>status ENUM('pending','shipped','delivered')</code></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="practice">
+              <h4>Mini practice</h4>
+              <p>Choose data type for name, salary, order_date, and status.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="revision-bank">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Revision Bank</p>
+          <h2>All important questions, commands, syntax, input, and output in one place</h2>
+          <p>This section is for fast revision. First see the sample input tables. Then understand each command with syntax and expected output.</p>
+        </div>
+        <div class="grid">
+          <article class="card span-12">
+            <span class="chip">Sample Input</span>
+            <h3>Use these sample tables to understand the examples below</h3>
+            <div class="grid">
+              <div class="span-6">
+                <h4>Input Table: customers</h4>
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>customer_id</th>
+                      <th>name</th>
+                      <th>city</th>
+                      <th>salary</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>1</td><td>Vinod</td><td>Mysore</td><td>30000</td></tr>
+                    <tr><td>2</td><td>Ravi</td><td>Bangalore</td><td>50000</td></tr>
+                    <tr><td>3</td><td>Asha</td><td>Delhi</td><td>40000</td></tr>
+                    <tr><td>4</td><td>Meena</td><td>Bangalore</td><td>25000</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="span-6">
+                <h4>Input Table: orders</h4>
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>order_id</th>
+                      <th>customer_id</th>
+                      <th>amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>101</td><td>1</td><td>5000</td></tr>
+                    <tr><td>102</td><td>1</td><td>3000</td></tr>
+                    <tr><td>103</td><td>2</td><td>7000</td></tr>
+                    <tr><td>104</td><td>3</td><td>2000</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </article>
+
+          <article class="card span-12">
+            <span class="chip">Command Syntax Sheet</span>
+            <h3>Most important commands and their basic syntax</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Command</th>
+                  <th>Basic syntax</th>
+                  <th>Simple use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>SELECT</td>
+                  <td><code>SELECT col1, col2 FROM table_name;</code></td>
+                  <td>Read data</td>
+                </tr>
+                <tr>
+                  <td>WHERE</td>
+                  <td><code>SELECT * FROM table_name WHERE condition;</code></td>
+                  <td>Filter rows</td>
+                </tr>
+                <tr>
+                  <td>ORDER BY</td>
+                  <td><code>SELECT * FROM table_name ORDER BY col DESC;</code></td>
+                  <td>Sort rows</td>
+                </tr>
+                <tr>
+                  <td>LIMIT</td>
+                  <td><code>SELECT * FROM table_name LIMIT 3;</code></td>
+                  <td>Show top rows</td>
+                </tr>
+                <tr>
+                  <td>INSERT</td>
+                  <td><code>INSERT INTO table_name (col1, col2) VALUES (v1, v2);</code></td>
+                  <td>Add row</td>
+                </tr>
+                <tr>
+                  <td>UPDATE</td>
+                  <td><code>UPDATE table_name SET col = value WHERE condition;</code></td>
+                  <td>Change row</td>
+                </tr>
+                <tr>
+                  <td>DELETE</td>
+                  <td><code>DELETE FROM table_name WHERE condition;</code></td>
+                  <td>Remove row</td>
+                </tr>
+                <tr>
+                  <td>COUNT</td>
+                  <td><code>SELECT COUNT(*) FROM table_name;</code></td>
+                  <td>Count rows</td>
+                </tr>
+                <tr>
+                  <td>GROUP BY</td>
+                  <td><code>SELECT col, COUNT(*) FROM table_name GROUP BY col;</code></td>
+                  <td>Make groups</td>
+                </tr>
+                <tr>
+                  <td>HAVING</td>
+                  <td><code>... GROUP BY col HAVING COUNT(*) &gt; 1;</code></td>
+                  <td>Filter groups</td>
+                </tr>
+                <tr>
+                  <td>INNER JOIN</td>
+                  <td><code>SELECT ... FROM a INNER JOIN b ON a.id = b.id;</code></td>
+                  <td>Keep matching rows</td>
+                </tr>
+                <tr>
+                  <td>LEFT JOIN</td>
+                  <td><code>SELECT ... FROM a LEFT JOIN b ON a.id = b.id;</code></td>
+                  <td>Keep all left rows</td>
+                </tr>
+                <tr>
+                  <td>CASE WHEN</td>
+                  <td><code>CASE WHEN condition THEN value ELSE value END</code></td>
+                  <td>Conditional logic</td>
+                </tr>
+                <tr>
+                  <td>Subquery</td>
+                  <td><code>SELECT * FROM t WHERE col &gt; (SELECT AVG(col) FROM t);</code></td>
+                  <td>Query inside query</td>
+                </tr>
+                <tr>
+                  <td>Window Function</td>
+                  <td><code>RANK() OVER (ORDER BY col DESC)</code></td>
+                  <td>Ranking and running totals</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Example 1</span>
+            <h3>SELECT</h3>
+            <pre><code>SELECT name, city
+FROM customers;</code></pre>
+            <h4>Output</h4>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>name</th>
+                  <th>city</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Vinod</td><td>Mysore</td></tr>
+                <tr><td>Ravi</td><td>Bangalore</td></tr>
+                <tr><td>Asha</td><td>Delhi</td></tr>
+                <tr><td>Meena</td><td>Bangalore</td></tr>
+              </tbody>
+            </table>
+            <div class="answer">
+              <h4>Understand</h4>
+              <p>This returns only the columns asked for. It does not show salary because salary was not selected.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Example 2</span>
+            <h3>WHERE</h3>
+            <pre><code>SELECT *
+FROM customers
+WHERE city = 'Bangalore';</code></pre>
+            <h4>Output</h4>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>customer_id</th>
+                  <th>name</th>
+                  <th>city</th>
+                  <th>salary</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>2</td><td>Ravi</td><td>Bangalore</td><td>50000</td></tr>
+                <tr><td>4</td><td>Meena</td><td>Bangalore</td><td>25000</td></tr>
+              </tbody>
+            </table>
+            <div class="answer">
+              <h4>Understand</h4>
+              <p>Only rows where city is Bangalore are returned. Other rows are ignored.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Example 3</span>
+            <h3>AND, OR, NOT</h3>
+            <pre><code>SELECT *
+FROM customers
+WHERE city = 'Bangalore'
+  AND salary &gt; 30000;</code></pre>
+            <h4>Output</h4>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>customer_id</th>
+                  <th>name</th>
+                  <th>city</th>
+                  <th>salary</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>2</td><td>Ravi</td><td>Bangalore</td><td>50000</td></tr>
+              </tbody>
+            </table>
+            <pre><code>SELECT *
+FROM customers
+WHERE city = 'Mysore'
+   OR city = 'Delhi';</code></pre>
+            <div class="answer">
+              <h4>Understand</h4>
+              <p>AND means both conditions must be true. OR means any one can be true.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Example 4</span>
+            <h3>ORDER BY and LIMIT</h3>
+            <pre><code>SELECT name, salary
+FROM customers
+ORDER BY salary DESC
+LIMIT 2;</code></pre>
+            <h4>Output</h4>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>name</th>
+                  <th>salary</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Ravi</td><td>50000</td></tr>
+                <tr><td>Asha</td><td>40000</td></tr>
+              </tbody>
+            </table>
+            <div class="answer">
+              <h4>Understand</h4>
+              <p>First sort salary from highest to lowest, then show only the top 2 rows.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Example 5</span>
+            <h3>INSERT, UPDATE, DELETE</h3>
+            <pre><code>INSERT INTO customers (customer_id, name, city, salary)
+VALUES (5, 'Sonia', 'Chennai', 28000);</code></pre>
+            <p>After this, one new row is added.</p>
+            <pre><code>UPDATE customers
+SET city = 'Mangalore'
+WHERE customer_id = 1;</code></pre>
+            <p>After this, Vinod's city changes from Mysore to Mangalore.</p>
+            <pre><code>DELETE FROM customers
+WHERE customer_id = 4;</code></pre>
+            <p>After this, Meena's row is removed.</p>
+            <div class="answer">
+              <h4>Understand</h4>
+              <p>INSERT adds, UPDATE changes, DELETE removes. WHERE is very important in UPDATE and DELETE.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Example 6</span>
+            <h3>COUNT, SUM, AVG</h3>
+            <pre><code>SELECT COUNT(*) AS total_customers
+FROM customers;</code></pre>
+            <p><strong>Output:</strong> 4</p>
+            <pre><code>SELECT SUM(amount) AS total_revenue
+FROM orders;</code></pre>
+            <p><strong>Output:</strong> 17000</p>
+            <pre><code>SELECT AVG(amount) AS avg_order
+FROM orders;</code></pre>
+            <p><strong>Output:</strong> 4250</p>
+            <div class="answer">
+              <h4>Understand</h4>
+              <p>COUNT counts rows, SUM adds values, AVG gives average value.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Example 7</span>
+            <h3>GROUP BY</h3>
+            <pre><code>SELECT city, COUNT(*) AS total_people
+FROM customers
+GROUP BY city;</code></pre>
+            <h4>Output</h4>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>city</th>
+                  <th>total_people</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Mysore</td><td>1</td></tr>
+                <tr><td>Bangalore</td><td>2</td></tr>
+                <tr><td>Delhi</td><td>1</td></tr>
+              </tbody>
+            </table>
+            <div class="answer">
+              <h4>Understand</h4>
+              <p>Rows are grouped by city, then COUNT is calculated for each city separately.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Example 8</span>
+            <h3>HAVING</h3>
+            <pre><code>SELECT city, COUNT(*) AS total_people
+FROM customers
+GROUP BY city
+HAVING COUNT(*) &gt; 1;</code></pre>
+            <h4>Output</h4>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>city</th>
+                  <th>total_people</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Bangalore</td><td>2</td></tr>
+              </tbody>
+            </table>
+            <div class="answer">
+              <h4>Understand</h4>
+              <p>GROUP BY makes the groups. HAVING keeps only the groups that satisfy the condition.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Example 9</span>
+            <h3>INNER JOIN</h3>
+            <pre><code>SELECT c.name, o.amount
+FROM customers c
+INNER JOIN orders o
+ON c.customer_id = o.customer_id;</code></pre>
+            <h4>Output</h4>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>name</th>
+                  <th>amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Vinod</td><td>5000</td></tr>
+                <tr><td>Vinod</td><td>3000</td></tr>
+                <tr><td>Ravi</td><td>7000</td></tr>
+                <tr><td>Asha</td><td>2000</td></tr>
+              </tbody>
+            </table>
+            <div class="answer">
+              <h4>Understand</h4>
+              <p>Only matching customers and orders appear.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Example 10</span>
+            <h3>LEFT JOIN</h3>
+            <pre><code>SELECT c.name, o.amount
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id;</code></pre>
+            <h4>Output idea</h4>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>name</th>
+                  <th>amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Vinod</td><td>5000</td></tr>
+                <tr><td>Vinod</td><td>3000</td></tr>
+                <tr><td>Ravi</td><td>7000</td></tr>
+                <tr><td>Asha</td><td>2000</td></tr>
+                <tr><td>Meena</td><td>NULL</td></tr>
+              </tbody>
+            </table>
+            <div class="answer">
+              <h4>Understand</h4>
+              <p>All customers stay. If a customer has no order, the order side becomes NULL.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Example 11</span>
+            <h3>CASE WHEN</h3>
+            <pre><code>SELECT name, salary,
+CASE
+    WHEN salary &gt;= 40000 THEN 'High'
+    WHEN salary &gt;= 30000 THEN 'Medium'
+    ELSE 'Low'
+END AS salary_type
+FROM customers;</code></pre>
+            <h4>Output idea</h4>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>name</th>
+                  <th>salary</th>
+                  <th>salary_type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Vinod</td><td>30000</td><td>Medium</td></tr>
+                <tr><td>Ravi</td><td>50000</td><td>High</td></tr>
+                <tr><td>Asha</td><td>40000</td><td>High</td></tr>
+                <tr><td>Meena</td><td>25000</td><td>Low</td></tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Example 12</span>
+            <h3>Subquery and RANK</h3>
+            <pre><code>SELECT *
+FROM customers
+WHERE salary &gt; (
+    SELECT AVG(salary)
+    FROM customers
+);</code></pre>
+            <p><strong>Output:</strong> Ravi and Asha, because their salary is above average.</p>
+            <pre><code>SELECT name, salary,
+RANK() OVER (ORDER BY salary DESC) AS rnk
+FROM customers;</code></pre>
+            <p><strong>Output idea:</strong> Ravi rank 1, Asha rank 2, Vinod rank 3, Meena rank 4.</p>
+          </article>
+
+          <article class="card span-12">
+            <span class="chip">Question and Answer Bank</span>
+            <h3>Very important questions with direct answers</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Question</th>
+                  <th>Answer</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>What does SELECT do?</td>
+                  <td>It retrieves data from one or more tables.</td>
+                </tr>
+                <tr>
+                  <td>What does WHERE do?</td>
+                  <td>It filters rows based on a condition.</td>
+                </tr>
+                <tr>
+                  <td>Difference between WHERE and HAVING?</td>
+                  <td>WHERE filters rows before grouping. HAVING filters groups after grouping.</td>
+                </tr>
+                <tr>
+                  <td>What is GROUP BY?</td>
+                  <td>It groups rows based on a column so aggregate functions can be used per group.</td>
+                </tr>
+                <tr>
+                  <td>Why do we use JOIN?</td>
+                  <td>To combine data from multiple tables using a common column.</td>
+                </tr>
+                <tr>
+                  <td>Difference between INNER JOIN and LEFT JOIN?</td>
+                  <td>INNER JOIN keeps only matches. LEFT JOIN keeps all left rows and matching right rows.</td>
+                </tr>
+                <tr>
+                  <td>What is a subquery?</td>
+                  <td>A query written inside another query.</td>
+                </tr>
+                <tr>
+                  <td>What is CASE WHEN?</td>
+                  <td>It applies conditional logic in SQL, similar to if-else.</td>
+                </tr>
+                <tr>
+                  <td>What is a primary key?</td>
+                  <td>A column that uniquely identifies each row and cannot be NULL.</td>
+                </tr>
+                <tr>
+                  <td>What is a foreign key?</td>
+                  <td>A column that links one table to another table.</td>
+                </tr>
+                <tr>
+                  <td>Difference between DELETE and TRUNCATE?</td>
+                  <td>DELETE removes selected rows. TRUNCATE clears the full table.</td>
+                </tr>
+                <tr>
+                  <td>What is a window function?</td>
+                  <td>It performs calculations across related rows without collapsing them into one grouped row.</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="interview-bank">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Interview Bank</p>
+          <h2>Question, answer, and exactly how to say it in interview</h2>
+          <p>This section is for speaking practice. Read these answers out loud. The goal is to sound clear, simple, and confident.</p>
+        </div>
+        <div class="grid">
+          <article class="card span-12">
+            <span class="chip">How To Speak</span>
+            <h3>Simple interview speaking formula</h3>
+            <ol class="flat-list">
+              <li>Start with one clear definition.</li>
+              <li>Then say why it is used.</li>
+              <li>If needed, give one small example.</li>
+              <li>Stop there. Do not make the answer too long.</li>
+            </ol>
+            <div class="answer">
+              <h4>Best speaking style</h4>
+              <p>Speak like this: short sentence, clear meaning, one useful point, one example if needed.</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q1</span>
+            <h3>What is SQL?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>SQL is a language used to communicate with relational databases.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"SQL stands for Structured Query Language. It is used to communicate with relational databases. With SQL, we can retrieve, filter, analyze, insert, update, and delete data."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q2</span>
+            <h3>What is a database?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>A database is an organized collection of data.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"A database is an organized collection of data that helps us store, retrieve, and manage information efficiently. It is used when data becomes large and needs to be handled in a structured way."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q3</span>
+            <h3>What is a table?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>A table stores data in rows and columns.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"A table is a structured format inside a database where data is stored in rows and columns. Each row represents one record, and each column represents one attribute of that record."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q4</span>
+            <h3>What does SELECT do?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>SELECT is used to retrieve data from a table.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"SELECT is used to retrieve data from a database table. We can use it to fetch all columns or only specific columns depending on the business requirement."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q5</span>
+            <h3>What is the WHERE clause?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>WHERE filters rows based on a condition.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"WHERE clause is used to filter records based on specific conditions. It helps us retrieve only relevant rows instead of the full table."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q6</span>
+            <h3>Difference between AND and OR?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>AND needs all conditions true. OR needs at least one condition true.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"AND returns rows only when all given conditions are true, whereas OR returns rows when at least one condition is true."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q7</span>
+            <h3>What is ORDER BY?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>ORDER BY is used to sort the result.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"ORDER BY is used to sort the result set based on one or more columns. We can sort in ascending order using ASC or descending order using DESC."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q8</span>
+            <h3>What are aggregate functions?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>They calculate one result from many rows.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"Aggregate functions perform calculations on multiple rows and return a single value. Common examples are COUNT, SUM, AVG, MAX, and MIN."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q9</span>
+            <h3>What is GROUP BY?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>GROUP BY groups rows so aggregate functions can be applied per group.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"GROUP BY is used to group rows based on a column, so that aggregate functions can be applied to each group separately. For example, we can count employees city-wise or calculate revenue branch-wise."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q10</span>
+            <h3>Difference between WHERE and HAVING?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>WHERE filters rows. HAVING filters grouped results.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"WHERE is used to filter rows before grouping, while HAVING is used to filter aggregated results after GROUP BY."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q11</span>
+            <h3>Why do we use JOIN?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>JOIN combines data from multiple tables.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"JOIN is used to combine data from multiple tables based on a common column. It is useful when related information is stored separately, like customer data in one table and order data in another."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q12</span>
+            <h3>What is INNER JOIN?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>INNER JOIN returns only matching rows from both tables.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"INNER JOIN returns only the records that have matching values in both tables based on a common column."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q13</span>
+            <h3>What is LEFT JOIN?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>LEFT JOIN keeps all rows from the left table and matched rows from the right table.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"LEFT JOIN returns all records from the left table and matching records from the right table. If no match is found, NULL values are returned for the right side."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q14</span>
+            <h3>What is a subquery?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>A subquery is a query inside another query.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"A subquery is a query nested inside another SQL query. It is used for intermediate calculations, filtering, or comparisons."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q15</span>
+            <h3>What is CASE WHEN?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>CASE WHEN applies conditional logic in SQL.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"CASE WHEN is used to apply conditional logic in SQL and return different values based on conditions, similar to if-else statements in programming."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q16</span>
+            <h3>What is a primary key?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>Primary key uniquely identifies each row.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"Primary key is a column or set of columns that uniquely identifies each record in a table. It cannot contain NULL values or duplicate values."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q17</span>
+            <h3>What is a foreign key?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>Foreign key links one table to another table.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"Foreign key is a column used to create a relationship between two tables. It usually refers to the primary key of another table and helps maintain referential integrity."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q18</span>
+            <h3>Difference between DELETE and TRUNCATE?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>DELETE removes selected rows. TRUNCATE removes all rows from the table.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"DELETE is used to remove specific rows, usually with a WHERE condition, whereas TRUNCATE is used to remove all rows from a table quickly."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-6">
+            <span class="chip">Interview Q19</span>
+            <h3>What is a window function?</h3>
+            <div class="step">
+              <h4>Short answer</h4>
+              <p>Window functions calculate across related rows without collapsing the result.</p>
+            </div>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"Window functions perform calculations across a set of rows related to the current row without reducing the result set. They are useful for ranking, running totals, and row-wise comparisons."</p>
+            </div>
+          </article>
+
+          <article class="card chapter span-12">
+            <span class="chip">Interview Q20</span>
+            <h3>How comfortable are you with SQL?</h3>
+            <div class="answer">
+              <h4>Exactly how to say it</h4>
+              <p>"I am comfortable with core SQL concepts like SELECT, filtering with WHERE, sorting, joins, aggregate functions, GROUP BY, and HAVING. I can also work with subqueries, CASE WHEN, and basic window functions like RANK and running totals. I am especially comfortable solving analysis-style questions such as top customers, revenue by group, and missing data scenarios."</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="wrap footer-note">
+    This is the simple-story version of the SQL notes page, built to match the teaching style of the attached learning document.
+  </div>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SQL Notes Web App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4efe7;
+      --ink: #1d231e;
+      --muted: #4f5d53;
+      --line: #ddd4c5;
+      --surface: #fffdf9;
+      --accent: #0f7a66;
+      --accent-2: #cc6a38;
+      --shadow: 0 10px 30px rgba(24, 35, 30, 0.08);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(204, 106, 56, 0.12), transparent 40%),
+        radial-gradient(circle at 88% 12%, rgba(15, 122, 102, 0.15), transparent 35%),
+        var(--bg);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(1240px, 94%);
+      margin: 0 auto;
+      padding: 22px 0 28px;
+    }
+
+    .hero {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: 18px 18px 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+      letter-spacing: 0.2px;
+    }
+
+    .subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .meta {
+      margin-top: 10px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tabs {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 8px;
+    }
+
+    .tab-btn {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 10px;
+      padding: 10px 10px;
+      text-align: left;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+    }
+
+    .tab-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(15, 122, 102, 0.5);
+    }
+
+    .tab-btn.active {
+      border-color: rgba(15, 122, 102, 0.75);
+      background: rgba(15, 122, 102, 0.08);
+    }
+
+    .viewer {
+      margin-top: 14px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .viewer-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--line);
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    .viewer-title {
+      margin: 0;
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .open-link {
+      text-decoration: none;
+      font-size: 0.82rem;
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+
+    iframe {
+      width: 100%;
+      height: calc(100vh - 250px);
+      border: 0;
+      display: block;
+      background: #fff;
+    }
+
+    @media (max-width: 768px) {
+      iframe {
+        height: calc(100vh - 290px);
+      }
+
+      .tabs {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .tabs {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>SQL Notes Combined Web Application</h1>
+      <p class="subtitle">All SQL note files are included without trimming. Use tabs to switch full documents.</p>
+      <div class="meta">
+        <span>Total files: 4</span>
+        <span>Mode: full-content embedding</span>
+        <span>Vercel: static-ready</span>
+      </div>
+
+      <div class="tabs" id="tabs"></div>
+    </section>
+
+    <section class="viewer">
+      <div class="viewer-head">
+        <p class="viewer-title" id="viewerTitle"></p>
+        <a class="open-link" id="openLink" href="#" target="_blank" rel="noopener noreferrer">Open file</a>
+      </div>
+      <iframe id="noteFrame" title="SQL notes viewer"></iframe>
+    </section>
+  </div>
+
+  <script>
+    const files = [
+      { label: "sql_notes.html", path: "sql_notes.html" },
+      { label: "sql_notes_simple.html", path: "sql_notes_simple.html" },
+      { label: "sql_notes_simple_v2.html", path: "sql_notes_simple_v2.html" },
+      { label: "sql-beginner-notes.html", path: "sql-beginner-notes.html" }
+    ];
+
+    const tabs = document.getElementById("tabs");
+    const frame = document.getElementById("noteFrame");
+    const title = document.getElementById("viewerTitle");
+    const openLink = document.getElementById("openLink");
+
+    function setActive(index) {
+      const selected = files[index];
+      frame.src = selected.path;
+      title.textContent = "Viewing: " + selected.label;
+      openLink.href = selected.path;
+
+      const buttons = tabs.querySelectorAll("button");
+      buttons.forEach((btn, i) => {
+        btn.classList.toggle("active", i === index);
+      });
+
+      const url = new URL(window.location.href);
+      url.hash = "file=" + encodeURIComponent(selected.path);
+      history.replaceState(null, "", url);
+    }
+
+    files.forEach((file, index) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "tab-btn";
+      btn.textContent = file.label;
+      btn.addEventListener("click", () => setActive(index));
+      tabs.appendChild(btn);
+    });
+
+    const hash = window.location.hash || "";
+    const match = hash.match(/file=([^&]+)/);
+    const requested = match ? decodeURIComponent(match[1]) : "";
+    const initial = files.findIndex((f) => f.path === requested);
+    setActive(initial >= 0 ? initial : 0);
+  </script>
+</body>
+</html>
