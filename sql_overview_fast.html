@@ -150,6 +150,31 @@
       font-weight: 600;
     }
 
+    .phase-body {
+      margin-top: 10px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .syntax-card {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      padding: 10px;
+    }
+
+    .syntax-card h3 {
+      margin: 0;
+      color: var(--accent);
+      font-size: 0.92rem;
+    }
+
+    .syntax-note {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
     .topic-list {
       margin: 0;
       padding-left: 18px;
@@ -295,100 +320,474 @@
       <article class="phase module">
         <h2 class="title">Phase 1: Query Basics</h2>
         <p class="phase-sub">Foundation - must master</p>
-        <p class="label">Topics</p>
-        <ul class="topic-list">
-          <li>SELECT</li>
-          <li>INSERT</li>
-          <li>UPDATE</li>
-          <li>DELETE</li>
-          <li>WHERE</li>
-        </ul>
+        <div class="phase-body">
+          <div class="syntax-card">
+            <h3>SELECT</h3>
+            <p class="label">Syntax</p>
+            <pre><code>SELECT column1, column2
+FROM table_name;</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT customer_id, company_name
+FROM customers;</code></pre>
+            <p class="syntax-note">Use only required columns instead of SELECT * in interviews.</p>
+          </div>
+
+          <div class="syntax-card">
+            <h3>WHERE</h3>
+            <p class="label">Syntax</p>
+            <pre><code>SELECT column_list
+FROM table_name
+WHERE condition;</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT customer_id, company_name, city
+FROM customers
+WHERE city = 'London';</code></pre>
+            <p class="syntax-note">String values must be in single quotes.</p>
+          </div>
+
+          <div class="syntax-card">
+            <h3>INSERT</h3>
+            <p class="label">Syntax</p>
+            <pre><code>INSERT INTO table_name (col1, col2, col3)
+VALUES (val1, val2, val3);</code></pre>
+            <p class="label">Example</p>
+            <pre><code>INSERT INTO departments (department_name, location)
+VALUES ('Cardiology', 'Block A');</code></pre>
+            <p class="syntax-note">Column count must match value count.</p>
+          </div>
+
+          <div class="syntax-card">
+            <h3>UPDATE</h3>
+            <p class="label">Syntax</p>
+            <pre><code>UPDATE table_name
+SET col1 = value1, col2 = value2
+WHERE condition;</code></pre>
+            <p class="label">Example</p>
+            <pre><code>UPDATE patients
+SET city = 'Mysore'
+WHERE patient_id = 101;</code></pre>
+            <p class="syntax-note">Always add WHERE unless you intend to update all rows.</p>
+          </div>
+
+          <div class="syntax-card">
+            <h3>DELETE</h3>
+            <p class="label">Syntax</p>
+            <pre><code>DELETE FROM table_name
+WHERE condition;</code></pre>
+            <p class="label">Example</p>
+            <pre><code>DELETE FROM temp_orders
+WHERE order_date &lt; '2021-01-01';</code></pre>
+            <p class="syntax-note">Without WHERE, every row in the table is deleted.</p>
+          </div>
+        </div>
+
         <p class="label">What You Should Achieve</p>
         <ul class="topic-list">
-          <li>Read data correctly</li>
-          <li>Modify data safely</li>
-          <li>Filter basic datasets</li>
-        </ul>
-        <p class="label">Mindset</p>
-        <p>Can I get exactly the rows I want?</p>
-        <p class="label">Common Mistakes</p>
-        <ul class="topic-list">
-          <li>Forgetting WHERE in UPDATE or DELETE</li>
-          <li>Confusing = and IN usage</li>
+          <li>Read and filter exact rows</li>
+          <li>Insert, update, and delete safely</li>
+          <li>Avoid dangerous no-WHERE mistakes</li>
         </ul>
       </article>
 
       <article class="phase module">
         <h2 class="title">Phase 2: Query Filtering</h2>
         <p class="phase-sub">Real analysis starts here</p>
-        <p class="label">Topics</p>
-        <ul class="topic-list">
-          <li>Operators (=, !=, &gt;, &lt;)</li>
-          <li>ORDER BY, LIKE, IN, BETWEEN</li>
-          <li>JOIN, UNION</li>
-          <li>GROUP BY, HAVING</li>
-          <li>CASE, DISTINCT, EXISTS, ANY, ALL</li>
-          <li>NULL handling and aliases</li>
-        </ul>
+        <div class="phase-body">
+          <div class="syntax-card">
+            <h3>Operators (=, !=, &gt;, &lt;)</h3>
+            <p class="label">Syntax</p>
+            <pre><code>WHERE col = value
+WHERE col != value
+WHERE col &gt; value
+WHERE col &lt; value</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT product_name, unit_price
+FROM products
+WHERE unit_price &gt; 50;</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>ORDER BY</h3>
+            <p class="label">Syntax</p>
+            <pre><code>SELECT col1, col2
+FROM table_name
+ORDER BY col1 ASC, col2 DESC;</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT order_id, customer_id, order_date
+FROM orders
+ORDER BY order_date DESC;</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>LIKE</h3>
+            <p class="label">Syntax</p>
+            <pre><code>WHERE name LIKE 'A%'
+WHERE name LIKE '%son'
+WHERE name LIKE '%ann%'</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT first_name, last_name
+FROM employees
+WHERE last_name LIKE 'S%';</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>IN and BETWEEN</h3>
+            <p class="label">Syntax</p>
+            <pre><code>WHERE city IN ('London', 'Paris', 'Berlin')
+WHERE amount BETWEEN 1000 AND 5000</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT order_id, customer_id, freight
+FROM orders
+WHERE freight BETWEEN 30 AND 80;
+
+SELECT customer_id, city
+FROM customers
+WHERE city IN ('London', 'Madrid');</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>JOIN</h3>
+            <p class="label">Syntax</p>
+            <pre><code>SELECT a.col1, b.col2
+FROM table_a a
+JOIN table_b b ON a.key = b.key;</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT o.order_id, c.company_name, o.order_date
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id;</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>UNION and UNION ALL</h3>
+            <p class="label">Syntax</p>
+            <pre><code>SELECT col1, col2 FROM table_a
+UNION
+SELECT col1, col2 FROM table_b;
+
+SELECT col1, col2 FROM table_a
+UNION ALL
+SELECT col1, col2 FROM table_b;</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT city FROM customers
+UNION
+SELECT city FROM suppliers;</code></pre>
+            <p class="syntax-note">UNION removes duplicates, UNION ALL keeps duplicates.</p>
+          </div>
+
+          <div class="syntax-card">
+            <h3>GROUP BY</h3>
+            <p class="label">Syntax</p>
+            <pre><code>SELECT group_col, COUNT(*)
+FROM table_name
+GROUP BY group_col;</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT city, COUNT(*) AS total_customers
+FROM customers
+GROUP BY city;</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>HAVING</h3>
+            <p class="label">Syntax</p>
+            <pre><code>SELECT group_col, SUM(metric)
+FROM table_name
+GROUP BY group_col
+HAVING SUM(metric) &gt; value;</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT customer_id, COUNT(*) AS total_orders
+FROM orders
+GROUP BY customer_id
+HAVING COUNT(*) &gt; 10;</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>CASE</h3>
+            <p class="label">Syntax</p>
+            <pre><code>CASE
+  WHEN condition1 THEN result1
+  WHEN condition2 THEN result2
+  ELSE result3
+END AS alias_name</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT product_name, unit_price,
+CASE
+  WHEN unit_price &gt;= 80 THEN 'Premium'
+  WHEN unit_price &gt;= 40 THEN 'Standard'
+  ELSE 'Budget'
+END AS price_band
+FROM products;</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>DISTINCT</h3>
+            <p class="label">Syntax</p>
+            <pre><code>SELECT DISTINCT col1, col2
+FROM table_name;</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT DISTINCT country
+FROM customers
+ORDER BY country;</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>EXISTS</h3>
+            <p class="label">Syntax</p>
+            <pre><code>SELECT *
+FROM parent p
+WHERE EXISTS (
+  SELECT 1
+  FROM child c
+  WHERE c.parent_id = p.id
+);</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT c.customer_id, c.company_name
+FROM customers c
+WHERE EXISTS (
+  SELECT 1
+  FROM orders o
+  WHERE o.customer_id = c.customer_id
+);</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>ANY and ALL</h3>
+            <p class="label">Syntax</p>
+            <pre><code>WHERE value &gt; ANY (subquery)
+WHERE value &gt; ALL (subquery)</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT product_name, unit_price
+FROM products
+WHERE unit_price &gt; ALL (
+  SELECT unit_price
+  FROM products
+  WHERE category_id = 2
+);</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>NULL Handling</h3>
+            <p class="label">Syntax</p>
+            <pre><code>WHERE col IS NULL
+WHERE col IS NOT NULL
+COALESCE(col, replacement)</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT patient_id, COALESCE(allergies, 'NKA') AS allergy_status
+FROM patients
+WHERE allergies IS NULL OR allergies IS NOT NULL;</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>Aliases</h3>
+            <p class="label">Syntax</p>
+            <pre><code>SELECT col AS alias_name
+FROM table_name t;</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT o.order_id AS order_no,
+       c.company_name AS customer_name
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id;</code></pre>
+          </div>
+        </div>
+
         <p class="label">What You Should Achieve</p>
         <ul class="topic-list">
-          <li>Combine related tables</li>
-          <li>Summarize business metrics</li>
-          <li>Filter grouped results correctly</li>
-        </ul>
-        <p class="label">Core Concepts</p>
-        <ul class="topic-list">
-          <li>JOIN = relationships</li>
-          <li>GROUP BY = summarization</li>
-          <li>HAVING = post-aggregation filtering</li>
+          <li>Join and filter datasets like real analyst tasks</li>
+          <li>Summarize metrics correctly with GROUP BY and HAVING</li>
+          <li>Write reusable query patterns for interviews</li>
         </ul>
       </article>
 
       <article class="phase module">
         <h2 class="title">Phase 3: Functions</h2>
         <p class="phase-sub">Advanced analyst mode</p>
-        <p class="label">Topics</p>
-        <ul class="topic-list">
-          <li>Aggregate: COUNT, SUM, AVG, MAX, MIN</li>
-          <li>Window: LAG, LEAD, FIRST_VALUE, LAST_VALUE</li>
-          <li>String: CONCAT, LEN, UPPER, LOWER</li>
-          <li>Numeric: ROUND, FLOOR, CEIL, ABS, POWER, SQRT</li>
-          <li>Date: CURRENT_TIMESTAMP, YEAR, MONTH, DAY</li>
-        </ul>
+        <div class="phase-body">
+          <div class="syntax-card">
+            <h3>Aggregate Functions</h3>
+            <p class="label">Syntax</p>
+            <pre><code>COUNT(*), SUM(col), AVG(col), MAX(col), MIN(col)</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT customer_id,
+       COUNT(*) AS total_orders,
+       SUM(freight) AS total_freight,
+       AVG(freight) AS avg_freight
+FROM orders
+GROUP BY customer_id;</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>Window Functions (LAG, LEAD, FIRST_VALUE, LAST_VALUE)</h3>
+            <p class="label">Syntax</p>
+            <pre><code>FUNC(col) OVER (
+  PARTITION BY group_col
+  ORDER BY sort_col
+)</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT employee_id,
+       order_date,
+       freight,
+       LAG(freight) OVER (PARTITION BY employee_id ORDER BY order_date) AS prev_freight,
+       LEAD(freight) OVER (PARTITION BY employee_id ORDER BY order_date) AS next_freight,
+       FIRST_VALUE(freight) OVER (PARTITION BY employee_id ORDER BY order_date) AS first_freight
+FROM orders;</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>String Functions</h3>
+            <p class="label">Syntax</p>
+            <pre><code>CONCAT(str1, str2)
+LENGTH(str)
+UPPER(str)
+LOWER(str)</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT employee_id,
+       UPPER(last_name) AS last_name_upper,
+       LOWER(first_name) AS first_name_lower,
+       LENGTH(first_name) AS name_len
+FROM employees;</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>Numeric Functions</h3>
+            <p class="label">Syntax</p>
+            <pre><code>ROUND(num, digits)
+FLOOR(num)
+CEIL(num)
+ABS(num)
+POWER(a, b)
+SQRT(num)</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT product_id,
+       unit_price,
+       ROUND(unit_price, 1) AS rounded_price,
+       FLOOR(unit_price) AS floor_price,
+       CEIL(unit_price) AS ceil_price,
+       POWER(unit_price, 2) AS square_price
+FROM products;</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>Date Functions</h3>
+            <p class="label">Syntax</p>
+            <pre><code>CURRENT_TIMESTAMP
+EXTRACT(YEAR FROM date_col)
+EXTRACT(MONTH FROM date_col)
+EXTRACT(DAY FROM date_col)</code></pre>
+            <p class="label">Example</p>
+            <pre><code>SELECT order_id,
+       order_date,
+       EXTRACT(YEAR FROM order_date) AS order_year,
+       EXTRACT(MONTH FROM order_date) AS order_month,
+       CURRENT_TIMESTAMP AS run_time
+FROM orders;</code></pre>
+          </div>
+        </div>
+
         <p class="label">What You Should Achieve</p>
         <ul class="topic-list">
-          <li>Build advanced calculations</li>
-          <li>Do time-based analysis</li>
-          <li>Create ranking and trend logic</li>
-        </ul>
-        <p class="label">Core Concepts</p>
-        <ul class="topic-list">
-          <li>Window functions are interview game changers</li>
-          <li>Date logic gives real business insights</li>
+          <li>Perform advanced business calculations</li>
+          <li>Use windows for trend and comparison analysis</li>
+          <li>Handle text, numbers, and dates in one query</li>
         </ul>
       </article>
 
       <article class="phase module">
         <h2 class="title">Phase 4: Tables</h2>
         <p class="phase-sub">Database design and control</p>
-        <p class="label">Topics</p>
-        <ul class="topic-list">
-          <li>Data types</li>
-          <li>CREATE TABLE, ALTER TABLE, DROP TABLE</li>
-          <li>Constraints: NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY</li>
-          <li>CHECK, DEFAULT, AUTO INCREMENT, INDEX</li>
-        </ul>
+        <div class="phase-body">
+          <div class="syntax-card">
+            <h3>Data Types</h3>
+            <p class="label">Common Types</p>
+            <pre><code>INT, BIGINT
+VARCHAR(n), TEXT
+DECIMAL(p,s)
+DATE, TIMESTAMP
+BOOLEAN</code></pre>
+            <p class="syntax-note">Choose type based on data meaning, range, and precision.</p>
+          </div>
+
+          <div class="syntax-card">
+            <h3>CREATE TABLE</h3>
+            <p class="label">Syntax</p>
+            <pre><code>CREATE TABLE table_name (
+  id INT PRIMARY KEY,
+  col1 VARCHAR(100),
+  col2 DECIMAL(10,2)
+);</code></pre>
+            <p class="label">Example</p>
+            <pre><code>CREATE TABLE appointments (
+  appointment_id INT PRIMARY KEY,
+  patient_id INT NOT NULL,
+  doctor_id INT NOT NULL,
+  appointment_date DATE NOT NULL,
+  fee DECIMAL(10,2) DEFAULT 0
+);</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>ALTER TABLE</h3>
+            <p class="label">Syntax</p>
+            <pre><code>ALTER TABLE table_name ADD COLUMN col_name datatype;
+ALTER TABLE table_name DROP COLUMN col_name;
+ALTER TABLE table_name ALTER COLUMN col_name TYPE datatype;</code></pre>
+            <p class="label">Example</p>
+            <pre><code>ALTER TABLE appointments
+ADD COLUMN notes VARCHAR(255);</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>DROP TABLE</h3>
+            <p class="label">Syntax</p>
+            <pre><code>DROP TABLE table_name;</code></pre>
+            <p class="label">Example</p>
+            <pre><code>DROP TABLE old_appointments_backup;</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>Constraints</h3>
+            <p class="label">Syntax</p>
+            <pre><code>NOT NULL
+UNIQUE
+PRIMARY KEY
+FOREIGN KEY
+CHECK
+DEFAULT</code></pre>
+            <p class="label">Example</p>
+            <pre><code>CREATE TABLE departments (
+  department_id INT PRIMARY KEY,
+  department_name VARCHAR(80) UNIQUE NOT NULL,
+  location VARCHAR(80) DEFAULT 'Main Block'
+);
+
+CREATE TABLE doctors (
+  doctor_id INT PRIMARY KEY,
+  department_id INT,
+  salary DECIMAL(10,2) CHECK (salary &gt; 0),
+  FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);</code></pre>
+          </div>
+
+          <div class="syntax-card">
+            <h3>AUTO INCREMENT and INDEX</h3>
+            <p class="label">Syntax</p>
+            <pre><code>id INT GENERATED ALWAYS AS IDENTITY
+CREATE INDEX idx_name ON table_name (col1, col2);</code></pre>
+            <p class="label">Example</p>
+            <pre><code>CREATE TABLE visits (
+  visit_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  patient_id INT NOT NULL,
+  visit_date DATE NOT NULL
+);
+
+CREATE INDEX idx_orders_customer_date
+ON orders (customer_id, order_date);</code></pre>
+          </div>
+        </div>
+
         <p class="label">What You Should Achieve</p>
         <ul class="topic-list">
-          <li>Design a clean table structure</li>
-          <li>Understand table relationships deeply</li>
-          <li>Know why indexes improve performance</li>
-        </ul>
-        <p class="label">Core Concepts</p>
-        <ul class="topic-list">
-          <li>Primary Key = identity</li>
-          <li>Foreign Key = relationship</li>
-          <li>Index = speed</li>
+          <li>Create robust schema with constraints</li>
+          <li>Change schema safely using ALTER</li>
+          <li>Use indexes for better query performance</li>
         </ul>
       </article>
     </section>
