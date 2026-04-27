@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SQL for Data Analyst</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4efe5;
+      --surface: #fffdf8;
+      --ink: #1e241f;
+      --muted: #526056;
+      --line: #ddd3c3;
+      --accent: #0f7a66;
+      --accent2: #c86535;
+      --codebg: #16211d;
+      --codetext: #e8f3ed;
+      --shadow: 0 12px 28px rgba(18, 30, 24, 0.08);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(200, 101, 53, 0.12), transparent 40%),
+        radial-gradient(circle at 85% 10%, rgba(15, 122, 102, 0.14), transparent 36%),
+        var(--bg);
+      line-height: 1.55;
+    }
+
+    .wrap {
+      width: min(1180px, 94%);
+      margin: 0 auto;
+      padding: 22px 0 34px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+
+    .home-link {
+      text-decoration: none;
+      color: var(--accent);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      background: #fff;
+    }
+
+    .hero,
+    .card,
+    .sheet {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 20px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.45rem, 3.1vw, 2.05rem);
+      letter-spacing: 0.2px;
+    }
+
+    .sub {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 920px;
+    }
+
+    .meta {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: var(--muted);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .card {
+      padding: 14px;
+    }
+
+    .title {
+      margin: 0;
+      color: var(--accent);
+      font-size: 1.02rem;
+    }
+
+    .desc {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .label {
+      margin: 8px 0 5px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent2);
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.9rem;
+    }
+
+    pre {
+      margin: 0;
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: var(--codebg);
+      color: var(--codetext);
+      padding: 10px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.81rem;
+      line-height: 1.45;
+    }
+
+    .sheet {
+      margin-top: 14px;
+      padding: 16px;
+    }
+
+    .sheet h2 {
+      margin: 0 0 10px;
+      font-size: 1.08rem;
+      color: var(--accent);
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      padding: 10px;
+      font-size: 0.88rem;
+    }
+
+    .chip strong {
+      display: block;
+      color: var(--accent);
+      margin-bottom: 5px;
+      font-size: 0.89rem;
+    }
+
+    @media (max-width: 980px) {
+      .grid,
+      .timeline {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="topbar">
+      <a class="home-link" href="index.html" target="_top" rel="noopener noreferrer">Back To Home</a>
+    </div>
+
+    <section class="hero">
+      <h1>SQL For Data Analyst</h1>
+      <p class="sub">This section is built for analyst work: business questions to SQL logic, practical query patterns, and interview-friendly explanations.</p>
+      <div class="meta">
+        <span>Track: data-analyst focused</span>
+        <span>Mode: practical + interview</span>
+        <span>Output: reusable query templates</span>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2 class="title">Analyst Workflow (Question To Query)</h2>
+        <p class="desc">Use this sequence before writing SQL so your answer stays business-correct.</p>
+        <p class="label">Workflow</p>
+        <ul>
+          <li>Identify metric: count, sum, average, conversion, retention.</li>
+          <li>Identify grain: one row per customer, order, month, or product.</li>
+          <li>Choose source tables and join keys from schema.</li>
+          <li>Apply filters in WHERE, not in HAVING unless grouped.</li>
+          <li>Aggregate with GROUP BY, then validate totals.</li>
+          <li>Sort and limit for reporting output.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2 class="title">Template 1: KPI Summary</h2>
+        <p class="label">Syntax</p>
+        <pre><code>SELECT
+  DATE_TRUNC('month', order_date) AS month,
+  COUNT(*) AS total_orders,
+  COUNT(DISTINCT customer_id) AS active_customers,
+  SUM(amount) AS revenue,
+  AVG(amount) AS avg_order_value
+FROM orders
+WHERE order_date &gt;= DATE '2024-01-01'
+GROUP BY DATE_TRUNC('month', order_date)
+ORDER BY month;</code></pre>
+        <p class="label">Use Case</p>
+        <p>Monthly business performance report.</p>
+      </article>
+
+      <article class="card">
+        <h2 class="title">Template 2: Top Customers</h2>
+        <p class="label">Syntax</p>
+        <pre><code>SELECT
+  c.customer_id,
+  c.company_name,
+  SUM(o.amount) AS total_spend,
+  COUNT(o.order_id) AS total_orders
+FROM customers c
+JOIN orders o ON o.customer_id = c.customer_id
+WHERE o.order_date BETWEEN DATE '2024-01-01' AND DATE '2024-12-31'
+GROUP BY c.customer_id, c.company_name
+ORDER BY total_spend DESC
+LIMIT 10;</code></pre>
+        <p class="label">Explain Like Real</p>
+        <p>I join customer and order data, filter to target year, aggregate spend, then rank by spend to return top 10.</p>
+      </article>
+
+      <article class="card">
+        <h2 class="title">Template 3: Category Contribution %</h2>
+        <p class="label">Syntax</p>
+        <pre><code>WITH category_sales AS (
+  SELECT
+    p.category_id,
+    SUM(od.quantity * od.unit_price) AS sales
+  FROM order_details od
+  JOIN products p ON p.product_id = od.product_id
+  GROUP BY p.category_id
+)
+SELECT
+  category_id,
+  sales,
+  ROUND(100.0 * sales / SUM(sales) OVER (), 2) AS contribution_pct
+FROM category_sales
+ORDER BY contribution_pct DESC;</code></pre>
+        <p class="label">Use Case</p>
+        <p>Find which categories drive most revenue.</p>
+      </article>
+
+      <article class="card">
+        <h2 class="title">Template 4: Cohort Retention (Basic)</h2>
+        <p class="label">Syntax</p>
+        <pre><code>WITH first_month AS (
+  SELECT
+    customer_id,
+    DATE_TRUNC('month', MIN(order_date)) AS cohort_month
+  FROM orders
+  GROUP BY customer_id
+),
+activity AS (
+  SELECT
+    o.customer_id,
+    DATE_TRUNC('month', o.order_date) AS activity_month
+  FROM orders o
+)
+SELECT
+  f.cohort_month,
+  a.activity_month,
+  COUNT(DISTINCT a.customer_id) AS retained_customers
+FROM first_month f
+JOIN activity a ON a.customer_id = f.customer_id
+GROUP BY f.cohort_month, a.activity_month
+ORDER BY f.cohort_month, a.activity_month;</code></pre>
+        <p class="label">Use Case</p>
+        <p>Track customer retention by cohort month.</p>
+      </article>
+
+      <article class="card">
+        <h2 class="title">Template 5: Running Total and Previous Value</h2>
+        <p class="label">Syntax</p>
+        <pre><code>SELECT
+  order_date,
+  amount,
+  SUM(amount) OVER (ORDER BY order_date) AS running_revenue,
+  LAG(amount) OVER (ORDER BY order_date) AS prev_amount,
+  amount - LAG(amount) OVER (ORDER BY order_date) AS delta_vs_prev
+FROM daily_sales
+ORDER BY order_date;</code></pre>
+        <p class="label">Use Case</p>
+        <p>Dashboard trend analysis and day-over-day change.</p>
+      </article>
+
+      <article class="card">
+        <h2 class="title">Template 6: Data Quality Check</h2>
+        <p class="label">Syntax</p>
+        <pre><code>SELECT
+  COUNT(*) AS total_rows,
+  COUNT(*) - COUNT(customer_id) AS null_customer_id,
+  COUNT(*) - COUNT(order_date) AS null_order_date,
+  SUM(CASE WHEN amount &lt;= 0 THEN 1 ELSE 0 END) AS invalid_amount_rows
+FROM orders;</code></pre>
+        <p class="label">Use Case</p>
+        <p>Quick health check before analysis or dashboard build.</p>
+      </article>
+    </section>
+
+    <section class="sheet">
+      <h2>Interview Script Map</h2>
+      <div class="timeline">
+        <div class="chip">
+          <strong>Step 1: Requirement</strong>
+          I restate metric, time range, and output grain.
+        </div>
+        <div class="chip">
+          <strong>Step 2: Data Model</strong>
+          I mention base table, join table, and key columns.
+        </div>
+        <div class="chip">
+          <strong>Step 3: Query Logic</strong>
+          I explain WHERE, GROUP BY, HAVING, and window logic in order.
+        </div>
+        <div class="chip">
+          <strong>Step 4: Validation</strong>
+          I verify row counts, nulls, and spot-check top records.
+        </div>
+      </div>
+    </section>
+
+    <section class="sheet">
+      <h2>4-Week SQL For Analyst Plan</h2>
+      <div class="timeline">
+        <div class="chip">
+          <strong>Week 1</strong>
+          SELECT, WHERE, ORDER BY, LIMIT, IN, BETWEEN, LIKE.
+        </div>
+        <div class="chip">
+          <strong>Week 2</strong>
+          INNER JOIN, LEFT JOIN, GROUP BY, HAVING, CASE, DISTINCT.
+        </div>
+        <div class="chip">
+          <strong>Week 3</strong>
+          CTE, subquery, window functions, ranking, running totals.
+        </div>
+        <div class="chip">
+          <strong>Week 4</strong>
+          Cohort, retention, funnel, and mock interview SQL rounds.
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
