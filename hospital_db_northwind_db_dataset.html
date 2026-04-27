@@ -77,6 +77,38 @@
       font-family: "JetBrains Mono", monospace;
     }
 
+    .schema {
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px dashed var(--line);
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    .schema-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 0 8px;
+    }
+
+    .schema-link {
+      text-decoration: none;
+      color: var(--accent);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 11px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      background: rgba(15, 123, 103, 0.08);
+    }
+
+    .schema-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
     .block {
       margin-top: 14px;
       padding: 16px;
@@ -164,9 +196,18 @@
       <h1>Hospital DB and Northwind DB Dataset</h1>
       <p class="sub">Full question text + query + explanation for how to explain your logic while solving in interview or class.</p>
       <div class="meta">
-        <span>Source: practice2.txt</span>
+        <span>Questions source: practice2.txt</span>
+        <span>Schema source: PDF docs</span>
         <span>Northwind: 15 questions</span>
         <span>Hospital: 35 questions</span>
+      </div>
+
+      <div class="schema">
+        <div class="schema-links">
+          <a class="schema-link" href="hospital_db.pdf" target="_blank" rel="noopener noreferrer">Open Hospital Schema PDF</a>
+          <a class="schema-link" href="north_wind_db.pdf" target="_blank" rel="noopener noreferrer">Open Northwind Schema PDF</a>
+        </div>
+        <p class="schema-note">Use these schema PDFs before solving. While explaining a query, first mention involved tables and join keys from schema, then explain filter, aggregation, and output columns.</p>
       </div>
     </section>
 

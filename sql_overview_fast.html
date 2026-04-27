@@ -78,6 +78,38 @@
       font-size: 0.8rem;
     }
 
+    .schema {
+      margin-top: 12px;
+      border: 1px dashed var(--line);
+      border-radius: 12px;
+      background: #fff;
+      padding: 10px;
+    }
+
+    .schema-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 0 8px;
+    }
+
+    .schema-link {
+      text-decoration: none;
+      color: var(--accent);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 11px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      background: rgba(15, 122, 102, 0.08);
+    }
+
+    .schema-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
     .modules {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -168,6 +200,14 @@
         <span>Source: practice.txt</span>
         <span>Mode: detailed</span>
         <span>Focus: syntax + usage + interview explanation</span>
+      </div>
+
+      <div class="schema">
+        <div class="schema-links">
+          <a class="schema-link" href="hospital_db.pdf" target="_blank" rel="noopener noreferrer">Hospital Schema PDF</a>
+          <a class="schema-link" href="north_wind_db.pdf" target="_blank" rel="noopener noreferrer">Northwind Schema PDF</a>
+        </div>
+        <p class="schema-note">These PDFs are the actual schema. Before writing SQL, identify primary table, related table, and join key from schema.</p>
       </div>
     </section>
 
