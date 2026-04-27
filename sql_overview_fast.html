@@ -41,6 +41,23 @@
       padding: 22px 0 34px;
     }
 
+    .topbar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+
+    .home-link {
+      text-decoration: none;
+      color: var(--accent);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      background: #fff;
+    }
+
     .hero,
     .module,
     .sheet {
@@ -110,13 +127,13 @@
       font-size: 0.88rem;
     }
 
-    .modules {
+    .phases {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
     }
 
-    .module {
+    .phase {
       padding: 14px;
     }
 
@@ -124,6 +141,24 @@
       margin: 0;
       color: var(--accent);
       font-size: 1rem;
+    }
+
+    .phase-sub {
+      margin: 5px 0 0;
+      font-size: 0.86rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .topic-list {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.9rem;
+      color: var(--ink);
+    }
+
+    .topic-list li {
+      margin: 2px 0;
     }
 
     .label {
@@ -183,9 +218,50 @@
       font-size: 0.9rem;
     }
 
+    .script {
+      margin-top: 14px;
+      padding: 16px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .script h2 {
+      margin: 0 0 10px;
+      font-size: 1.08rem;
+    }
+
+    .script-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .script-card {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      padding: 10px;
+    }
+
+    .script-title {
+      margin: 0 0 5px;
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .script-text {
+      margin: 0;
+      font-size: 0.88rem;
+      color: var(--ink);
+    }
+
     @media (max-width: 980px) {
-      .modules,
-      .grid3 {
+      .phases,
+      .grid3,
+      .script-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -193,6 +269,10 @@
 </head>
 <body>
   <main class="wrap">
+    <div class="topbar">
+      <a class="home-link" href="index.html" target="_top" rel="noopener noreferrer">Back To Home</a>
+    </div>
+
     <section class="hero">
       <h1>SQL Overview Fast - Detailed Explanation</h1>
       <p class="sub">This page explains SQL syntax, how to use each concept, and where to use it in interviews and real analysis tasks. It is designed for you to explain your logic while solving.</p>
@@ -211,199 +291,156 @@
       </div>
     </section>
 
-    <section class="modules">
-      <article class="module">
-        <h2 class="title">SELECT and FROM</h2>
-        <p class="label">Syntax</p>
-        <pre><code>SELECT column1, column2
-FROM table_name;</code></pre>
-        <p class="label">How To Use</p>
-        <p>Choose only needed columns to keep output clean and improve performance.</p>
-        <p class="label">Where To Use</p>
-        <p>Any query that reads data from one or more tables.</p>
+    <section class="phases">
+      <article class="phase module">
+        <h2 class="title">Phase 1: Query Basics</h2>
+        <p class="phase-sub">Foundation - must master</p>
+        <p class="label">Topics</p>
+        <ul class="topic-list">
+          <li>SELECT</li>
+          <li>INSERT</li>
+          <li>UPDATE</li>
+          <li>DELETE</li>
+          <li>WHERE</li>
+        </ul>
+        <p class="label">What You Should Achieve</p>
+        <ul class="topic-list">
+          <li>Read data correctly</li>
+          <li>Modify data safely</li>
+          <li>Filter basic datasets</li>
+        </ul>
+        <p class="label">Mindset</p>
+        <p>Can I get exactly the rows I want?</p>
+        <p class="label">Common Mistakes</p>
+        <ul class="topic-list">
+          <li>Forgetting WHERE in UPDATE or DELETE</li>
+          <li>Confusing = and IN usage</li>
+        </ul>
       </article>
 
-      <article class="module">
-        <h2 class="title">WHERE Filtering</h2>
-        <p class="label">Syntax</p>
-        <pre><code>SELECT *
-FROM table_name
-WHERE condition;</code></pre>
-        <p class="label">How To Use</p>
-        <p>Apply row-level conditions before grouping or sorting.</p>
-        <p class="label">Where To Use</p>
-        <p>When question asks find, show, list, or only rows matching criteria.</p>
+      <article class="phase module">
+        <h2 class="title">Phase 2: Query Filtering</h2>
+        <p class="phase-sub">Real analysis starts here</p>
+        <p class="label">Topics</p>
+        <ul class="topic-list">
+          <li>Operators (=, !=, &gt;, &lt;)</li>
+          <li>ORDER BY, LIKE, IN, BETWEEN</li>
+          <li>JOIN, UNION</li>
+          <li>GROUP BY, HAVING</li>
+          <li>CASE, DISTINCT, EXISTS, ANY, ALL</li>
+          <li>NULL handling and aliases</li>
+        </ul>
+        <p class="label">What You Should Achieve</p>
+        <ul class="topic-list">
+          <li>Combine related tables</li>
+          <li>Summarize business metrics</li>
+          <li>Filter grouped results correctly</li>
+        </ul>
+        <p class="label">Core Concepts</p>
+        <ul class="topic-list">
+          <li>JOIN = relationships</li>
+          <li>GROUP BY = summarization</li>
+          <li>HAVING = post-aggregation filtering</li>
+        </ul>
       </article>
 
-      <article class="module">
-        <h2 class="title">ORDER BY and LIMIT</h2>
-        <p class="label">Syntax</p>
-        <pre><code>SELECT *
-FROM table_name
-ORDER BY column_name DESC
-LIMIT 5;</code></pre>
-        <p class="label">How To Use</p>
-        <p>Sort first, then keep top or bottom rows with LIMIT.</p>
-        <p class="label">Where To Use</p>
-        <p>Top N, latest records, highest or lowest value questions.</p>
+      <article class="phase module">
+        <h2 class="title">Phase 3: Functions</h2>
+        <p class="phase-sub">Advanced analyst mode</p>
+        <p class="label">Topics</p>
+        <ul class="topic-list">
+          <li>Aggregate: COUNT, SUM, AVG, MAX, MIN</li>
+          <li>Window: LAG, LEAD, FIRST_VALUE, LAST_VALUE</li>
+          <li>String: CONCAT, LEN, UPPER, LOWER</li>
+          <li>Numeric: ROUND, FLOOR, CEIL, ABS, POWER, SQRT</li>
+          <li>Date: CURRENT_TIMESTAMP, YEAR, MONTH, DAY</li>
+        </ul>
+        <p class="label">What You Should Achieve</p>
+        <ul class="topic-list">
+          <li>Build advanced calculations</li>
+          <li>Do time-based analysis</li>
+          <li>Create ranking and trend logic</li>
+        </ul>
+        <p class="label">Core Concepts</p>
+        <ul class="topic-list">
+          <li>Window functions are interview game changers</li>
+          <li>Date logic gives real business insights</li>
+        </ul>
       </article>
 
-      <article class="module">
-        <h2 class="title">JOIN</h2>
-        <p class="label">Syntax</p>
-        <pre><code>SELECT a.col, b.col
-FROM table_a a
-JOIN table_b b ON a.key = b.key;</code></pre>
-        <p class="label">How To Use</p>
-        <p>Use aliases and always define join condition ON key columns.</p>
-        <p class="label">Where To Use</p>
-        <p>When the answer needs columns from multiple related tables.</p>
-      </article>
-
-      <article class="module">
-        <h2 class="title">GROUP BY and Aggregates</h2>
-        <p class="label">Syntax</p>
-        <pre><code>SELECT city, COUNT(*) AS total
-FROM patients
-GROUP BY city;</code></pre>
-        <p class="label">How To Use</p>
-        <p>Group rows by a category and apply COUNT, SUM, AVG, MIN, or MAX.</p>
-        <p class="label">Where To Use</p>
-        <p>Summary questions such as total by city, average by category.</p>
-      </article>
-
-      <article class="module">
-        <h2 class="title">HAVING</h2>
-        <p class="label">Syntax</p>
-        <pre><code>SELECT city, COUNT(*) AS total
-FROM patients
-GROUP BY city
-HAVING COUNT(*) > 5;</code></pre>
-        <p class="label">How To Use</p>
-        <p>Use HAVING to filter grouped results. WHERE cannot filter aggregate output.</p>
-        <p class="label">Where To Use</p>
-        <p>Only-once, duplicates, more-than-N group conditions.</p>
-      </article>
-
-      <article class="module">
-        <h2 class="title">CASE</h2>
-        <p class="label">Syntax</p>
-        <pre><code>SELECT name,
-CASE
-  WHEN score >= 80 THEN 'High'
-  WHEN score >= 50 THEN 'Medium'
-  ELSE 'Low'
-END AS level
-FROM marks;</code></pre>
-        <p class="label">How To Use</p>
-        <p>Map business rules into readable labels in query output.</p>
-        <p class="label">Where To Use</p>
-        <p>Status classification, bands, flags, or conditional metrics.</p>
-      </article>
-
-      <article class="module">
-        <h2 class="title">UNION</h2>
-        <p class="label">Syntax</p>
-        <pre><code>SELECT col1, col2 FROM table_a
-UNION
-SELECT col1, col2 FROM table_b;</code></pre>
-        <p class="label">How To Use</p>
-        <p>Combine same-shape result sets. Use UNION ALL if duplicates are allowed.</p>
-        <p class="label">Where To Use</p>
-        <p>Merge records from similar tables like patients and doctors.</p>
-      </article>
-
-      <article class="module">
-        <h2 class="title">DISTINCT</h2>
-        <p class="label">Syntax</p>
-        <pre><code>SELECT DISTINCT city
-FROM patients;</code></pre>
-        <p class="label">How To Use</p>
-        <p>Remove duplicate values from selected columns.</p>
-        <p class="label">Where To Use</p>
-        <p>Unique categories, years, cities, names.</p>
-      </article>
-
-      <article class="module">
-        <h2 class="title">EXISTS and NOT EXISTS</h2>
-        <p class="label">Syntax</p>
-        <pre><code>SELECT *
-FROM patients p
-WHERE NOT EXISTS (
-  SELECT 1 FROM admissions a
-  WHERE a.patient_id = p.patient_id
-);</code></pre>
-        <p class="label">How To Use</p>
-        <p>Check whether related rows exist or do not exist in another table.</p>
-        <p class="label">Where To Use</p>
-        <p>Unmatched records, anti-join logic, active or inactive entities.</p>
-      </article>
-
-      <article class="module">
-        <h2 class="title">LIKE, IN, BETWEEN</h2>
-        <p class="label">Syntax</p>
-        <pre><code>WHERE name LIKE 'C%'
-WHERE city IN ('London', 'Paris')
-WHERE weight BETWEEN 100 AND 120</code></pre>
-        <p class="label">How To Use</p>
-        <p>LIKE for patterns, IN for multiple exact values, BETWEEN for ranges.</p>
-        <p class="label">Where To Use</p>
-        <p>Text filtering, list filtering, numeric or date ranges.</p>
-      </article>
-
-      <article class="module">
-        <h2 class="title">NULL Handling</h2>
-        <p class="label">Syntax</p>
-        <pre><code>WHERE allergies IS NULL
-WHERE allergies IS NOT NULL
-UPDATE patients SET allergies = 'NKA'
-WHERE allergies IS NULL;</code></pre>
-        <p class="label">How To Use</p>
-        <p>Use IS NULL and IS NOT NULL, never equals NULL.</p>
-        <p class="label">Where To Use</p>
-        <p>Missing values, cleanup tasks, quality checks.</p>
-      </article>
-
-      <article class="module">
-        <h2 class="title">Date and String Functions</h2>
-        <p class="label">Syntax</p>
-        <pre><code>strftime('%Y', birth_date)
-UPPER(last_name)
-LOWER(first_name)
-LENGTH(first_name)</code></pre>
-        <p class="label">How To Use</p>
-        <p>Extract year or format text directly in query output.</p>
-        <p class="label">Where To Use</p>
-        <p>Time-based reporting and output formatting questions.</p>
+      <article class="phase module">
+        <h2 class="title">Phase 4: Tables</h2>
+        <p class="phase-sub">Database design and control</p>
+        <p class="label">Topics</p>
+        <ul class="topic-list">
+          <li>Data types</li>
+          <li>CREATE TABLE, ALTER TABLE, DROP TABLE</li>
+          <li>Constraints: NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY</li>
+          <li>CHECK, DEFAULT, AUTO INCREMENT, INDEX</li>
+        </ul>
+        <p class="label">What You Should Achieve</p>
+        <ul class="topic-list">
+          <li>Design a clean table structure</li>
+          <li>Understand table relationships deeply</li>
+          <li>Know why indexes improve performance</li>
+        </ul>
+        <p class="label">Core Concepts</p>
+        <ul class="topic-list">
+          <li>Primary Key = identity</li>
+          <li>Foreign Key = relationship</li>
+          <li>Index = speed</li>
+        </ul>
       </article>
     </section>
 
     <section class="sheet">
-      <h2>Interview Explanation Cheat Sheet</h2>
+      <h2>Final Strategy (How To Learn Without Getting Lost)</h2>
       <div class="grid3">
         <div class="chip">
           <strong>Step 1</strong>
-          Explain requirement first: table source, filter logic, expected output.
+          Phase 1 for 2-3 days. Build clean basics and safe update/delete habits.
         </div>
         <div class="chip">
           <strong>Step 2</strong>
-          Explain query blocks in order: FROM/JOIN, WHERE, GROUP BY, HAVING, ORDER.
+          Phase 2 for 5-7 days. Join, Group By, and Having are highest priority.
         </div>
         <div class="chip">
           <strong>Step 3</strong>
-          Mention validation: row count check, null check, sort check.
+          Phase 3 for 5 days. Focus on windows and date logic for real analytics.
         </div>
         <div class="chip">
-          <strong>Common Mistake</strong>
-          Mixing WHERE and HAVING, or missing JOIN keys.
+          <strong>Step 4</strong>
+          Phase 4 for 2-3 days. Understand schema, keys, and indexing basics.
         </div>
         <div class="chip">
-          <strong>Quick Rule</strong>
-          WHERE filters rows before grouping; HAVING filters groups after aggregation.
+          <strong>Reality Check</strong>
+          For analyst interviews: JOIN, GROUP BY, HAVING, and window functions are asked most.
         </div>
         <div class="chip">
-          <strong>Practice Pattern</strong>
-          Read question, choose pattern, write syntax skeleton, then fill columns.
+          <strong>Proceed Order</strong>
+          Query Basics -> Query Filtering -> Functions -> Tables.
+        </div>
+      </div>
+    </section>
+
+    <section class="script">
+      <h2>Explain Like Real (Speaking Script)</h2>
+      <div class="script-grid">
+        <div class="script-card">
+          <p class="script-title">Single Table Question</p>
+          <p class="script-text">I am using the table shown in schema, selecting only requested columns, applying WHERE conditions to filter rows, and then sorting if needed for final presentation.</p>
+        </div>
+        <div class="script-card">
+          <p class="script-title">JOIN Question</p>
+          <p class="script-text">I start from the fact table, join related lookup tables using key columns from schema, then apply filters and return business-friendly output columns.</p>
+        </div>
+        <div class="script-card">
+          <p class="script-title">Aggregation Question</p>
+          <p class="script-text">I group by the requested business dimension, compute aggregate metrics like COUNT or SUM, and use HAVING only when filtering grouped results.</p>
+        </div>
+        <div class="script-card">
+          <p class="script-title">Top N Question</p>
+          <p class="script-text">I calculate the metric first, sort descending to rank highest values, and use LIMIT to return the top requested records.</p>
         </div>
       </div>
     </section>
